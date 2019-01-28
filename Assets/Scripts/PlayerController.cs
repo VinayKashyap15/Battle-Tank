@@ -5,21 +5,25 @@ using UnityEngine;
 
 public class PlayerController
 {
-    PlayerView view= new PlayerView();
-
-    public Coroutine Move(float h, float v)
+    PlayerView view;
+    PlayerModel model = new PlayerModel();
+    public PlayerController(PlayerView playerViewInstance)
     {
-        var viewCoroutine = view.StartCoroutine(view.MovePlayer(h,v));
-        return viewCoroutine;
+        view = playerViewInstance;
+
+    }
+    public void Move(float h, float v)
+    {
+        view.StartCoroutine(view.MovePlayer(h,v,model.GetSpeed()));
     }
 
     public void Fire()
     {
-        view.OnFirePressed();
+        view.OnFirePressed(model.GetBulletSpeed());
+    }
+    public void RotateCamera(float pitch)
+    {
+        view.StartCoroutine(view.RotatePlayer(pitch));
     }
 
-    public void Stop(Coroutine coroutine)
-    {
-        view.StopCoroutine(coroutine);
-    }
 }

@@ -1,40 +1,46 @@
-﻿using UnityEngine;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class PlayerInputManager : MonoBehaviour
 {
 
-    public PlayerModel model = new PlayerModel();
-    public PlayerController controller = new PlayerController();
-    public PlayerView view = new PlayerView();
-    Coroutine viewCo;
+    public PlayerModel model;
+    public PlayerController controller;
+    
 
     bool isMoving = false;
+
+    void Start()
+    {
+        controller= new PlayerController(gameObject.GetComponent<PlayerView>());
+        
+    }
 
     void Update()
     {
         float h = Input.GetAxis("Horizontal1");
         float v = Input.GetAxis("Vertical1");
 
-        if (h > 0 || v > 0)
-            isMoving = true;
+        if (h != 0 || v != 0)
+        { isMoving = true; }
         else
-            isMoving = false;
+        { isMoving = false; }
 
         if (isMoving)
         {
-             viewCo = controller.Move(h,v);
+           controller.Move(h, v);
         }
-        else { controller.Stop(viewCo); }
 
         if (Input.GetMouseButtonDown(0))
         {
             controller.Fire();
         }
-        if (Input.GetAxis("Mouse X"))
+        if (Input.GetAxis("Mouse X") != 0)
         {
             float pitch = Input.GetAxis("Mouse X");
+            controller.RotateCamera(pitch);
         }
     }
 }

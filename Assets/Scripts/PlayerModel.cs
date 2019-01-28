@@ -1,14 +1,16 @@
 ﻿public class PlayerModel {
 
-    public int playerID;
-    public string playerName;
-    public float speed;
+    private int playerID;
+    private string playerName;
+    private float playerSpeed;
+    private float bulletSpeed;
 
     public PlayerModel()
     {
         playerID = 1;
         playerName = "Vinay";
-        speed = 5f;
+        playerSpeed = 3f;
+        bulletSpeed = 6f;
     }
     public int GetID()
     {
@@ -17,5 +19,13 @@
     public string GetName()
     {
         return playerName;
+    }
+    public float GetSpeed()
+    {
+        return playerSpeed;
+    }
+    public float GetBulletSpeed()
+    {
+        return bulletSpeed;
     }
 }

@@ -2,9 +2,9 @@
 
 public class PlayerApplication 
 {
-    public PlayerModel model = new PlayerModel();
-    public PlayerController controller = new PlayerController();
-    public PlayerView view = new PlayerView();
+    public PlayerModel model;
+    public PlayerController controller;
+    public PlayerView view;
 
    
 }
