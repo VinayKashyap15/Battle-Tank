@@ -34,6 +34,9 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+<<<<<<< HEAD
 /Library
 /obj
 /Temp
+=======
+>>>>>>> 6d1ed7364dae107b7fc14e520a787b6e2494a83f
