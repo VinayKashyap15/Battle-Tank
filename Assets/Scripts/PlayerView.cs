@@ -31,9 +31,7 @@ public class PlayerView : MonoBehaviour
     public void OnFirePressed(GameObject _bullet, float _bulletSpeed)
     {
         //fire
-        _bullet.transform.position = muzzlePoint.transform.position;
-        _bullet.transform.rotation = muzzlePoint.transform.rotation;
-        _bullet.GetComponent<Rigidbody>().AddForce(new Vector3(0,0,50f*_bulletSpeed*Time.deltaTime),ForceMode.Impulse);
+      
 
         Debug.Log("Fire Button Pressed");
     }
