@@ -12,7 +12,7 @@ public class BulletModel
     public BulletModel()
     {
         pointDamage = 10f;
-        bulletSpeed = 8f;
+        bulletSpeed = 5f;
         bulletLife = 3f;
         bulletPosition = new Vector3(0,0,0);
     }
@@ -21,7 +21,7 @@ public class BulletModel
         return pointDamage;
     }
 
-    public float GetBulletSpeed()
+    public virtual float GetBulletSpeed()
     {
         return bulletSpeed;
     }
@@ -35,4 +35,7 @@ public class BulletModel
     {
         return bulletPosition;
     }
+
+    protected virtual void UpdateDamage(float pointDamage) { }
+    protected virtual void UpdateSpeed(float bulletSpeed) { }
 }

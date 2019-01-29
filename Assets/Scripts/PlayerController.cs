@@ -25,8 +25,10 @@ public class PlayerController
 
     public void Fire()
     {
-        GameObject _bullet= BulletService.SpawnBullet();
-        float _bulletSpeed = BulletService.GetBulletSpeed();
+        var _bulletController = BulletService.Instance.SpawnBullet();
+        GameObject _bullet = _bulletController.GetBullet();
+        float _bulletSpeed=_bulletController.GetBulletSpeed();
+        Debug.Log("Current Speed:" + _bulletSpeed.ToString());
         playerView.OnFirePressed(_bullet,_bulletSpeed);
     }
 

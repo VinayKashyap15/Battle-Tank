@@ -12,7 +12,7 @@ public class PlayerInputService : MonoBehaviour
 
     void Start()
     {
-        BulletService.StartService();
+       // BulletService.StartService();
         playerController = new PlayerController(gameObject.GetComponent<PlayerView>());
     }
 

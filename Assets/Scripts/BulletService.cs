@@ -2,47 +2,50 @@
 using System;
 using UnityEngine;
 
-public static class BulletService 
+
+public  class BulletService : SingletonBase<BulletService>
 {
-
-    private static BulletModel bulletModel;
-    private static BulletController bulletController;
-    private static BulletView bulletView;
-
-    public static void StartService()
+    public enum BULLET_TYPE
     {
-        bulletModel = new BulletModel();
+        Default,
+        Fast,
+        Slow
+    };
+
+
+    private BulletModel bulletModel;
+    private  BulletController bulletController;
+
+    public BULLET_TYPE typeOfBullet;
+        
+    public void StartService()
+    {
+        
     }
 
-    public static BulletView GetBulletView()
+    public  float GetBulletSpeed(BulletModel _model)
     {
-        return bulletView;
+        return _model.GetBulletSpeed();
     }
 
-    public static BulletController GetBulletController()
+    public BulletController SpawnBullet()
     {
-        return bulletController;
-    }
+      
+      switch(typeOfBullet)
+        {
+            case BULLET_TYPE.Default:
+                return new BulletController();
+                
+            case BULLET_TYPE.Fast:
+                return new FastBulletController();
+                
+            case BULLET_TYPE.Slow:
+                return new SlowBulletController();
+                
+            default:
+                return new BulletController();
 
-    public static BulletModel GetBulletModel()
-    {
-        return bulletModel;
+        }
     }
-
-    //public static GameObject GetBullet()
-    //{
-    //   GameObject tempBullet= bulletController.SpawnBullet();
-    //    return tempBullet;
-    //}
-
-    public static float GetBulletSpeed()
-    {
-        return bulletModel.GetBulletSpeed();
-    }
-
-    public static GameObject SpawnBullet()
-    {
-        bulletController = new BulletController();
-        return bulletController.GetBullet();
-    }
+    
 }

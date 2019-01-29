@@ -1,26 +1,38 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class BulletController
 {
     private BulletView bulletView;
-    //private BulletModel _bulletModel;
-    GameObject bullet;
+    private BulletModel bulletModel;
+    public GameObject bullet;
 
-    public  BulletController()
+    public BulletController()
     {
-        bullet=SpawnBullet();
-        bulletView =bullet.GetComponent<BulletView>();
+        bulletModel = CreateModel();
         
+        GameObject _bullet = Resources.Load("Bullet") as GameObject;
+        if (!_bullet)
+        {
+            return;
+        }
+        bullet = GameObject.Instantiate(_bullet);
+
+        bulletView = bullet.GetComponent<BulletView>();
     }
 
-    public GameObject SpawnBullet()
+    protected virtual  BulletModel CreateModel()
     {
-        GameObject _bullet = Resources.Load("Bullet") as GameObject;
-        return _bullet;
+        return new BulletModel();
     }
 
     public GameObject GetBullet()
     {
         return bullet;
+    }
+
+    public float GetBulletSpeed()
+    {
+        return bulletModel.GetBulletSpeed();
     }
 }
