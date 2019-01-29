@@ -2,13 +2,17 @@
 using System;
 using UnityEngine;
 
-public static class BulletService
+public static class BulletService 
 {
 
-    private static BulletModel bulletModel = new BulletModel();
-    private static BulletController bulletController = new BulletController();
-    private static BulletView bulletView = new BulletView();
+    private static BulletModel bulletModel;
+    private static BulletController bulletController;
+    private static BulletView bulletView;
 
+    public static void StartService()
+    {
+        bulletModel = new BulletModel();
+    }
 
     public static BulletView GetBulletView()
     {
@@ -25,14 +29,20 @@ public static class BulletService
         return bulletModel;
     }
 
-    public static GameObject GetBullet()
-    {
-       GameObject tempBullet= bulletController.SpawnBullet(bulletModel);
-        return tempBullet;
-    }
+    //public static GameObject GetBullet()
+    //{
+    //   GameObject tempBullet= bulletController.SpawnBullet();
+    //    return tempBullet;
+    //}
 
     public static float GetBulletSpeed()
     {
         return bulletModel.GetBulletSpeed();
+    }
+
+    public static GameObject SpawnBullet()
+    {
+        bulletController = new BulletController();
+        return bulletController.GetBullet();
     }
 }

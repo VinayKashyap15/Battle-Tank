@@ -7,8 +7,6 @@ public class PlayerView : MonoBehaviour
 {
 
     [SerializeField]
-    private GameObject bulletPrefab;
-    [SerializeField]
     private GameObject muzzlePoint;
 
     private Rigidbody bulletRb;

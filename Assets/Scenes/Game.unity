@@ -238,8 +238,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d553f1ae89151848b11e900762771e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 1258007817751538, guid: 11b1854c09594fe428a8c470994493a5,
-    type: 2}
   muzzlePoint: {fileID: 910732433}
 --- !u!65 &1077994678
 BoxCollider:

@@ -4,16 +4,21 @@ public class BulletController
 {
     private BulletView bulletView;
     //private BulletModel _bulletModel;
-
-    public BulletController()
+    GameObject _bullet;
+    public  BulletController()
     {
-        bulletView = BulletService.GetBulletView();
-        //bulletModel = BulletService.GetBulletModel();
+        _bullet=SpawnBullet();
+        bulletView =_bullet.GetComponent<BulletView>();
+        
     }
 
-    public GameObject SpawnBullet(BulletModel _bullet)
+    public GameObject SpawnBullet()
     {
-        GameObject bullet= bulletView.SpawnBullet(_bullet);
+        GameObject bullet = Resources.Load("Bullet") as GameObject;
         return bullet;
+    }
+    public GameObject GetBullet()
+    {
+        return _bullet;
     }
 }

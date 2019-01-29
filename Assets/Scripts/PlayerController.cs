@@ -25,9 +25,9 @@ public class PlayerController
 
     public void Fire()
     {
-        GameObject _bullet = BulletService.GetBullet();
-        float bulletSpeed = BulletService.GetBulletSpeed();
-        playerView.OnFirePressed(_bullet,bulletSpeed);
+        GameObject _bullet= BulletService.SpawnBullet();
+        float _bulletSpeed = BulletService.GetBulletSpeed();
+        playerView.OnFirePressed(_bullet,_bulletSpeed);
     }
 
     public void RotatePlayer(float pitch)

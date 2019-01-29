@@ -5,12 +5,14 @@ using UnityEngine;
 
 public class PlayerInputService : MonoBehaviour
 {
+    
     public PlayerController playerController;
 
     private bool isMoving;
 
     void Start()
     {
+        BulletService.StartService();
         playerController = new PlayerController(gameObject.GetComponent<PlayerView>());
     }
 
