@@ -17,11 +17,6 @@ public  class BulletService : SingletonBase<BulletService>
     private  BulletController bulletController;
 
     public BULLET_TYPE typeOfBullet;
-        
-    public void StartService()
-    {
-        
-    }
 
     public  float GetBulletSpeed(BulletModel _model)
     {

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System;
 
-public class SingletonBase<T> : MonoBehaviour where T : MonoBehaviour
+public class SingletonBase<T> : MonoBehaviour where T : SingletonBase<T>
 {
     private static T instance;
 
@@ -16,10 +16,12 @@ public class SingletonBase<T> : MonoBehaviour where T : MonoBehaviour
             }
             else
             {
-               // Debug.Log("null hai");
-               // Destroy(instance);
+
             }
             return instance;
         }
+    }
+    protected virtual void OnInitialize()
+    { //start services
     }
 }

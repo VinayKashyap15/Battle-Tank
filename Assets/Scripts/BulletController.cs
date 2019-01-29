@@ -5,18 +5,17 @@ public class BulletController
 {
     private BulletView bulletView;
     private BulletModel bulletModel;
-    public GameObject bullet;
+    private static GameObject bullet;
 
     public BulletController()
     {
         bulletModel = CreateModel();
-        
-        GameObject _bullet = Resources.Load("Bullet") as GameObject;
-        if (!_bullet)
+        if (!bullet)
         {
-            return;
+            GameObject _bullet = Resources.Load("Bullet") as GameObject;
+
+            bullet = GameObject.Instantiate(_bullet);
         }
-        bullet = GameObject.Instantiate(_bullet);
 
         bulletView = bullet.GetComponent<BulletView>();
     }

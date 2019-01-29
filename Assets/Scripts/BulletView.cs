@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class BulletView : MonoBehaviour
 {
-    public virtual void SetMaterial()
+    protected virtual void SetMaterial()
     {
     }
-    public void DestroyBullet()
+    protected virtual void DestroyBullet()
     {
         DestroyImmediate(this);
     }
