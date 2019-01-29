@@ -5,25 +5,35 @@ using UnityEngine;
 
 public class PlayerController
 {
-    PlayerView view;
-    PlayerModel model = new PlayerModel();
+    PlayerView playerView;
+    PlayerModel playerModel;
+
     public PlayerController(PlayerView playerViewInstance)
     {
-        view = playerViewInstance;
-
+        playerModel = new PlayerModel();
+        playerView = playerViewInstance;
     }
     public void Move(float h, float v)
     {
-        view.StartCoroutine(view.MovePlayer(h,v,model.GetSpeed()));
+        playerView.MovePlayer(h,v,playerModel.GetSpeed());
+    }
+
+    public void DisplayPlayerStats()
+    {
+        Debug.Log("ID: "+playerModel.GetID().ToString()+"Player name:"+playerModel.GetName()+"Player Speed:"+playerModel.GetSpeed().ToString());
     }
 
     public void Fire()
     {
-        view.OnFirePressed(model.GetBulletSpeed());
+        GameObject _bullet = BulletService.GetBullet();
+        float bulletSpeed = BulletService.GetBulletSpeed();
+        playerView.OnFirePressed(_bullet,bulletSpeed);
     }
-    public void RotateCamera(float pitch)
+
+    public void RotatePlayer(float pitch)
     {
-        view.StartCoroutine(view.RotatePlayer(pitch));
+        playerView.RotatePlayer(pitch);
     }
+
 
 }

@@ -3,25 +3,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerInputManager : MonoBehaviour
+public class PlayerInputService : MonoBehaviour
 {
+    public PlayerController playerController;
 
-    public PlayerModel model;
-    public PlayerController controller;
-    
-
-    bool isMoving = false;
+    private bool isMoving;
 
     void Start()
     {
-        controller= new PlayerController(gameObject.GetComponent<PlayerView>());
-        
+        playerController = new PlayerController(gameObject.GetComponent<PlayerView>());
     }
 
     void Update()
     {
         float h = Input.GetAxis("Horizontal1");
         float v = Input.GetAxis("Vertical1");
+        float pitch = Input.GetAxis("Mouse X");
 
         if (h != 0 || v != 0)
         { isMoving = true; }
@@ -30,17 +27,16 @@ public class PlayerInputManager : MonoBehaviour
 
         if (isMoving)
         {
-           controller.Move(h, v);
+            playerController.Move(h, v);
         }
 
         if (Input.GetMouseButtonDown(0))
         {
-            controller.Fire();
+            playerController.Fire();
         }
-        if (Input.GetAxis("Mouse X") != 0)
+        if (pitch != 0)
         {
-            float pitch = Input.GetAxis("Mouse X");
-            controller.RotateCamera(pitch);
+            playerController.RotatePlayer(pitch);
         }
     }
 }

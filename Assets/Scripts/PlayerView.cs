@@ -3,58 +3,41 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 
-public class PlayerView :MonoBehaviour
+public class PlayerView : MonoBehaviour
 {
-   
-    private GameObject cam;
-    [SerializeField]private GameObject bulletPrefab;
+
+    [SerializeField]
+    private GameObject bulletPrefab;
     [SerializeField]
     private GameObject muzzlePoint;
+
     private Rigidbody bulletRb;
 
     private void Start()
     {
-        DisplayPlayerStats();
-        cam = GameObject.FindGameObjectWithTag("MainCamera");
-       
-    }
-    
 
-    public IEnumerator MovePlayer(float h,float v,float speed)
+    }
+
+
+    public void MovePlayer(float h, float v, float speed)
     {
-        transform.Translate(new Vector3( h*speed*Time.deltaTime,0, v*speed*Time.deltaTime));
-        yield return null;
+        transform.Translate(new Vector3(h * speed * Time.deltaTime, 0, v * speed * Time.deltaTime));
+
     }
 
-    public IEnumerator RotatePlayer(float pitch)
+    public void RotatePlayer(float pitch)
     {
         transform.Rotate(new Vector3(0, pitch, 0));
-        yield return null;
     }
 
-    public void DisplayFireMessage(string message)
-    {
-        Debug.Log(message);
-    }
-
-    public void DisplayPlayerStats()
-    {
-        PlayerModel model = new PlayerModel();
-        int id = model.GetID();
-        string name = model.GetName();
-
-        Debug.Log("Player Name:" + name + "Player ID:" + id.ToString());
-    }
-
-    public void OnFirePressed(float bulletSpeed)
+    public void OnFirePressed(GameObject _bullet, float _bulletSpeed)
     {
         //fire
-       
-        GameObject bullet = Instantiate(bulletPrefab, muzzlePoint.transform.position, Quaternion.identity) as GameObject;
-        bulletRb = bullet.GetComponent<Rigidbody>();
-        bulletRb.velocity = transform.forward * bulletSpeed;
+        _bullet.transform.position = muzzlePoint.transform.position;
+        _bullet.transform.rotation = muzzlePoint.transform.rotation;
+        _bullet.GetComponent<Rigidbody>().AddForce(new Vector3(0,0,50f*_bulletSpeed*Time.deltaTime),ForceMode.Impulse);
 
-        DisplayFireMessage("Fire Button Pressed");
+        Debug.Log("Fire Button Pressed");
     }
 
 }
