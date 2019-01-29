@@ -6,13 +6,6 @@ public class BulletView : MonoBehaviour {
 
 	
 
-    //public GameObject SpawnBullet()
-    //{
-    //    GameObject bullet = Resources.Load("Bullet")as GameObject;
-    //    bullet.AddComponent<Rigidbody>();
-
-    //    return bullet;
-    //}
 
     //public void MoveBullet(GameObject _bullet)
     //{

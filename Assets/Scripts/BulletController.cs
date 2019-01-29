@@ -18,6 +18,7 @@ public class BulletController
         GameObject _bullet = Resources.Load("Bullet") as GameObject;
         return _bullet;
     }
+
     public GameObject GetBullet()
     {
         return bullet;

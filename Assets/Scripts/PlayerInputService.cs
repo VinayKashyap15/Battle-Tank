@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerInputService : MonoBehaviour
 {
-    
+
     public PlayerController playerController;
 
     private bool isMoving;
