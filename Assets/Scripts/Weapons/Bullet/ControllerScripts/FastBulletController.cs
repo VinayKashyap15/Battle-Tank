@@ -1,13 +1,19 @@
-﻿public class FastBulletController : BulletController
-{
-   // FastBulletModel fastBulletModel;
+﻿using Bullet.ModelScripts;
+using Bullet.ViewScripts;
 
-    public FastBulletController()
+namespace Bullet.ControllerScripts
+{
+    public class FastBulletController : BulletController
     {
-        
-    }
-    protected override BulletModel CreateModel()
-    {
-        return new FastBulletModel();
+        // FastBulletModel fastBulletModel;
+
+        public FastBulletController()
+        {
+
+        }
+        protected override BulletModel CreateModel()
+        {
+            return new FastBulletModel();
+        }
     }
 }

@@ -1,9 +1,12 @@
 ﻿using UnityEngine;
 
-public  class PlayerApplication
+namespace Player
 {
-    private PlayerModel model;
-    private PlayerController controller;
-    private PlayerView view;
+    public class PlayerApplication
+    {
+        private PlayerModel model;
+        private PlayerController controller;
+        private PlayerView view;
 
+    }
 }

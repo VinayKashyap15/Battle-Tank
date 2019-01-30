@@ -1,39 +1,42 @@
 ﻿using UnityEngine;
 
-public class BulletModel 
+namespace Bullet.ModelScripts
 {
-    private float pointDamage;
-    private float bulletSpeed;
-    private float bulletLife;
-    private Vector3 bulletPosition;
-
-    public BulletModel()
+    public class BulletModel
     {
-        pointDamage = 10f;
-        bulletSpeed = 5f;
-        bulletLife = 3f;
-        bulletPosition = new Vector3(0,0,1);
-    }
-    public float GetPointDamage()
-    {
-        return pointDamage;
-    }
+        private float pointDamage;
+        private float bulletSpeed;
+        private float bulletLife;
+        private Vector3 bulletPosition;
 
-    public virtual float GetBulletSpeed()
-    {
-        return bulletSpeed;
-    }
+        public BulletModel()
+        {
+            pointDamage = 10f;
+            bulletSpeed = 5f;
+            bulletLife = 3f;
+            bulletPosition = new Vector3(0, 0, 1);
+        }
+        public float GetPointDamage()
+        {
+            return pointDamage;
+        }
 
-    public float GetBulletLife()
-    {
-        return bulletLife;
-    }
+        public virtual float GetBulletSpeed()
+        {
+            return bulletSpeed;
+        }
 
-    public Vector3 GetBulletPosition()
-    {
-        return bulletPosition;
-    }
+        public float GetBulletLife()
+        {
+            return bulletLife;
+        }
 
-    protected virtual void UpdateDamage(float pointDamage) { }
-    protected virtual void UpdateSpeed(float bulletSpeed) { }
+        public Vector3 GetBulletPosition()
+        {
+            return bulletPosition;
+        }
+
+        protected virtual void UpdateDamage(float pointDamage) { }
+        protected virtual void UpdateSpeed(float bulletSpeed) { }
+    }
 }

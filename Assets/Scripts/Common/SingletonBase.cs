@@ -1,26 +1,29 @@
-﻿using UnityEngine;
-
-public class SingletonBase<T> : MonoBehaviour where T : SingletonBase<T>
+﻿
+using UnityEngine;
+namespace Common
 {
-    private static T instance;
-
-    public static T Instance
+    public class SingletonBase<T> : MonoBehaviour where T : SingletonBase<T>
     {
-        get
+        private static T instance;
+
+        public static T Instance
         {
-            if (instance == null)
+            get
             {
-                instance = FindObjectOfType<T>();
-                DontDestroyOnLoad(instance);
+                if (instance == null)
+                {
+                    instance = FindObjectOfType<T>();
+                    DontDestroyOnLoad(instance);
+                }
+                else
+                {
+                    //Destroy(Instance);
+                }
+                return instance;
             }
-            else
-            {
-                //Destroy(Instance);
-            }
-            return instance;
         }
-    }
-    protected virtual void OnInitialize()
-    { //start services
+        protected virtual void OnInitialize()
+        { //start services
+        }
     }
 }

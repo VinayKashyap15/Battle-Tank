@@ -1,4 +1,8 @@
-﻿public class FastBulletView : BulletView {
+﻿namespace Bullet.ViewScripts
+{
+    public class FastBulletView : BulletView
+    {
 
-	
+
+    }
 }

@@ -1,13 +1,16 @@
-﻿public class FastBulletModel : BulletModel
+﻿namespace Bullet.ModelScripts
 {
-   private float bulletSpeed; 
+    public class FastBulletModel : BulletModel
+    {
+        private float bulletSpeed;
 
-   public FastBulletModel()
-    {
-        bulletSpeed = 10f;
-    }
-    public override float GetBulletSpeed()
-    {
-        return bulletSpeed;
+        public FastBulletModel()
+        {
+            bulletSpeed = 10f;
+        }
+        public override float GetBulletSpeed()
+        {
+            return bulletSpeed;
+        }
     }
 }

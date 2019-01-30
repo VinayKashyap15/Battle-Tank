@@ -1,9 +1,15 @@
-﻿public class SlowBulletController : BulletController
+﻿using Bullet.ModelScripts;
+using Bullet.ViewScripts;
+
+namespace Bullet.ControllerScripts
 {
-
-
-    protected override BulletModel CreateModel()
+    public class SlowBulletController : BulletController
     {
-        return new SlowBulletModel();
+
+
+        protected override BulletModel CreateModel()
+        {
+            return new SlowBulletModel();
+        }
     }
 }

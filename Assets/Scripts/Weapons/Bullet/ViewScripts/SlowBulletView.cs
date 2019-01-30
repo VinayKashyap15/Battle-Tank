@@ -1,4 +1,7 @@
-﻿public class SlowBulletView : BulletView
+﻿namespace Bullet.ViewScripts
 {
-  
+    public class SlowBulletView : BulletView
+    {
+
+    }
 }

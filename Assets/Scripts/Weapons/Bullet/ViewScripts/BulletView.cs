@@ -1,27 +1,32 @@
 ﻿using UnityEngine;
+using Weapons.Bullet;
+using Bullet.ControllerScripts;
 
-[RequireComponent(typeof (Rigidbody))]
-[RequireComponent(typeof(BoxCollider))]
-public class BulletView : MonoBehaviour
+namespace Bullet.ViewScripts
 {
-    private BulletController currentBulletController;
+    [RequireComponent(typeof(Rigidbody))]
+    [RequireComponent(typeof(BoxCollider))]
+    public class BulletView : MonoBehaviour
+    {
+        private BulletController currentBulletController;
 
-    public void SetController(BulletController _bulletController)
-    {
-        currentBulletController = _bulletController;
-    }
-    protected virtual void SetMaterial()
-    {
-    }
-    protected virtual void DestroyBullet()
-    {
-        BulletService.Instance.DestroyOldModels(currentBulletController);
+        public void SetController(BulletController _bulletController)
+        {
+            currentBulletController = _bulletController;
+        }
+        protected virtual void SetMaterial()
+        {
+        }
+        protected virtual void DestroyBullet()
+        {
+            BulletService.Instance.DestroyOldModels(currentBulletController);
 
-        Destroy(this.gameObject);
-    }
-    private void OnCollisionEnter(Collision collision)
-    {
-        DestroyBullet();
-        
+            Destroy(this.gameObject);
+        }
+        private void OnCollisionEnter(Collision collision)
+        {
+            DestroyBullet();
+
+        }
     }
 }

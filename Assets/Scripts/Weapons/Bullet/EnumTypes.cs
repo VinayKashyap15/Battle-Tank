@@ -1,6 +1,9 @@
-﻿public enum BULLET_TYPE
+﻿namespace Weapons.Bullet
 {
-    Default,
-    Fast,
-    Slow
-};
+    public enum BULLET_TYPE
+    {
+        Default,
+        Fast,
+        Slow
+    };
+}

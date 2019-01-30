@@ -1,34 +1,40 @@
-﻿public class BulletService : SingletonBase<BulletService>
+﻿using Common;
+using Bullet.ControllerScripts;
+using Bullet.ModelScripts;
+
+
+namespace Weapons.Bullet
 {
-
-
-    public BULLET_TYPE typeOfBullet;
-
-    public float GetBulletSpeed(BulletModel _model)
+    public class BulletService : SingletonBase<BulletService>
     {
-        return _model.GetBulletSpeed();
-    }
+        public BULLET_TYPE typeOfBullet;
 
-    public BulletController SpawnBullet()
-    {
-
-        switch (typeOfBullet)
+        public float GetBulletSpeed(BulletModel _model)
         {
-            case BULLET_TYPE.Default:
-                return new BulletController();
-            case BULLET_TYPE.Fast:
-                return new FastBulletController();
-            case BULLET_TYPE.Slow:
-                return new SlowBulletController();
-            default:
-                return new BulletController();
+            return _model.GetBulletSpeed();
         }
-    }
 
-    public void DestroyOldModels(BulletController _bulletController)
-    {
-        _bulletController.StartDestroy();
-        _bulletController = null;
-    }
+        public BulletController SpawnBullet()
+        {
 
+            switch (typeOfBullet)
+            {
+                case BULLET_TYPE.Default:
+                    return new BulletController();
+                case BULLET_TYPE.Fast:
+                    return new FastBulletController();
+                case BULLET_TYPE.Slow:
+                    return new SlowBulletController();
+                default:
+                    return new BulletController();
+            }
+        }
+
+        public void DestroyOldModels(BulletController _bulletController)
+        {
+            _bulletController.StartDestroy();
+            _bulletController = null;
+        }
+
+    }
 }

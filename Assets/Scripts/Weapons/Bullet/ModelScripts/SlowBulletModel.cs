@@ -1,13 +1,17 @@
-﻿public class SlowBulletModel : BulletModel {
-
-    private float bulletSpeed;
-
-    public SlowBulletModel()
+﻿namespace Bullet.ModelScripts
+{
+    public class SlowBulletModel : BulletModel
     {
-        bulletSpeed = 1f;
-    }
-    public override float GetBulletSpeed()
-    {
-        return bulletSpeed;
+
+        private float bulletSpeed;
+
+        public SlowBulletModel()
+        {
+            bulletSpeed = 1f;
+        }
+        public override float GetBulletSpeed()
+        {
+            return bulletSpeed;
+        }
     }
 }

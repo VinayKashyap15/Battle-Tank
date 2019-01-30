@@ -1,41 +1,43 @@
 ﻿using UnityEngine;
-
-public class PlayerInputService : MonoBehaviour
+namespace Player
 {
-
-    public PlayerController playerController;
-
-    private bool isMoving;
-
-    void Start()
+    public class PlayerInputService : MonoBehaviour
     {
-       // BulletService.StartService();
-        playerController = new PlayerController(gameObject.GetComponent<PlayerView>());
-    }
 
-    void Update()
-    {
-        float h = Input.GetAxis("Horizontal1");
-        float v = Input.GetAxis("Vertical1");
-        float pitch = Input.GetAxis("Mouse X");
+        public PlayerController playerController;
 
-        if (h != 0 || v != 0)
-        { isMoving = true; }
-        else
-        { isMoving = false; }
+        private bool isMoving;
 
-        if (isMoving)
+        void Start()
         {
-            playerController.Move(h, v);
+            // BulletService.StartService();
+            playerController = new PlayerController(gameObject.GetComponent<PlayerView>());
         }
 
-        if (Input.GetMouseButtonDown(0))
+        void Update()
         {
-            playerController.Fire();
-        }
-        if (pitch != 0)
-        {
-            playerController.RotatePlayer(pitch);
+            float h = Input.GetAxis("Horizontal1");
+            float v = Input.GetAxis("Vertical1");
+            float pitch = Input.GetAxis("Mouse X");
+
+            if (h != 0 || v != 0)
+            { isMoving = true; }
+            else
+            { isMoving = false; }
+
+            if (isMoving)
+            {
+                playerController.Move(h, v);
+            }
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                playerController.Fire();
+            }
+            if (pitch != 0)
+            {
+                playerController.RotatePlayer(pitch);
+            }
         }
     }
 }

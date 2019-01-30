@@ -1,41 +1,46 @@
 ﻿using UnityEngine;
+using Bullet.ModelScripts;
+using Bullet.ViewScripts;
 
-public class BulletController
+namespace Bullet.ControllerScripts
 {
-    
-    private GameObject bulletPrefab;
-    private BulletModel currentBulletModel;
-
-    public BulletController()
+    public class BulletController
     {
-       currentBulletModel = CreateModel();
-        if (!bulletPrefab)
+
+        private GameObject bulletPrefab;
+        private BulletModel currentBulletModel;
+
+        public BulletController()
         {
-            GameObject _bulletPrefab = Resources.Load("Bullet") as GameObject;
+            currentBulletModel = CreateModel();
+            if (!bulletPrefab)
+            {
+                GameObject _bulletPrefab = Resources.Load("Bullet") as GameObject;
 
-            bulletPrefab = GameObject.Instantiate(_bulletPrefab);
+                bulletPrefab = GameObject.Instantiate(_bulletPrefab);
+            }
+            BulletView bulletView = bulletPrefab.GetComponent<BulletView>();
+            bulletView.SetController(this);
         }
-       BulletView bulletView = bulletPrefab.GetComponent<BulletView>();
-        bulletView.SetController(this);
-    }
 
-    protected virtual BulletModel CreateModel()
-    {
-        return new BulletModel();
-    }
+        protected virtual BulletModel CreateModel()
+        {
+            return new BulletModel();
+        }
 
-    public GameObject GetBullet()
-    {
-        return bulletPrefab;
-    }
+        public GameObject GetBullet()
+        {
+            return bulletPrefab;
+        }
 
-    public float GetBulletSpeed()
-    {
-        return currentBulletModel.GetBulletSpeed();
-    }
+        public float GetBulletSpeed()
+        {
+            return currentBulletModel.GetBulletSpeed();
+        }
 
-    public virtual void StartDestroy()
-    {
-        currentBulletModel = null;
+        public virtual void StartDestroy()
+        {
+            currentBulletModel = null;
+        }
     }
 }
