@@ -17,13 +17,14 @@ namespace Common
                 }
                 else
                 {
-                    //Destroy(Instance);
+                    Destroy(Instance);
                 }
                 return instance;
             }
         }
         protected virtual void OnInitialize()
-        { //start services
+        { 
+            //start services
         }
     }
 }
