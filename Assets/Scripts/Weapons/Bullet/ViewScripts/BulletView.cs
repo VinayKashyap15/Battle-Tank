@@ -19,7 +19,7 @@ namespace Bullet.ViewScripts
         }
         protected virtual void DestroyBullet()
         {
-            BulletService.Instance.DestroyOldModels(currentBulletController);
+            BulletService.Instance.DestroyController(currentBulletController);
 
             Destroy(this.gameObject);
         }
