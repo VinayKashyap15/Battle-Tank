@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class FastBulletController : BulletController
+﻿public class FastBulletController : BulletController
 {
    // FastBulletModel fastBulletModel;
 

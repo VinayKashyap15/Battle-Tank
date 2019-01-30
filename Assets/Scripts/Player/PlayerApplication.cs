@@ -6,6 +6,4 @@ public  class PlayerApplication
     private PlayerController controller;
     private PlayerView view;
 
-
-   
 }

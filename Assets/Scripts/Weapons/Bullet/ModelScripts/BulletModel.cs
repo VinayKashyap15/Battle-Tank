@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class BulletModel 
 {
@@ -14,7 +12,7 @@ public class BulletModel
         pointDamage = 10f;
         bulletSpeed = 5f;
         bulletLife = 3f;
-        bulletPosition = new Vector3(0,0,0);
+        bulletPosition = new Vector3(0,0,1);
     }
     public float GetPointDamage()
     {

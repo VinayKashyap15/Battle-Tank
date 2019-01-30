@@ -1,7 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
-using System;
 
 public class PlayerView : MonoBehaviour
 {
@@ -13,9 +10,8 @@ public class PlayerView : MonoBehaviour
 
     private void Start()
     {
-
+        //do smomething
     }
-
 
     public void MovePlayer(float h, float v, float speed)
     {

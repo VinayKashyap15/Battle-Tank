@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System;
 
 public class SingletonBase<T> : MonoBehaviour where T : SingletonBase<T>
 {
@@ -16,7 +15,7 @@ public class SingletonBase<T> : MonoBehaviour where T : SingletonBase<T>
             }
             else
             {
-                Destroy(instance);
+                //Destroy(Instance);
             }
             return instance;
         }

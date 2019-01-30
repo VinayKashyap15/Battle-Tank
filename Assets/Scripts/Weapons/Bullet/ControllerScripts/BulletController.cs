@@ -1,14 +1,14 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class BulletController
 {
     
     private GameObject bulletPrefab;
+    private BulletModel currentBulletModel;
 
     public BulletController()
     {
-       BulletModel bulletModel = CreateModel();
+       currentBulletModel = CreateModel();
         if (!bulletPrefab)
         {
             GameObject _bulletPrefab = Resources.Load("Bullet") as GameObject;
@@ -16,6 +16,7 @@ public class BulletController
             bulletPrefab = GameObject.Instantiate(_bulletPrefab);
         }
        BulletView bulletView = bulletPrefab.GetComponent<BulletView>();
+        bulletView.SetController(this);
     }
 
     protected virtual BulletModel CreateModel()
@@ -30,6 +31,11 @@ public class BulletController
 
     public float GetBulletSpeed()
     {
-        return bulletModel.GetBulletSpeed();
+        return currentBulletModel.GetBulletSpeed();
+    }
+
+    public virtual void StartDestroy()
+    {
+        currentBulletModel = null;
     }
 }
