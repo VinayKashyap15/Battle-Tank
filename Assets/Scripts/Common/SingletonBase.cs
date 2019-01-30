@@ -1,5 +1,4 @@
-﻿
-using UnityEngine;
+﻿using UnityEngine;
 namespace Common
 {
     public class SingletonBase<T> : MonoBehaviour where T : SingletonBase<T>
