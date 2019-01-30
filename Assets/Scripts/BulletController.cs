@@ -16,7 +16,6 @@ public class BulletController
 
             bulletPrefab = GameObject.Instantiate(_bulletPrefab);
         }
-
         bulletView = bulletPrefab.GetComponent<BulletView>();
     }
 

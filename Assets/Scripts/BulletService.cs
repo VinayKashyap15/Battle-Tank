@@ -1,17 +1,12 @@
 ﻿
+using Assets.Scripts.Common;
 using System;
 using UnityEngine;
 
 
 public  class BulletService : SingletonBase<BulletService>
 {
-    public enum BULLET_TYPE
-    {
-        Default,
-        Fast,
-        Slow
-    };
-
+   
 
     private BulletModel bulletModel;
     private  BulletController bulletController;
