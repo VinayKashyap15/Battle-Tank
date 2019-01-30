@@ -16,7 +16,7 @@ public class SingletonBase<T> : MonoBehaviour where T : SingletonBase<T>
             }
             else
             {
-
+                Destroy(instance);
             }
             return instance;
         }

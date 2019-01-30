@@ -3,20 +3,19 @@ using UnityEngine;
 
 public class BulletController
 {
-    private BulletView bulletView;
-    private BulletModel bulletModel;
+    
     private GameObject bulletPrefab;
 
     public BulletController()
     {
-        bulletModel = CreateModel();
+       BulletModel bulletModel = CreateModel();
         if (!bulletPrefab)
         {
             GameObject _bulletPrefab = Resources.Load("Bullet") as GameObject;
 
             bulletPrefab = GameObject.Instantiate(_bulletPrefab);
         }
-        bulletView = bulletPrefab.GetComponent<BulletView>();
+       BulletView bulletView = bulletPrefab.GetComponent<BulletView>();
     }
 
     protected virtual BulletModel CreateModel()
