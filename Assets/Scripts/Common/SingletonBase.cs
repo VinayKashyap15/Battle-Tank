@@ -19,19 +19,15 @@ namespace Common
         }
 
         protected virtual void OnInitialize()
-        { 
-            if(instance==null)
+        {
+            if (instance == null)
             {
-
-                if (instance == null)
-                {
-                    instance = FindObjectOfType<T>();
-                    DontDestroyOnLoad(instance);
-                }
-                else
-                {
-                    Destroy(Instance);
-                }
+                instance = FindObjectOfType<T>();
+                DontDestroyOnLoad(instance);
+            }
+            else
+            {
+                Destroy(this.gameObject);
             }
         }
     }

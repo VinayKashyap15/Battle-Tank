@@ -30,7 +30,7 @@ namespace Weapons.Bullet
             }
         }
 
-        public void DestroyOldModels(BulletController _bulletController)
+        public void DestroyController(BulletController _bulletController)
         {
             _bulletController.StartDestroy();
             _bulletController = null;
