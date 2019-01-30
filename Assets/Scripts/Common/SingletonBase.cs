@@ -10,6 +10,20 @@ namespace Common
         {
             get
             {
+                return instance;
+            }
+        }
+
+        private void Awake()
+        {
+            OnInitialize();
+        }
+
+        protected virtual void OnInitialize()
+        { 
+            if(instance==null)
+            {
+
                 if (instance == null)
                 {
                     instance = FindObjectOfType<T>();
@@ -19,12 +33,7 @@ namespace Common
                 {
                     Destroy(Instance);
                 }
-                return instance;
             }
-        }
-        protected virtual void OnInitialize()
-        { 
-            //start services
         }
     }
 }
