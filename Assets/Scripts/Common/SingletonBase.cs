@@ -31,7 +31,7 @@ namespace Common
                 }
                 else
                 {
-                    Destroy(Instance);
+                    Destroy(this);
                 }
             }
         }

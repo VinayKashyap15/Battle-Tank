@@ -20,12 +20,8 @@ namespace Player
             float v = Input.GetAxis("Vertical1");
             float pitch = Input.GetAxis("Mouse X");
 
-            if (h != 0 || v != 0)
-            { isMoving = true; }
-            else
-            { isMoving = false; }
-
-            if (isMoving)
+            
+            if (h!=0||v!=0)
             {
                 playerController.Move(h, v);
             }
