@@ -5,29 +5,29 @@ public class BulletController
 {
     private BulletView bulletView;
     private BulletModel bulletModel;
-    private static GameObject bullet;
+    private GameObject bulletPrefab;
 
     public BulletController()
     {
         bulletModel = CreateModel();
-        if (!bullet)
+        if (!bulletPrefab)
         {
-            GameObject _bullet = Resources.Load("Bullet") as GameObject;
+            GameObject _bulletPrefab = Resources.Load("Bullet") as GameObject;
 
-            bullet = GameObject.Instantiate(_bullet);
+            bulletPrefab = GameObject.Instantiate(_bulletPrefab);
         }
 
-        bulletView = bullet.GetComponent<BulletView>();
+        bulletView = bulletPrefab.GetComponent<BulletView>();
     }
 
-    protected virtual  BulletModel CreateModel()
+    protected virtual BulletModel CreateModel()
     {
         return new BulletModel();
     }
 
     public GameObject GetBullet()
     {
-        return bullet;
+        return bulletPrefab;
     }
 
     public float GetBulletSpeed()

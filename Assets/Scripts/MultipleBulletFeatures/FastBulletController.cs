@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class FastBulletController : BulletController
 {
-    FastBulletModel fastBulletModel;
+   // FastBulletModel fastBulletModel;
 
     public FastBulletController()
     {
-        //fastBulletModel=CreateModel();
+        
     }
     protected override BulletModel CreateModel()
     {
