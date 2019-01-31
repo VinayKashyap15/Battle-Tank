@@ -11,14 +11,15 @@ namespace Common
     {
         [SerializeField]
         private List<PlayerController> listOfPlayerControllers = new List<PlayerController>();
+
         [SerializeField]
         private List<EnemyController> listOfEnemyControllers = new List<EnemyController>();
 
-        protected override void OnInitialize()
-        {
-            base.OnInitialize();
+        //protected override void OnInitialize()
+        //{
+        //    base.OnInitialize();
            
-        }
+        //}
 
         public void PopulatePlayerList(PlayerController _playerController)
         {
@@ -26,8 +27,8 @@ namespace Common
         }
         
         private void Update()
-        {          
-            
+        {
+
         }
     }
 }

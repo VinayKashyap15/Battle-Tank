@@ -43,5 +43,6 @@ namespace Player
         {
             playerView.RotatePlayer(pitch);
         }
+
     }
 }

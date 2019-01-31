@@ -154,6 +154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0eadfd16eb3452c4cac5d7c5e1a9ed99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  customInputScheme: {fileID: 0}
 --- !u!1 &843502508
 GameObject:
   m_ObjectHideFlags: 0
@@ -609,6 +610,10 @@ Prefab:
     - target: {fileID: 4171752918385066, guid: e2e63d6eeee5fbe40b86389d6a1c897f, type: 2}
       propertyPath: m_RootOrder
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1981339487989628, guid: e2e63d6eeee5fbe40b86389d6a1c897f, type: 2}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114739771916247300, guid: e2e63d6eeee5fbe40b86389d6a1c897f, type: 2}
