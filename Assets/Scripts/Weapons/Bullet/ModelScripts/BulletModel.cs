@@ -5,7 +5,7 @@ namespace Bullet.ModelScripts
     public class BulletModel
     {
         private float pointDamage;
-        private float bulletSpeed;
+        protected  float bulletSpeed;
         private float bulletLife;
         private Vector3 bulletPosition;
 
