@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Bullet.ControllerScripts;
+using System;
 
 namespace Player
 {
@@ -22,16 +23,26 @@ namespace Player
             transform.Rotate(new Vector3(0, pitch, 0));
         }
 
-        public void OnFirePressed(BulletController _bulletController, float _bulletSpeed)
+        public void OnFirePressed()
         {
-            //fire
-            GameObject _bullet = _bulletController.GetBullet();
-            _bullet.transform.position = muzzlePoint.transform.position;
-            _bullet.transform.rotation = muzzlePoint.transform.rotation;
-            _bullet.GetComponent<Rigidbody>().velocity = muzzlePoint.transform.forward * _bulletSpeed;
 
             Debug.Log("Fire Button Pressed");
         }
 
+
+
+        public Vector3 GetMuzzlePosition()
+        {
+            return muzzlePoint.transform.position;
+        }
+
+        public Quaternion GetMuzzleRotation()
+        {
+            return muzzlePoint.transform.rotation;
+        }
+        public Vector3 GetMuzzleDirection()
+        {
+            return muzzlePoint.transform.forward;
+        }
     }
 }

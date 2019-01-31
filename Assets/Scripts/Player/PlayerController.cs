@@ -26,11 +26,11 @@ namespace Player
         public void Fire()
         {
             var _bulletController = BulletService.Instance.SpawnBullet();
-            float _bulletSpeed = _bulletController.GetBulletSpeed();
 
-            Debug.Log("Current Speed:" + _bulletSpeed.ToString());
-
-            playerView.OnFirePressed(_bulletController, _bulletSpeed);
+            Vector3 firePos = playerView.GetMuzzlePosition();
+            Quaternion fireRot = playerView.GetMuzzleRotation();
+            Vector3 fireDirection = playerView.GetMuzzleDirection();
+            _bulletController.FireBullet(firePos, fireRot, fireDirection);
         }
 
         public void RotatePlayer(float pitch)
