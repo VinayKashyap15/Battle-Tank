@@ -15,11 +15,7 @@ namespace Common
         [SerializeField]
         private List<EnemyController> listOfEnemyControllers = new List<EnemyController>();
 
-        //protected override void OnInitialize()
-        //{
-        //    base.OnInitialize();
-           
-        //}
+       
 
         public void PopulatePlayerList(PlayerController _playerController)
         {
@@ -28,7 +24,15 @@ namespace Common
         
         private void Update()
         {
+            foreach (PlayerController p in listOfPlayerControllers)
+            {
+                p.GetInputComponent().OnUpdate();
+            }
+        }
 
+        public void FireAction(PlayerController _currentFiringController)
+        {
+            _currentFiringController.Fire();
         }
     }
 }

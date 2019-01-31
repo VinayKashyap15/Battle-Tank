@@ -135,7 +135,6 @@ GameObject:
   - component: {fileID: 114379296819015432}
   - component: {fileID: 54272220201239582}
   - component: {fileID: 65900821792622894}
-  - component: {fileID: 114739771916247300}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -466,15 +465,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   muzzlePoint: {fileID: 1806549110118204}
---- !u!114 &114739771916247300
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1981339487989628}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0eadfd16eb3452c4cac5d7c5e1a9ed99, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  customInputScheme: {fileID: 0}

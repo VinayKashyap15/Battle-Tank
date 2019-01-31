@@ -19,7 +19,7 @@ namespace Enemy
         {
            GameObject currentModel= GameObject.Instantiate(_enemyModel.GetEnemyModel());
             currentModel.transform.position = _position;
-            currentModel.AddComponent<EnemyView>();
+           
             currentModel.GetComponentInChildren<Renderer>().sharedMaterial = _enemyModel.GetEnemyMaterial();
             currentEnemyView = currentModel.GetComponent<EnemyView>();
 

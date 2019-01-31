@@ -1,25 +1,34 @@
 ﻿using UnityEngine;
+using Common;
+using Player;
 using System;
 
 namespace InputComponents
 {
-    public class InputComponent : MonoBehaviour
+    public class InputComponent 
     {
         private KeyCode fireKey;
         private InputComponent currentInputComponent;
+        private PlayerController currentPlayerController;
+
         public InputComponent()
         {
-            currentInputComponent = new KeyboardComponent();
+            fireKey = KeyCode.Space;  
+           
         }
 
-        public InputComponent(InputScriptabelObject _customInputScheme)
+        public void OnUpdate()
         {
-            currentInputComponent = new CustomInputComponent(_customInputScheme);
+            if(Input.GetKey(GetFireInput()))
+            {
+                InputManagerBase.Instance.FireAction(PlayerService.Instance.GetCurrentPlayerController());
+            }
         }
 
         public virtual KeyCode GetFireInput()
         {
             return fireKey;
         }
+       
     }
 }

@@ -14,21 +14,19 @@ namespace Player
         {
             playerModel = new PlayerModel();            
             playerView = playerViewInstance;
-            currentInputComponent = new InputComponent();
+            currentInputComponent = new KeyboardComponent();
         }
         public PlayerController(PlayerView playerViewInstance, InputScriptabelObject _customInputScheme)
         {
             playerModel = new PlayerModel();
             playerView = playerViewInstance;
-            currentInputComponent = new InputComponent(_customInputScheme);
+            currentInputComponent = new CustomInputComponent(_customInputScheme);
+
         }
+
         public void Move(float h, float v)
         {
             playerView.MovePlayer(h, v, playerModel.GetSpeed());
-        }
-        public void DisplayPlayerStats()
-        {
-            Debug.Log("ID: " + playerModel.GetID().ToString() + "Player name:" + playerModel.GetName() + "Player Speed:" + playerModel.GetSpeed().ToString());
         }
         public void Fire()
         {
@@ -44,5 +42,9 @@ namespace Player
             playerView.RotatePlayer(pitch);
         }
 
+        public InputComponent GetInputComponent()
+        {
+            return currentInputComponent;
+        }
     }
 }

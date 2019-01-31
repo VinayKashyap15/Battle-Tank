@@ -2,6 +2,9 @@
 
 namespace InputComponents
 {
+    /// <summary>
+    /// custom input taken from the scriptable object 
+    /// </summary>
     class CustomInputComponent : InputComponent
     {
         private KeyCode fireKey;

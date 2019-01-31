@@ -16,4 +16,4 @@ MonoBehaviour:
   enemyPrefab: {fileID: 1442881743796026, guid: 30044f40f072a2a449c1f494a69ecd55,
     type: 2}
   enemyView: {fileID: 0}
-  pos: {x: -5, y: 0, z: 0}
+  pos: {x: -5, y: 0, z: 3}

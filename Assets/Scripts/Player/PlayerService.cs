@@ -15,11 +15,10 @@ namespace Player
         private GameObject playerInstance;
         
 
-        protected override void OnInitialize()
-        {
-            base.OnInitialize();
-            SpawnPlayer();
-        }
+        //protected override void OnInitialize()
+        //{
+        //    base.OnInitialize();          
+        //}
 
         private void SpawnPlayer()
         {
@@ -29,16 +28,21 @@ namespace Player
             }
             playerInstance = GameObject.Instantiate(playerPrefab);
 
-            playerController = new PlayerController(playerInstance.GetComponent<PlayerView>());
+           
 
             if (customInputScheme)
             {
                 playerController = new PlayerController(playerInstance.GetComponent<PlayerView>(), customInputScheme);
             }
+            else
+            {
+                playerController = new PlayerController(playerInstance.GetComponent<PlayerView>());
+            }
         }
 
         private void Start()
         {
+            SpawnPlayer();
             InputManagerBase.Instance.PopulatePlayerList(playerController);
         }
 
@@ -46,6 +50,6 @@ namespace Player
         {
             return playerController;
         }
-       
+
     }
 }
