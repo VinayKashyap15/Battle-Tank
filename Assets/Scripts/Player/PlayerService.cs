@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using InputComponents;
 using Common;
 using System.Collections.Generic;
@@ -15,6 +16,7 @@ namespace Player
         private InputScriptableObjectList listOfInputs;
         private GameObject playerPrefab;
         private GameObject playerInstance;
+        int playerID = 0;
 
         private GameObject SpawnPlayer(Vector3 _spawnPos)
         {
@@ -34,19 +36,23 @@ namespace Player
             if (listOfInputs)
             {
                 Vector3 pos = new Vector3(0, 0, 0);
+               
+                
                 for (int i = 0; i < listOfInputs.inputList.Count; i++)
                 {
                     playerInstance=SpawnPlayer(pos);
-
-                    _playerControllerInstance = new PlayerController(playerInstance.GetComponent<PlayerView>(), listOfInputs.inputList.ElementAt(i));                    
+                    
+                    _playerControllerInstance = new PlayerController(playerInstance.GetComponent<PlayerView>(), listOfInputs.inputList.ElementAt(i),playerID);                    
                     listOfPlayerControllers.Add(_playerControllerInstance);
                     pos += new Vector3(3, 0, 0);
+                  
+                    playerID += 1;
                 }
             }
             else
             {
                 playerInstance=SpawnPlayer(new Vector3(0, 0, 0));
-                _playerControllerInstance = new PlayerController(playerInstance.GetComponent<PlayerView>());
+                _playerControllerInstance = new PlayerController(playerInstance.GetComponent<PlayerView>(),playerID);
             }
          
         }  

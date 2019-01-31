@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using Weapons.Bullet;
 using InputComponents;
 
@@ -10,17 +11,22 @@ namespace Player
         private PlayerModel playerModel;
         private InputComponent currentInputComponent;
 
-        public PlayerController(PlayerView playerViewInstance)
+        public PlayerController(PlayerView playerViewInstance,int _playerID)
         {
             playerModel = new PlayerModel();
+            playerModel.SetID(_playerID);
             playerView = playerViewInstance;
+            
+            
             currentInputComponent = new KeyboardComponent(this);
+
         }
 
-        public PlayerController(PlayerView playerViewInstance, InputScriptableObject _customInputScheme)
+        public PlayerController(PlayerView playerViewInstance, InputScriptableObject _customInputScheme,int _playerID)
         {
             playerModel = new PlayerModel();
-            playerView = playerViewInstance;
+            playerModel.SetID(_playerID);
+            playerView = playerViewInstance;           
             currentInputComponent = new CustomInputComponent(_customInputScheme,this);
 
         }
@@ -51,7 +57,8 @@ namespace Player
         public void UpdateScore()
         {
             playerView.UpdateMyScore();
-            
+            Debug.Log("Updated score for player :"+playerModel.GetID());
+
         }
     }
 }

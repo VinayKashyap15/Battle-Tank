@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using Bullet.ControllerScripts;
 using System;
 
@@ -48,5 +49,7 @@ namespace Player
         {
             return muzzlePoint.transform.forward;
         }
+
+       
     }
 }
