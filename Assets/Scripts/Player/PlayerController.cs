@@ -14,13 +14,14 @@ namespace Player
         {
             playerModel = new PlayerModel();            
             playerView = playerViewInstance;
-            currentInputComponent = new KeyboardComponent();
+            currentInputComponent = new KeyboardComponent(this);
         }
-        public PlayerController(PlayerView playerViewInstance, InputScriptabelObject _customInputScheme)
+
+        public PlayerController(PlayerView playerViewInstance, InputScriptableObject _customInputScheme)
         {
             playerModel = new PlayerModel();
             playerView = playerViewInstance;
-            currentInputComponent = new CustomInputComponent(_customInputScheme);
+            currentInputComponent = new CustomInputComponent(_customInputScheme,this);
 
         }
 

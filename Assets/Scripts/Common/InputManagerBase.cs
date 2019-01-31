@@ -9,30 +9,28 @@ namespace Common
 {
     public class InputManagerBase : SingletonBase<InputManagerBase>
     {
-        [SerializeField]
-        private List<PlayerController> listOfPlayerControllers = new List<PlayerController>();
+       
 
         [SerializeField]
         private List<EnemyController> listOfEnemyControllers = new List<EnemyController>();
-
        
-
-        public void PopulatePlayerList(PlayerController _playerController)
-        {
-           listOfPlayerControllers.Add(_playerController);
-        }
         
         private void Update()
         {
-            foreach (PlayerController p in listOfPlayerControllers)
+            foreach (PlayerController _currentPlayerController in PlayerService.Instance.listOfPlayerControllers)
             {
-                p.GetInputComponent().OnUpdate();
+                _currentPlayerController.GetInputComponent().OnUpdate();
             }
         }
 
         public void FireAction(PlayerController _currentFiringController)
         {
             _currentFiringController.Fire();
+        }
+
+        public void MoveAction(PlayerController _currentMovingController,float _verticalVal,float _horizontalVal)
+        {
+            _currentMovingController.Move(_verticalVal,_horizontalVal);
         }
     }
 }

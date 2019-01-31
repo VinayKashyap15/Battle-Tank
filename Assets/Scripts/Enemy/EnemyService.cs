@@ -37,6 +37,7 @@ namespace Enemy
         {
             new EnemyController(_enemyScriptableObject);
         }
+
         public void DestroyController(EnemyController _enemyController)
         {
             _enemyController.StartDestroy();
