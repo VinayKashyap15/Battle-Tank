@@ -3,14 +3,14 @@
     public class PlayerModel
     {
 
-        private int playerID;
+        public int playerID=0;
         private string playerName;
         private float playerSpeed;
         private float bulletSpeed;
 
         public PlayerModel()
         {
-            playerID = 1;
+            playerID +=1 ;
             playerName = "Vinay";
             playerSpeed = 3f;
             bulletSpeed = 6f;

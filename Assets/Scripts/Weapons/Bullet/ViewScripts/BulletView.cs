@@ -25,6 +25,10 @@ namespace Bullet.ViewScripts
         }
         private void OnCollisionEnter(Collision collision)
         {
+            if(collision.collider.CompareTag("Enemy"))
+            {
+                currentBulletController.UpdateScore();
+            }
             DestroyBullet();
 
         }

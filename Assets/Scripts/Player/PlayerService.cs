@@ -38,7 +38,7 @@ namespace Player
                 {
                     playerInstance=SpawnPlayer(pos);
 
-                    _playerControllerInstance = new PlayerController(playerInstance.GetComponent<PlayerView>(), listOfInputs.inputList.ElementAt(i));
+                    _playerControllerInstance = new PlayerController(playerInstance.GetComponent<PlayerView>(), listOfInputs.inputList.ElementAt(i));                    
                     listOfPlayerControllers.Add(_playerControllerInstance);
                     pos += new Vector3(3, 0, 0);
                 }

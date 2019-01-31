@@ -9,7 +9,7 @@ namespace Player
 
         [SerializeField]
         private GameObject muzzlePoint;
-
+        private float currentScore;
         private Rigidbody bulletRb;
 
         public void MovePlayer(float h, float v, float speed)
@@ -29,7 +29,11 @@ namespace Player
             Debug.Log("Fire Button Pressed");
         }
 
-
+        public void UpdateMyScore()
+        {
+            currentScore += 10f;
+            Debug.Log("Score :"+currentScore.ToString());
+        }
 
         public Vector3 GetMuzzlePosition()
         {

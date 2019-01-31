@@ -12,7 +12,7 @@ namespace Player
 
         public PlayerController(PlayerView playerViewInstance)
         {
-            playerModel = new PlayerModel();            
+            playerModel = new PlayerModel();
             playerView = playerViewInstance;
             currentInputComponent = new KeyboardComponent(this);
         }
@@ -31,7 +31,7 @@ namespace Player
         }
         public void Fire()
         {
-            var _bulletController = BulletService.Instance.SpawnBullet();
+            var _bulletController = BulletService.Instance.SpawnBullet(this);
 
             Vector3 firePos = playerView.GetMuzzlePosition();
             Quaternion fireRot = playerView.GetMuzzleRotation();
@@ -46,6 +46,12 @@ namespace Player
         public InputComponent GetInputComponent()
         {
             return currentInputComponent;
+        }
+
+        public void UpdateScore()
+        {
+            playerView.UpdateMyScore();
+            
         }
     }
 }
