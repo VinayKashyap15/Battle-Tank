@@ -18,7 +18,7 @@ namespace Player
         private GameObject playerInstance;
         int playerID = 0;
 
-        private GameObject SpawnPlayer(Vector3 _spawnPos)
+        private GameObject SpawnPrefabInstance(Vector3 _spawnPos)
         {
             if (!playerPrefab)
             {
@@ -32,6 +32,11 @@ namespace Player
 
         private void Start()
         {
+            SpawnPlayers();
+        }
+
+        private void SpawnPlayers()
+        {
             PlayerController _playerControllerInstance;
             if (listOfInputs)
             {
@@ -40,7 +45,7 @@ namespace Player
                 
                 for (int i = 0; i < listOfInputs.inputList.Count; i++)
                 {
-                    playerInstance=SpawnPlayer(pos);
+                    playerInstance=SpawnPrefabInstance(pos);
                     
                     _playerControllerInstance = new PlayerController(playerInstance.GetComponent<PlayerView>(), listOfInputs.inputList.ElementAt(i),playerID);                    
                     listOfPlayerControllers.Add(_playerControllerInstance);
@@ -51,7 +56,7 @@ namespace Player
             }
             else
             {
-                playerInstance=SpawnPlayer(new Vector3(0, 0, 0));
+                playerInstance=SpawnPrefabInstance(new Vector3(0, 0, 0));
                 _playerControllerInstance = new PlayerController(playerInstance.GetComponent<PlayerView>(),playerID);
             }
          
