@@ -18,29 +18,24 @@ namespace Player
             transform.Translate(new Vector3(h * speed * Time.deltaTime, 0, v * speed * Time.deltaTime));
 
         }
-
         public void RotatePlayer(float pitch)
         {
             transform.Rotate(new Vector3(0, pitch, 0));
         }
-
         public void OnFirePressed()
         {
 
             Debug.Log("Fire Button Pressed");
         }
-
         public void UpdateMyScore()
         {
             currentScore += 10f;
             Debug.Log("Score :"+currentScore.ToString());
         }
-
         public Vector3 GetMuzzlePosition()
         {
             return muzzlePoint.transform.position;
         }
-
         public Quaternion GetMuzzleRotation()
         {
             return muzzlePoint.transform.rotation;

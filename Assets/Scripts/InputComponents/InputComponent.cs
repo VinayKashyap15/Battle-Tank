@@ -15,6 +15,7 @@ namespace InputComponents
 
         private float verticalVal;
         private float horizontalVal;
+
         protected  PlayerController currentPlayerController;
          
         public InputComponent()
@@ -22,16 +23,16 @@ namespace InputComponents
             fireKey = KeyCode.Space;         
 
         }
-
         protected virtual PlayerController GetPlayerController()
         {
             return currentPlayerController;
         }
+
         public void OnUpdate()
         {
             if (Input.GetKey(GetFireInput()))
             {
-                InputManagerBase.Instance.FireAction(currentPlayerController);
+                currentPlayerController.Fire();
             }
             if (Input.GetKey(GetMoveUpInput()))
             {
@@ -55,25 +56,25 @@ namespace InputComponents
         {
             verticalVal = 1f;
             horizontalVal = 0;
-            InputManagerBase.Instance.MoveAction(GetPlayerController(),horizontalVal,verticalVal);
+            GetPlayerController().Move(horizontalVal,verticalVal);
         }
         private void MoveDown()
         {
             verticalVal = -1f;
             horizontalVal = 0;
-            InputManagerBase.Instance.MoveAction(GetPlayerController(), horizontalVal, verticalVal);
+            GetPlayerController().Move( horizontalVal,verticalVal);
         }
         private void MoveLeft()
         {
             verticalVal = 0;
             horizontalVal = -1;
-            InputManagerBase.Instance.MoveAction(GetPlayerController(), horizontalVal, verticalVal);
+            GetPlayerController().Move( horizontalVal,verticalVal);
         }
         private void MoveRight()
         {
             verticalVal = 0;
             horizontalVal = 1;
-            InputManagerBase.Instance.MoveAction(GetPlayerController(), horizontalVal, verticalVal);
+            GetPlayerController().Move( horizontalVal,verticalVal);
 
         }
 
@@ -81,22 +82,18 @@ namespace InputComponents
         {
             return fireKey;
         }
-
         public virtual KeyCode GetMoveUpInput()
         {
             return moveForwardKey;
         }
-
         public virtual KeyCode GetMoveDownInput()
         {
             return moveBackwardKey;
         }
-
         public virtual KeyCode GetMoveLeftInput()
         {
             return moveLeftKey;
         }
-
         public virtual KeyCode GetMoveRightInput()
         {
             return moveRightKey;

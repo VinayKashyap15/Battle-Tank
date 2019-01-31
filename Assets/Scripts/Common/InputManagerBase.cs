@@ -10,7 +10,6 @@ namespace Common
     public class InputManagerBase : SingletonBase<InputManagerBase>
     {
        
-
         [SerializeField]
         private List<EnemyController> listOfEnemyControllers = new List<EnemyController>();
        
@@ -23,14 +22,6 @@ namespace Common
             }
         }
 
-        public void FireAction(PlayerController _currentFiringController)
-        {
-            _currentFiringController.Fire();
-        }
-
-        public void MoveAction(PlayerController _currentMovingController,float _verticalVal,float _horizontalVal)
-        {
-            _currentMovingController.Move(_verticalVal,_horizontalVal);
-        }
+       
     }
 }
