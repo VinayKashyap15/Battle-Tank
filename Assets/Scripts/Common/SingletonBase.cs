@@ -1,5 +1,4 @@
-﻿
-using UnityEngine;
+﻿using UnityEngine;
 namespace Common
 {
     public class SingletonBase<T> : MonoBehaviour where T : SingletonBase<T>
@@ -20,9 +19,7 @@ namespace Common
         }
 
         protected virtual void OnInitialize()
-        { 
-            if(instance==null)
-            {
+        {            
 
                 if (instance == null)
                 {
@@ -32,8 +29,7 @@ namespace Common
                 else
                 {
                     Destroy(this);
-                }
-            }
+                }            
         }
     }
 }

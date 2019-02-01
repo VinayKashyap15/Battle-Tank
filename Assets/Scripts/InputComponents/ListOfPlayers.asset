@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7ad03218fb09b04b808ecd7717b844e, type: 3}
+  m_Name: ListOfPlayers
+  m_EditorClassIdentifier: 
+  inputList:
+  - {fileID: 11400000, guid: 8e155f681a02996438d0fda60c57a847, type: 2}
+  - {fileID: 11400000, guid: da9cf2abeab07e64786bcae5ad9b3635, type: 2}

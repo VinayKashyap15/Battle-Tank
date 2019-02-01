@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Bullet.ModelScripts
+namespace Bullet.Model  
 {
     public class BulletModel
     {

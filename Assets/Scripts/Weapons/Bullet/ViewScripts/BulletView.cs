@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using Weapons.Bullet;
-using Bullet.ControllerScripts;
+using Bullet.Controller;
+using System;
 
-namespace Bullet.ViewScripts
+namespace Bullet.View
 {
     [RequireComponent(typeof(Rigidbody))]
     [RequireComponent(typeof(BoxCollider))]
@@ -25,8 +26,19 @@ namespace Bullet.ViewScripts
         }
         private void OnCollisionEnter(Collision collision)
         {
+            if(collision.collider.CompareTag("Enemy"))
+            {
+                currentBulletController.UpdateScore();
+            }
             DestroyBullet();
 
+        }
+
+        public void FireBullet(GameObject bulletInstance, Vector3 _firePosition, Quaternion _fireRotation, Vector3 _fireDirection, float _bulletSpeed)
+        {
+            bulletInstance.transform.position = _firePosition;
+            bulletInstance.transform.rotation = _fireRotation;
+            bulletInstance.GetComponent<Rigidbody>().velocity = _fireDirection * _bulletSpeed;
         }
     }
 }
