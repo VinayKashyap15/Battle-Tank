@@ -10,7 +10,6 @@ namespace Player
 
         [SerializeField]
         private GameObject muzzlePoint;
-        //private float currentScore;
         private Rigidbody bulletRb;
 
         public void MovePlayer(float h, float v, float speed)
