@@ -1,5 +1,4 @@
-﻿using Loader;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace SceneSpecific 
 {

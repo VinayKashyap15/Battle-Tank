@@ -4,6 +4,7 @@ using Player;
 using Bullet.Model;
 using Bullet.View;
 using Weapons.Bullet;
+using System;
 
 namespace Bullet.Controller
 {
@@ -21,6 +22,12 @@ namespace Bullet.Controller
         public BulletController()
         {
             currentBulletModel = CreateModel();
+
+            SpawnBullet();
+        }
+
+        private void SpawnBullet()
+        {
             if (!_bulletPrefab)
             {
                 _bulletPrefab = Resources.Load("Bullet") as GameObject;
@@ -30,8 +37,8 @@ namespace Bullet.Controller
             currentBulletView = bulletInstance.GetComponent<BulletView>();
             currentBulletView.SetController(this);
             SetPlayerControllerInstance();
-        }
 
+        }
         protected virtual BulletModel CreateModel()
         {
             return new BulletModel();
@@ -47,15 +54,19 @@ namespace Bullet.Controller
             return currentBulletModel.GetBulletSpeed();
         }
 
+        public float GetFireRate()
+        {
+            return currentBulletModel.GetFireRate();
+        }
+
         public virtual void StartDestroy()
         {
             currentBulletModel = null;
         }
 
         public void FireBullet(Vector3 _firePosition, Quaternion _fireRotation, Vector3 _fireDirection)
-        {
-            currentBulletView.FireBullet(bulletInstance, _firePosition, _fireRotation, _fireDirection, GetBulletSpeed());
-
+        {            
+                currentBulletView.FireBullet(bulletInstance, _firePosition, _fireRotation, _fireDirection, GetBulletSpeed());
         }
 
         public virtual void SetPlayerControllerInstance()

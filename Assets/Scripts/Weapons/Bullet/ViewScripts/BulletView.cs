@@ -10,6 +10,7 @@ namespace Bullet.View
     public class BulletView : MonoBehaviour
     {
         private BulletController currentBulletController;
+       
 
         public void SetController(BulletController _bulletController)
         {
@@ -35,10 +36,12 @@ namespace Bullet.View
         }
 
         public void FireBullet(GameObject bulletInstance, Vector3 _firePosition, Quaternion _fireRotation, Vector3 _fireDirection, float _bulletSpeed)
-        {
-            bulletInstance.transform.position = _firePosition;
-            bulletInstance.transform.rotation = _fireRotation;
-            bulletInstance.GetComponent<Rigidbody>().velocity = _fireDirection * _bulletSpeed;
+        {              
+
+                bulletInstance.transform.position = _firePosition;
+                bulletInstance.transform.rotation = _fireRotation;
+                bulletInstance.GetComponent<Rigidbody>().velocity = _fireDirection * _bulletSpeed;
+            
         }
     }
 }

@@ -5,14 +5,19 @@ namespace Common
     public class SceneLoader: SingletonBase<SceneLoader>
     {
         
-        private void Start()
+        
+        public void OnClickPlay(string _gameScene=null)
         {
-            DisableGameplayServices();
-        }
-        public void OnClickPlay()
-        {
+
             EnableGameplayServices();
-            SceneManager.LoadScene("Game");
+            if (_gameScene!=null)
+            {
+                SceneManager.LoadScene(_gameScene);
+            }
+            else
+            {
+                SceneManager.LoadScene("Game");
+            }
         }
         
         public void OnGameOver()

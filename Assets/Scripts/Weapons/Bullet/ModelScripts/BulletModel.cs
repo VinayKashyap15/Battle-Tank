@@ -8,6 +8,7 @@ namespace Bullet.Model
         protected  float bulletSpeed;
         private float bulletLife;
         private Vector3 bulletPosition;
+        private float fireRate;
 
         public BulletModel()
         {
@@ -15,6 +16,7 @@ namespace Bullet.Model
             bulletSpeed = 5f;
             bulletLife = 3f;
             bulletPosition = new Vector3(0, 0, 1);
+            fireRate = 5f;
         }
         public float GetPointDamage()
         {
@@ -34,6 +36,10 @@ namespace Bullet.Model
         public Vector3 GetBulletPosition()
         {
             return bulletPosition;
+        }
+        public float GetFireRate()
+        {
+            return fireRate;
         }
 
         protected virtual void UpdateDamage(float pointDamage) { }
