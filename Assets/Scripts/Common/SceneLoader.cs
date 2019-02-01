@@ -1,7 +1,6 @@
 ﻿using UnityEngine.SceneManagement;
-using Common;
 
-namespace Loader
+namespace Common
 {
     public class SceneLoader: SingletonBase<SceneLoader>
     {

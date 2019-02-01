@@ -1,7 +1,4 @@
-﻿using Loader;
-using UnityEngine;
-
-namespace SceneSpecific
+﻿namespace SceneSpecific
 {
     public class GameSceneController : SceneController
     {
