@@ -9,7 +9,7 @@ namespace Common
         public void OnClickPlay(string _gameScene=null)
         {
 
-            EnableGameplayServices();
+            
             if (_gameScene!=null)
             {
                 SceneManager.LoadScene(_gameScene);
@@ -22,7 +22,7 @@ namespace Common
         
         public void OnGameOver()
         {
-            DisableGameplayServices();
+            //DisableGameplayServices();
             SceneManager.LoadScene("GameOver");
         }
         public void OnReturnHome()
@@ -31,19 +31,5 @@ namespace Common
             
         }
 
-        private void DisableGameplayServices()
-        {
-            Player.PlayerService.Instance.gameObject.SetActive(false);
-            Enemy.EnemyService.Instance.gameObject.SetActive(false);
-            InputComponents.InputManagerBase.Instance.gameObject.SetActive(false);
-            Weapons.Bullet.BulletService.Instance.gameObject.SetActive(false);
-        }
-        private void EnableGameplayServices()
-        {
-            Player.PlayerService.Instance.gameObject.SetActive(true);
-            Enemy.EnemyService.Instance.gameObject.SetActive(true);
-            InputComponents.InputManagerBase.Instance.gameObject.SetActive(true);
-            Weapons.Bullet.BulletService.Instance.gameObject.SetActive(true);
-        }
     }
 }
