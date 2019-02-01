@@ -1,15 +1,14 @@
-﻿using Bullet.ModelScripts;
-using Bullet.ViewScripts;
+﻿using Player;
+using Bullet.Model;
+using Bullet.View;
 
-namespace Bullet.ControllerScripts
+namespace Bullet.Controller
 {
     public class FastBulletController : BulletController
     {
-        // FastBulletModel fastBulletModel;
-
         public FastBulletController()
-        {
-
+        {            
+            
         }
         protected override BulletModel CreateModel()
         {

@@ -3,14 +3,15 @@
     public class PlayerModel
     {
 
-        private int playerID;
+        public int playerID;
         private string playerName;
         private float playerSpeed;
         private float bulletSpeed;
+        private int playerScore;
 
         public PlayerModel()
         {
-            playerID = 1;
+            playerID =1 ;
             playerName = "Vinay";
             playerSpeed = 3f;
             bulletSpeed = 6f;
@@ -30,6 +31,18 @@
         public float GetBulletSpeed()
         {
             return bulletSpeed;
+        }
+        public void SetID(int ID)
+        {
+            playerID = ID;
+        }
+        public int GetCurrentScore()
+        {
+            return playerScore;
+        }
+        public void SetCurrentScore(int _newScore)
+        {
+           playerScore=_newScore;
         }
     }
 }

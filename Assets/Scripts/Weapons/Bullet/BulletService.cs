@@ -1,6 +1,7 @@
 ﻿using Common;
-using Bullet.ControllerScripts;
-using Bullet.ModelScripts;
+using Player;
+using Bullet.Controller;
+using Bullet.Model;
 
 
 namespace Weapons.Bullet
@@ -8,15 +9,18 @@ namespace Weapons.Bullet
     public class BulletService : SingletonBase<BulletService>
     {
         public BULLET_TYPE typeOfBullet;
-
+        private PlayerController playerControllerInstance;
         public float GetBulletSpeed(BulletModel _model)
         {
             return _model.GetBulletSpeed();
         }
 
-        public BulletController SpawnBullet()
-        {
+       
 
+        public BulletController SpawnBullet(PlayerController _currentPlayerControllerInstance)
+        {
+            playerControllerInstance=_currentPlayerControllerInstance;
+            PlayerService.Instance.SetCurrentInstance(playerControllerInstance);
             switch (typeOfBullet)
             {
                 case BULLET_TYPE.Default:
@@ -35,6 +39,7 @@ namespace Weapons.Bullet
             _bulletController.StartDestroy();
             _bulletController = null;
         }
+
 
     }
 }

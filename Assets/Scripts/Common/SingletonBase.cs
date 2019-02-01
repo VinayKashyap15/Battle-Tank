@@ -27,7 +27,7 @@ namespace Common
             }
             else
             {
-                Destroy(this.gameObject);
+                Destroy(this);
             }
         }
     }

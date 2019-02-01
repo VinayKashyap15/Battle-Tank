@@ -1,4 +1,4 @@
-﻿namespace Bullet.ModelScripts
+﻿namespace Bullet.Model
 {
     public class SlowBulletModel : BulletModel
     {

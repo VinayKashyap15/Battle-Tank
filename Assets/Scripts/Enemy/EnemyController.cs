@@ -15,14 +15,12 @@ namespace Enemy
         }
 
 
-        private void SpawnEnemy(EnemyModel _enemyModel,Vector3 _position)
+        private void SpawnEnemy(EnemyModel _enemyInstance,Vector3 _position)
         {
-           GameObject currentModel= GameObject.Instantiate(_enemyModel.GetEnemyModel());
-            currentModel.transform.position = _position;
-            currentModel.AddComponent<EnemyView>();
-            currentModel.GetComponentInChildren<Renderer>().sharedMaterial = _enemyModel.GetEnemyMaterial();
-            currentEnemyView = currentModel.GetComponent<EnemyView>();
-
+           GameObject currentEnemyInstance= GameObject.Instantiate(_enemyInstance.GetEnemyModel());
+            currentEnemyInstance.transform.position = _position;           
+            currentEnemyView = currentEnemyInstance.GetComponent<EnemyView>();
+            currentEnemyView.SetMaterial(_enemyInstance.GetEnemyMaterial());
             currentEnemyView.SetController(this);   
         }
 
