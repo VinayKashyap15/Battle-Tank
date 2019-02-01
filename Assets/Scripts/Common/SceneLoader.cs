@@ -22,7 +22,7 @@ namespace Common
         
         public void OnGameOver()
         {
-            //DisableGameplayServices();
+            
             SceneManager.LoadScene("GameOver");
         }
         public void OnReturnHome()
