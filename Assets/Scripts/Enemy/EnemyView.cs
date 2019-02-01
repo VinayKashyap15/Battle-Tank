@@ -40,5 +40,10 @@ namespace Enemy
         {
             Destroy(_playerGameObject);
         }
+
+        public void SetMaterial(Material _newMat)
+        {
+            this.GetComponentInChildren<Renderer>().sharedMaterial = _newMat;
+        }
     }
 }

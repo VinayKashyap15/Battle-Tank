@@ -1,7 +1,7 @@
 ﻿using Common;
 using Player;
-using Bullet.ControllerScripts;
-using Bullet.ModelScripts;
+using Bullet.Controller;
+using Bullet.Model;
 
 
 namespace Weapons.Bullet
@@ -15,14 +15,12 @@ namespace Weapons.Bullet
             return _model.GetBulletSpeed();
         }
 
-        public PlayerController GetPlayerControllerInstance()
-        {
-            return playerControllerInstance;
-        }
+       
 
         public BulletController SpawnBullet(PlayerController _currentPlayerControllerInstance)
         {
             playerControllerInstance=_currentPlayerControllerInstance;
+            PlayerService.Instance.SetCurrentInstance(playerControllerInstance);
             switch (typeOfBullet)
             {
                 case BULLET_TYPE.Default:

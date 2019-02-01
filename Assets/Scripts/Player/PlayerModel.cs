@@ -7,6 +7,7 @@
         private string playerName;
         private float playerSpeed;
         private float bulletSpeed;
+        private int playerScore;
 
         public PlayerModel()
         {
@@ -34,6 +35,14 @@
         public void SetID(int ID)
         {
             playerID = ID;
+        }
+        public int GetCurrentScore()
+        {
+            return playerScore;
+        }
+        public void SetCurrentScore(int _newScore)
+        {
+           playerScore=_newScore;
         }
     }
 }

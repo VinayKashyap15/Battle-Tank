@@ -1,8 +1,8 @@
 ﻿using Player;
-using Bullet.ModelScripts;
-using Bullet.ViewScripts;
+using Bullet.Model;
+using Bullet.View;
 
-namespace Bullet.ControllerScripts
+namespace Bullet.Controller
 {
     public class FastBulletController : BulletController
     {

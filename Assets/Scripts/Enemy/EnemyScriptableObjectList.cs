@@ -10,6 +10,7 @@ namespace Enemy
     {
         public List<EnemyScriptableObject> enemyList= new List<EnemyScriptableObject>();
         public int enemiesToSpawn;
+        public bool isUnique;
 
     }
 }

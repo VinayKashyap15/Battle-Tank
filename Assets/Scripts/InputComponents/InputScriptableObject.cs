@@ -2,7 +2,7 @@
 
 namespace InputComponents
 {
-    [CreateAssetMenu(fileName = "NewInputScheme", menuName = "Custom Objects/Input/Input Scheme", order = 0)]
+    [CreateAssetMenu(fileName = "NewInputScheme", menuName = "Custom Objects/Input/Keyboard Input Scheme", order = 0)]
     public class InputScriptableObject : ScriptableObject
     {
         //for custom input schemes

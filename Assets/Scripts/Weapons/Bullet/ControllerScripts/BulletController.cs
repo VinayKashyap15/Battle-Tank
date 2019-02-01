@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using Common;
 using Player;
-using Bullet.ModelScripts;
-using Bullet.ViewScripts;
+using Bullet.Model;
+using Bullet.View;
 using Weapons.Bullet;
 
-namespace Bullet.ControllerScripts
+namespace Bullet.Controller
 {
     public class BulletController
     {
@@ -13,6 +13,9 @@ namespace Bullet.ControllerScripts
         private GameObject bulletInstance;
         private GameObject _bulletPrefab;
         private BulletModel currentBulletModel;
+        private BulletView currentBulletView;
+
+
         protected PlayerController currentPlayerController;
 
         public BulletController()
@@ -51,19 +54,18 @@ namespace Bullet.ControllerScripts
 
         public void FireBullet(Vector3 _firePosition, Quaternion _fireRotation, Vector3 _fireDirection)
         {
-            bulletInstance.transform.position = _firePosition;
-            bulletInstance.transform.rotation = _fireRotation;
-            bulletInstance.GetComponent<Rigidbody>().velocity = _fireDirection * GetBulletSpeed();
+            currentBulletView.FireBullet(bulletInstance, _firePosition,  _fireRotation,  _fireDirection,GetBulletSpeed());
+           
         }
 
         public virtual void SetPlayerControllerInstance()
         {
-            currentPlayerController = BulletService.Instance.GetPlayerControllerInstance();
+            currentPlayerController = PlayerService.Instance.GetPlayerControllerInstance();
         }
 
         public void UpdateScore()
         {
-            ScoreManager.Instance.UpdateScore(currentPlayerController);
+            currentPlayerController.UpdateScore();
         }
     }
 }

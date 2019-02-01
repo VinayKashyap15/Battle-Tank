@@ -4,6 +4,7 @@ using InputComponents;
 using Common;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace Player
 {
@@ -13,8 +14,14 @@ namespace Player
         
         public List<PlayerController> listOfPlayerControllers = new List<PlayerController>();
         [SerializeField]
-        private InputScriptableObjectList listOfInputs;
+        private InputScriptableObjectList listOfPlayerInputComponents;
+        [SerializeField]
+        private PlayerPrefabScriptableObject newPlayerPrefabScriptableObj;
+        private PlayerController playerControllerInstance;
         private GameObject playerPrefab;
+
+      
+
         private GameObject playerInstance;
         int playerID = 0;
 
@@ -32,35 +39,47 @@ namespace Player
 
         private void Start()
         {
+            if(newPlayerPrefabScriptableObj)
+            {
+                playerPrefab=newPlayerPrefabScriptableObj.newPlayerPrefab;
+            }
             SpawnPlayers();
         }
 
         private void SpawnPlayers()
         {
             PlayerController _playerControllerInstance;
-            if (listOfInputs)
+            if (listOfPlayerInputComponents)
             {
                 Vector3 pos = new Vector3(0, 0, 0);
                
                 
-                for (int i = 0; i < listOfInputs.inputList.Count; i++)
+                for (int i = 0; i < listOfPlayerInputComponents.playerList.Count; i++)
                 {
                     playerInstance=SpawnPrefabInstance(pos);
                     
-                    _playerControllerInstance = new PlayerController(playerInstance.GetComponent<PlayerView>(), listOfInputs.inputList.ElementAt(i),playerID);                    
+                    _playerControllerInstance = new PlayerController(playerInstance.GetComponent<PlayerView>(), playerID,listOfPlayerInputComponents.playerList.ElementAt(i));                    
                     listOfPlayerControllers.Add(_playerControllerInstance);
-                    pos += new Vector3(3, 0, 0);
-                  
+                    pos += new Vector3(3, 0, 0);                  
                     playerID += 1;
                 }
             }
             else
             {
                 playerInstance=SpawnPrefabInstance(new Vector3(0, 0, 0));
-                _playerControllerInstance = new PlayerController(playerInstance.GetComponent<PlayerView>(),playerID);
+                _playerControllerInstance = new PlayerController(playerInstance.GetComponent<PlayerView>(),playerID,null);               
+                listOfPlayerControllers.Add(_playerControllerInstance);
             }
          
-        }  
+        }
 
+        public PlayerController GetPlayerControllerInstance()
+        {
+            return playerControllerInstance;
+        }
+        public void SetCurrentInstance(PlayerController _playerControllerInstance)
+        {
+            playerControllerInstance = _playerControllerInstance;
+        }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using Bullet.ControllerScripts;
+using Bullet.Controller;
 using System;
 
 namespace Player
@@ -10,13 +10,12 @@ namespace Player
 
         [SerializeField]
         private GameObject muzzlePoint;
-        private float currentScore;
+        //private float currentScore;
         private Rigidbody bulletRb;
 
         public void MovePlayer(float h, float v, float speed)
         {
             transform.Translate(new Vector3(h * speed * Time.deltaTime, 0, v * speed * Time.deltaTime));
-
         }
         public void RotatePlayer(float pitch)
         {
@@ -24,13 +23,13 @@ namespace Player
         }
         public void OnFirePressed()
         {
-
             Debug.Log("Fire Button Pressed");
         }
-        public void UpdateMyScore()
+        public int UpdateMyScore(int _currentScore)
         {
-            currentScore += 10f;
-            Debug.Log("Score :"+currentScore.ToString());
+            _currentScore += 10;
+            Debug.Log("Score :"+_currentScore.ToString());
+            return _currentScore;
         }
         public Vector3 GetMuzzlePosition()
         {
@@ -44,7 +43,5 @@ namespace Player
         {
             return muzzlePoint.transform.forward;
         }
-
-       
     }
 }

@@ -11,23 +11,18 @@ namespace Player
         private PlayerModel playerModel;
         private InputComponent currentInputComponent;
 
-        public PlayerController(PlayerView playerViewInstance,int _playerID)
+
+        public PlayerController(PlayerView playerViewInstance ,int _playerID, InputScriptableObject _customInputScheme = null)
         {
             playerModel = new PlayerModel();
             playerModel.SetID(_playerID);
             playerView = playerViewInstance;
-            
-            
-            currentInputComponent = new KeyboardComponent(this);
-
-        }
-
-        public PlayerController(PlayerView playerViewInstance, InputScriptableObject _customInputScheme,int _playerID)
-        {
-            playerModel = new PlayerModel();
-            playerModel.SetID(_playerID);
-            playerView = playerViewInstance;           
-            currentInputComponent = new CustomInputComponent(_customInputScheme,this);
+            if (_customInputScheme)
+            { currentInputComponent = new CustomInputComponent(_customInputScheme, this); }
+            else
+            {
+                currentInputComponent = new KeyboardComponent(this);
+            }
 
         }
 
@@ -56,8 +51,9 @@ namespace Player
 
         public void UpdateScore()
         {
-            playerView.UpdateMyScore();
+            int _newScore=playerView.UpdateMyScore(playerModel.GetCurrentScore());
             Debug.Log("Updated score for player :"+playerModel.GetID());
+            playerModel.SetCurrentScore(_newScore);
 
         }
     }
