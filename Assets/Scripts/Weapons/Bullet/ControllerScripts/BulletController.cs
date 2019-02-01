@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using Common;
 using Player;
 using Bullet.Model;
