@@ -1,10 +1,9 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 using InputComponents;
 using Common;
 using System.Collections.Generic;
 using System.Linq;
-using System;
+using Loader;
 
 namespace Player
 {
@@ -37,7 +36,7 @@ namespace Player
             return _playerInstance;
         }
 
-        private void Start()
+        public void OnStart()
         {
             if(newPlayerPrefabScriptableObj)
             {
@@ -56,8 +55,7 @@ namespace Player
                 
                 for (int i = 0; i < listOfPlayerInputComponents.playerList.Count; i++)
                 {
-                    playerInstance=SpawnPrefabInstance(pos);
-                    
+                    playerInstance=SpawnPrefabInstance(pos);                    
                     _playerControllerInstance = new PlayerController(playerInstance.GetComponent<PlayerView>(), playerID,listOfPlayerInputComponents.playerList.ElementAt(i));                    
                     listOfPlayerControllers.Add(_playerControllerInstance);
                     pos += new Vector3(3, 0, 0);                  
@@ -71,6 +69,23 @@ namespace Player
                 listOfPlayerControllers.Add(_playerControllerInstance);
             }
          
+        }
+
+        public void DestroyPlayer(PlayerController _playerController)
+        {
+            RemmoveFromList(_playerController);
+            _playerController.DestroySelf();
+            _playerController = null;
+        }
+
+        public void RemmoveFromList(PlayerController _playerController)
+        {
+            listOfPlayerControllers.Remove(_playerController);
+
+            if(listOfPlayerControllers.Count==0)
+            {
+                SceneLoader.Instance.OnGameOver();
+            }
         }
 
         public PlayerController GetPlayerControllerInstance()

@@ -27,8 +27,8 @@ namespace Bullet.Controller
             }
 
             bulletInstance = GameObject.Instantiate(_bulletPrefab);
-            BulletView bulletView = bulletInstance.GetComponent<BulletView>();
-            bulletView.SetController(this);
+            currentBulletView = bulletInstance.GetComponent<BulletView>();
+            currentBulletView.SetController(this);
             SetPlayerControllerInstance();
         }
 

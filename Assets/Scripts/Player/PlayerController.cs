@@ -23,6 +23,7 @@ namespace Player
             {
                 currentInputComponent = new KeyboardComponent(this);
             }
+            playerView.SetPlayerController(this);
 
         }
 
@@ -55,6 +56,11 @@ namespace Player
             Debug.Log("Updated score for player :" + playerModel.GetID());
             playerModel.SetCurrentScore(_newScore);
 
+        }
+
+        public void DestroySelf()
+        {
+            playerModel = null;
         }
     }
 }

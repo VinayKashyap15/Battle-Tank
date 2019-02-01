@@ -13,7 +13,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemySpeed: 55
   enemyMaterial: {fileID: 2100000, guid: 86e502a5c2689a04494f9206103f0be6, type: 2}
-  enemyPrefab: {fileID: 1442881743796026, guid: 30044f40f072a2a449c1f494a69ecd55,
+  enemyPrefab: {fileID: 1442881743796026, guid: 0de7d4b6ec7f2424a9b0fa7e7ae86ef3,
     type: 2}
   enemyView: {fileID: 0}
   pos: {x: -7, y: 0, z: 5}

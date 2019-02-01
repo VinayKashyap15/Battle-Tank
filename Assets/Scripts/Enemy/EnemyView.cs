@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Common;
 using UnityEngine;
 namespace Enemy
 {
@@ -23,23 +23,14 @@ namespace Enemy
 
         private void OnCollisionEnter(Collision collision)
         {
-            if (collision.collider.CompareTag("Player"))
-            {
-                //destroy player if he dares to touch enemy
-                DestroyPlayer(collision.collider.gameObject);
-            }
-            else if (collision.collider.CompareTag("Bullet"))
+     
+            if (collision.collider.CompareTag("Bullet"))
             {
                 //destroy self when bullet collides. Take Damage Functionality would be added at later stage
                 DestroySelf();
             }
         }
-
-
-        private void DestroyPlayer(GameObject _playerGameObject)
-        {
-            Destroy(_playerGameObject);
-        }
+        
 
         public void SetMaterial(Material _newMat)
         {
