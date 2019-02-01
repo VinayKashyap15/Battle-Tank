@@ -54,7 +54,10 @@ namespace Player
         {
             int _newScore = playerView.UpdateMyScore(playerModel.GetCurrentScore());
             Debug.Log("Updated score for player :" + playerModel.GetID());
+            
             playerModel.SetCurrentScore(_newScore);
+            PlayerService.Instance.UpdateScoreView(this,_newScore);
+
 
         }
 

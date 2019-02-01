@@ -3,6 +3,7 @@ using InputComponents;
 using Common;
 using System.Collections.Generic;
 using System.Linq;
+using Player.UI;
 
 namespace Player
 {
@@ -57,6 +58,7 @@ namespace Player
                     playerInstance=SpawnPrefabInstance(pos);                    
                     _playerControllerInstance = new PlayerController(playerInstance.GetComponent<PlayerView>(), playerID,listOfPlayerInputComponents.playerList.ElementAt(i));                    
                     listOfPlayerControllers.Add(_playerControllerInstance);
+                    ScoreManager.Instance.AddPlayerUI(_playerControllerInstance);    
                     pos += new Vector3(3, 0, 0);                  
                     playerID += 1;
                 }
@@ -66,6 +68,7 @@ namespace Player
                 playerInstance=SpawnPrefabInstance(new Vector3(0, 0, 0));
                 _playerControllerInstance = new PlayerController(playerInstance.GetComponent<PlayerView>(),playerID,null);               
                 listOfPlayerControllers.Add(_playerControllerInstance);
+                ScoreManager.Instance.AddPlayerUI(_playerControllerInstance);
             }
          
         }
@@ -79,7 +82,15 @@ namespace Player
 
         public void RemmoveFromList(PlayerController _playerController)
         {
-            listOfPlayerControllers.Remove(_playerController);
+            if (listOfPlayerControllers.Contains(_playerController))
+            {
+                listOfPlayerControllers.Remove(_playerController);
+            }
+            else
+            {
+                Debug.Log("player doesn't exist in list");
+                return;
+            }
 
             if(listOfPlayerControllers.Count==0)
             {
@@ -94,6 +105,11 @@ namespace Player
         public void SetCurrentInstance(PlayerController _playerControllerInstance)
         {
             playerControllerInstance = _playerControllerInstance;
+        }
+
+        public void UpdateScoreView(PlayerController _p,int _score)
+        {
+            ScoreManager.Instance.UpdateScoreView(_p,_score);
         }
     }
 }

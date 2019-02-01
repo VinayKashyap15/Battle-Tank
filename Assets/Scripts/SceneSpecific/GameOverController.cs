@@ -2,7 +2,7 @@
 
 namespace SceneSpecific 
 {
-    class GameOverSceneController : SceneController
+    class GameOverController : SceneController
     {
 
     }

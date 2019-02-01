@@ -491,6 +491,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _sceneScriptableObj: {fileID: 11400000, guid: 3bbce7ee41922ed42aa57076dd60b88a,
     type: 2}
+  highScoreText: {fileID: 0}
 --- !u!4 &843341034
 Transform:
   m_ObjectHideFlags: 0
@@ -531,7 +532,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0eadfd16eb3452c4cac5d7c5e1a9ed99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  listOfPlayerInputComponents: {fileID: 0}
+  listOfPlayerInputComponents: {fileID: 11400000, guid: de11a72b312ae38409ca072a560d7607,
+    type: 2}
   newPlayerPrefabScriptableObj: {fileID: 11400000, guid: 9ac1f2562df9b2344ab1c2c697e2388a,
     type: 2}
 --- !u!4 &1318407028
@@ -592,7 +594,7 @@ MonoBehaviour:
   m_Script: {fileID: 1980459831, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
@@ -613,7 +615,7 @@ Canvas:
   m_RenderMode: 0
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
-  m_PixelPerfect: 0
+  m_PixelPerfect: 1
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0

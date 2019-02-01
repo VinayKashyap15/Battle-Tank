@@ -8,16 +8,7 @@ namespace Common
         
         public void OnClickPlay(string _gameScene=null)
         {
-
-            
-            if (_gameScene!=null)
-            {
-                SceneManager.LoadScene(_gameScene);
-            }
-            else
-            {
-                SceneManager.LoadScene("Game");
-            }
+            SceneManager.LoadScene(_gameScene==null? "Game":_gameScene);           
         }
         
         public void OnGameOver()

@@ -1,5 +1,9 @@
-﻿using Common;
+﻿using System;
+using Common;
+using Player;
+using Player.UI;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace SceneSpecific
 {
@@ -7,23 +11,37 @@ namespace SceneSpecific
     {
         [SerializeField]
         protected SceneScriptableObject _sceneScriptableObj;
-        
-    
-        public virtual void OnClickPlay()
+        [SerializeField]
+        private Text highScoreText;
+
+        private  void Awake()
         {
-            if (_sceneScriptableObj)
-            {
-                SceneLoader.Instance.OnClickPlay(_sceneScriptableObj.gameScene.name);
-            }
-            else
-            {
-                SceneLoader.Instance.OnClickPlay();
-            }
+            OnIntialize();
         }
 
-        public virtual void OnReturnHome()
+        protected virtual void OnIntialize()
+        {
+            ScoreManager.Instance.SetSceneController(this);
+        }
+
+        protected virtual void OnClickPlay()
+        {
+            SceneLoader.Instance.OnClickPlay(_sceneScriptableObj == null ? null: _sceneScriptableObj.gameScene.name);
+        }
+
+        protected virtual void OnReturnHome()
         {
             SceneLoader.Instance.OnReturnHome();
+        }
+
+        public virtual void SpawnPlayerUI(PlayerController _playerController)
+        {
+
+        }
+
+        public virtual void UpdateScoreView(PlayerController _currentPlayerController, int _score)
+        {
+
         }
 
     }
