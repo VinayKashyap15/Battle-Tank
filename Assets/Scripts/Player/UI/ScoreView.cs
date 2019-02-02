@@ -10,7 +10,7 @@ namespace Player.UI
 
         private void Start()
         {
-            scoreText = gameObject.GetComponent<Text>();
+            scoreText = gameObject.GetComponent<Text>();            
             scoreText.text = "Score : 0";
         }
 
@@ -24,9 +24,9 @@ namespace Player.UI
             return myPlayerController;
         }
 
-        public void UpdateScore(int _score)
+        public void UpdateScore(int _score,int _playerID)
         {
-            scoreText.text = "Score : " + _score.ToString();
+            scoreText.text = " Player-"+_playerID.ToString()+" Score : " + _score.ToString();
         }
 
     }

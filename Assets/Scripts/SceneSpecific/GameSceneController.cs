@@ -2,6 +2,7 @@
 using Player.UI;
 using Enemy;
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections.Generic;
 
 namespace SceneSpecific
@@ -12,7 +13,7 @@ namespace SceneSpecific
         private ScoreView scoreViewPrefab;
         private ScoreView scoreViewInstance;
         [SerializeField]
-        private Canvas parentCanvas;
+        private LayoutGroup parentLayoutGroup;
         private Vector3 currentViewPos;
 
         private List<ScoreView> listOfScoreView = new List<ScoreView>();
@@ -26,25 +27,23 @@ namespace SceneSpecific
 
         private void Start()
         {
-
-
             if (!scoreViewPrefab)
             {
                 scoreViewPrefab = Resources.Load("PlayerText") as ScoreView;
             }
             currentViewPos = scoreViewPrefab.gameObject.transform.position;
            
-            if (!parentCanvas)
+            if (!parentLayoutGroup)
             {
                 Debug.Log("Parent not specified, using defaultParent");
-                parentCanvas = GameObject.FindObjectOfType<Canvas>();
+                parentLayoutGroup = GameObject.FindObjectOfType<LayoutGroup>();
             }
         }
 
         public override void SpawnPlayerUI(PlayerController _currentPlayerControllerInstance)
         {
             scoreViewInstance = Instantiate(scoreViewPrefab, currentViewPos, Quaternion.identity);
-            scoreViewInstance.gameObject.transform.SetParent(parentCanvas.transform, true);
+            scoreViewInstance.gameObject.transform.SetParent(parentLayoutGroup.transform);
             currentViewPos += new Vector3(0, -5f, 0);
 
             scoreViewInstance.SetPlayerController(_currentPlayerControllerInstance);
@@ -52,7 +51,7 @@ namespace SceneSpecific
 
         }
 
-        public override void UpdateScoreView(PlayerController _currentPlayerController, int _score)
+        public override void UpdateScoreView(PlayerController _currentPlayerController, int _score,int _playerID)
         {
             if (listOfScoreView.Count == 0)
             {
@@ -64,7 +63,7 @@ namespace SceneSpecific
             {
                 if (item.GetPlayerController() == _currentPlayerController)
                 {
-                    item.UpdateScore(_score);
+                    item.UpdateScore(_score,_playerID);
                     return;
                 }
             }

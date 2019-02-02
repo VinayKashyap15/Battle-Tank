@@ -107,9 +107,9 @@ namespace Player
             playerControllerInstance = _playerControllerInstance;
         }
 
-        public void UpdateScoreView(PlayerController _p,int _score)
+        public void UpdateScoreView(PlayerController _p,int _score,int _playerID)
         {
-            ScoreManager.Instance.UpdateScoreView(_p,_score);
+            ScoreManager.Instance.UpdateScoreView(_p,_score,_playerID);
         }
     }
 }

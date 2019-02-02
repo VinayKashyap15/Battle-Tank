@@ -19,9 +19,10 @@ namespace Player.UI
             sceneController.SpawnPlayerUI(_playerControllerInstance);
         }
 
-        public void UpdateScoreView(PlayerController _p, int _score)
+        public void UpdateScoreView(PlayerController _p, int _score,int _playerID)
         {
-            sceneController.UpdateScoreView( _p,  _score);
+            sceneController.UpdateScoreView( _p,  _score,_playerID);
         }
+
     }
 }

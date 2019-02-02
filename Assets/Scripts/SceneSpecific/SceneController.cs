@@ -39,7 +39,7 @@ namespace SceneSpecific
 
         }
 
-        public virtual void UpdateScoreView(PlayerController _currentPlayerController, int _score)
+        public virtual void UpdateScoreView(PlayerController _currentPlayerController, int _score, int _playerID)
         {
 
         }
