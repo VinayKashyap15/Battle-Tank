@@ -4,6 +4,7 @@ using Common;
 using System.Collections.Generic;
 using System.Linq;
 using Player.UI;
+using SaveFile;
 
 namespace Player
 {
@@ -23,6 +24,7 @@ namespace Player
 
         private GameObject playerInstance;
         int playerID = 0;
+       
 
         private GameObject SpawnPrefabInstance(Vector3 _spawnPos)
         {
@@ -105,6 +107,20 @@ namespace Player
         public void UpdateScoreView(PlayerController _p,int _score,int _playerID)
         {
             ScoreManager.Instance.UpdateScoreView(_p,_score,_playerID);
+
         }
+
+        public int GetHighScore(PlayerController _playerController)
+        {
+            int _highScore = PlayerSaveData.Instance.GetHighScoreData(_playerController.GetID());
+            return _highScore;
+        }
+        public void SetHighScore(PlayerController _playerController, int _newHghScore)
+        {
+            PlayerSaveData.Instance.SetHighScoreData(_playerController.GetID(), _newHghScore);
+        }
+
+
+
     }
 }

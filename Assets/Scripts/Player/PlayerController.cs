@@ -58,9 +58,16 @@ namespace Player
             playerModel.SetCurrentScore(_newScore);
             PlayerService.Instance.UpdateScoreView(this,_newScore,playerModel.GetID());
 
-
+            int highScore = PlayerService.Instance.GetHighScore(this);   
+            if(_newScore>=highScore)
+            {
+                PlayerService.Instance.SetHighScore(this,highScore);
+            }                             
         }
-
+        public int GetID()
+        {
+            return playerModel.GetID();
+        }
         public void DestroySelf()
         {
             playerModel = null;
