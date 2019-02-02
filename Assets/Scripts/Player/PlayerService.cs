@@ -35,7 +35,7 @@ namespace Player
             _playerInstance.transform.position = _spawnPos;
             return _playerInstance;
         }
-
+            
         public void OnStart()
         {
             if(newPlayerPrefabScriptableObj)
@@ -44,7 +44,6 @@ namespace Player
             }
             SpawnPlayers();
         }
-
         private void SpawnPlayers()
         {
             PlayerController _playerControllerInstance;
@@ -72,14 +71,12 @@ namespace Player
             }
          
         }
-
         public void DestroyPlayer(PlayerController _playerController)
         {
             RemmoveFromList(_playerController);
             _playerController.DestroySelf();
             _playerController = null;
         }
-
         public void RemmoveFromList(PlayerController _playerController)
         {
             if (listOfPlayerControllers.Contains(_playerController))
@@ -97,7 +94,6 @@ namespace Player
                 SceneLoader.Instance.OnGameOver();
             }
         }
-
         public PlayerController GetPlayerControllerInstance()
         {
             return playerControllerInstance;
@@ -106,7 +102,6 @@ namespace Player
         {
             playerControllerInstance = _playerControllerInstance;
         }
-
         public void UpdateScoreView(PlayerController _p,int _score,int _playerID)
         {
             ScoreManager.Instance.UpdateScoreView(_p,_score,_playerID);
