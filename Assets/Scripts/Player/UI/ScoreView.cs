@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
+using Interfaces;
 using UnityEngine.UI;
 
 namespace Player.UI
 {
     public class ScoreView : MonoBehaviour
     {
-        private PlayerController myPlayerController;
+        private IController myPlayerController;
         private Text scoreText;
 
         private void Start()
@@ -14,12 +15,12 @@ namespace Player.UI
             scoreText.text = "Score : 0";
         }
 
-        public void SetPlayerController(PlayerController _playerControllerInstance)
+        public void SetPlayerController(IController _playerControllerInstance)
         {
             myPlayerController = _playerControllerInstance;
         }
 
-        public PlayerController GetPlayerController()
+        public IController GetPlayerController()
         {
             return myPlayerController;
         }

@@ -2,10 +2,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using Weapons.Bullet;
 using InputComponents;
+using Interfaces;
 
 namespace Player
 {
-    public class PlayerController
+    public class PlayerController : IController
     {
         private PlayerView playerView;
         private PlayerModel playerModel;
@@ -64,6 +65,7 @@ namespace Player
                 PlayerService.Instance.SetHighScore(this,highScore);
             }                             
         }
+
         public int GetID()
         {
             return playerModel.GetID();

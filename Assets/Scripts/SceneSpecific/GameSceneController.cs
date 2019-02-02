@@ -1,4 +1,4 @@
-﻿using Player;
+﻿using Interfaces;
 using Player.UI;
 using Enemy;
 using UnityEngine;
@@ -21,7 +21,7 @@ namespace SceneSpecific
         protected override void OnIntialize()
         {
             base.OnIntialize();
-            PlayerService.Instance.OnStart();
+            Player.PlayerService.Instance.OnStart();
             EnemyService.Instance.OnStart();
         }
 
@@ -40,7 +40,7 @@ namespace SceneSpecific
             }
         }
 
-        public override void SpawnPlayerUI(PlayerController _currentPlayerControllerInstance)
+        public override void SpawnPlayerUI(IController _currentPlayerControllerInstance)
         {
             scoreViewInstance = Instantiate(scoreViewPrefab, currentViewPos, Quaternion.identity);
             scoreViewInstance.gameObject.transform.SetParent(parentLayoutGroup.transform);
@@ -51,7 +51,7 @@ namespace SceneSpecific
 
         }
 
-        public override void UpdateScoreView(PlayerController _currentPlayerController, int _score,int _playerID)
+        public override void UpdateScoreView(IController _currentPlayerController, int _score,int _playerID)
         {
             if (listOfScoreView.Count == 0)
             {

@@ -1,6 +1,6 @@
 ﻿using System;
 using Common;
-using Player;
+using Interfaces;
 using Player.UI;
 using UnityEngine;
 using UnityEngine.UI;
@@ -34,12 +34,12 @@ namespace SceneSpecific
             SceneLoader.Instance.OnReturnHome();
         }
 
-        public virtual void SpawnPlayerUI(PlayerController _playerController)
+        public virtual void SpawnPlayerUI(IController _playerController)
         {
 
         }
 
-        public virtual void UpdateScoreView(PlayerController _currentPlayerController, int _score, int _playerID)
+        public virtual void UpdateScoreView(IController _currentPlayerController, int _score, int _playerID)
         {
 
         }
