@@ -19,7 +19,7 @@ namespace SaveFile
         public int GetHighScoreData(int _playerID)
         {
             int _currenthighScore=PlayerPrefs.GetInt("HighScore for Player" + _playerID.ToString());
-            Debug.Log(_currenthighScore.ToString());
+         
             return _currenthighScore;
         }
 

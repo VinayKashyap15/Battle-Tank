@@ -62,7 +62,7 @@ namespace Player
             int highScore = PlayerService.Instance.GetHighScore(this);   
             if(_newScore>=highScore)
             {
-                PlayerService.Instance.SetHighScore(this,highScore);
+                PlayerService.Instance.SetHighScore(this,_newScore);
             }                             
         }
 

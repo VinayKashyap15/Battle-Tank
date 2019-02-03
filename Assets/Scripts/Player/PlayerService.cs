@@ -100,6 +100,7 @@ namespace Player
         {
             return playerControllerInstance;
         }
+
         public void SetCurrentInstance(PlayerController _playerControllerInstance)
         {
             playerControllerInstance = _playerControllerInstance;
@@ -107,8 +108,8 @@ namespace Player
         public void UpdateScoreView(PlayerController _p,int _score,int _playerID)
         {
             ScoreManager.Instance.UpdateScoreView(_p,_score,_playerID);
-
         }
+
         public int GetHighScore(PlayerController _playerController)
         {
             int _highScore = PlayerSaveData.Instance.GetHighScoreData(_playerController.GetID());

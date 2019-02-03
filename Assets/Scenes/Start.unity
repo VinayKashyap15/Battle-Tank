@@ -560,7 +560,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _sceneScriptableObj: {fileID: 11400000, guid: 3bbce7ee41922ed42aa57076dd60b88a,
     type: 2}
-  highScoreText: {fileID: 0}
 --- !u!4 &843341034
 Transform:
   m_ObjectHideFlags: 0
