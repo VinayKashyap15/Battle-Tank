@@ -11,8 +11,7 @@ namespace SceneSpecific
     {
         [SerializeField]
         protected SceneScriptableObject _sceneScriptableObj;
-        [SerializeField]
-        private Text highScoreText;
+        
 
         private  void Awake()
         {
@@ -41,7 +40,7 @@ namespace SceneSpecific
 
         public virtual void UpdateScoreView(IController _currentPlayerController, int _score, int _playerID)
         {
-
+       
         }
 
     }

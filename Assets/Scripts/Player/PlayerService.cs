@@ -109,7 +109,6 @@ namespace Player
             ScoreManager.Instance.UpdateScoreView(_p,_score,_playerID);
 
         }
-
         public int GetHighScore(PlayerController _playerController)
         {
             int _highScore = PlayerSaveData.Instance.GetHighScoreData(_playerController.GetID());
@@ -118,9 +117,8 @@ namespace Player
         public void SetHighScore(PlayerController _playerController, int _newHghScore)
         {
             PlayerSaveData.Instance.SetHighScoreData(_playerController.GetID(), _newHghScore);
+            
         }
-
-
 
     }
 }
