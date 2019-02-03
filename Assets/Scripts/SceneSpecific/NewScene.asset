@@ -8,7 +8,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: NewInputScheme
-  m_EditorClassIdentifier: Assembly-CSharp:InputComponents:InputScriptabelObject
-  fireKey: 13
+  m_Script: {fileID: 11500000, guid: 644a4566a187cbd4b8b86f84808de7a9, type: 3}
+  m_Name: NewScene
+  m_EditorClassIdentifier: 
+  gameScene: {fileID: 102900000, guid: 37961ba4d27bd46428d20c2ffe403dc3, type: 3}

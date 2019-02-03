@@ -1,10 +1,9 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 using InputComponents;
 using Common;
 using System.Collections.Generic;
 using System.Linq;
-using System;
+using Player.UI;
 
 namespace Player
 {
@@ -37,7 +36,7 @@ namespace Player
             return _playerInstance;
         }
 
-        private void Start()
+        public void OnStart()
         {
             if(newPlayerPrefabScriptableObj)
             {
@@ -56,10 +55,10 @@ namespace Player
                 
                 for (int i = 0; i < listOfPlayerInputComponents.playerList.Count; i++)
                 {
-                    playerInstance=SpawnPrefabInstance(pos);
-                    
+                    playerInstance=SpawnPrefabInstance(pos);                    
                     _playerControllerInstance = new PlayerController(playerInstance.GetComponent<PlayerView>(), playerID,listOfPlayerInputComponents.playerList.ElementAt(i));                    
                     listOfPlayerControllers.Add(_playerControllerInstance);
+                    ScoreManager.Instance.AddPlayerUI(_playerControllerInstance);    
                     pos += new Vector3(3, 0, 0);                  
                     playerID += 1;
                 }
@@ -69,8 +68,34 @@ namespace Player
                 playerInstance=SpawnPrefabInstance(new Vector3(0, 0, 0));
                 _playerControllerInstance = new PlayerController(playerInstance.GetComponent<PlayerView>(),playerID,null);               
                 listOfPlayerControllers.Add(_playerControllerInstance);
+                ScoreManager.Instance.AddPlayerUI(_playerControllerInstance);
             }
          
+        }
+
+        public void DestroyPlayer(PlayerController _playerController)
+        {
+            RemmoveFromList(_playerController);
+            _playerController.DestroySelf();
+            _playerController = null;
+        }
+
+        public void RemmoveFromList(PlayerController _playerController)
+        {
+            if (listOfPlayerControllers.Contains(_playerController))
+            {
+                listOfPlayerControllers.Remove(_playerController);
+            }
+            else
+            {
+                Debug.Log("player doesn't exist in list");
+                return;
+            }
+
+            if(listOfPlayerControllers.Count==0)
+            {
+                SceneLoader.Instance.OnGameOver();
+            }
         }
 
         public PlayerController GetPlayerControllerInstance()
@@ -80,6 +105,11 @@ namespace Player
         public void SetCurrentInstance(PlayerController _playerControllerInstance)
         {
             playerControllerInstance = _playerControllerInstance;
+        }
+
+        public void UpdateScoreView(PlayerController _p,int _score,int _playerID)
+        {
+            ScoreManager.Instance.UpdateScoreView(_p,_score,_playerID);
         }
     }
 }

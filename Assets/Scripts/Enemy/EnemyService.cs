@@ -8,10 +8,9 @@ namespace Enemy
     {
         [SerializeField] private EnemyScriptableObjectList listOfEnemies;
 
-        protected override void OnInitialize()
+        
+        public void OnStart()
         {
-            base.OnInitialize();
-
             SpawnEnemyControllers();
         }
 

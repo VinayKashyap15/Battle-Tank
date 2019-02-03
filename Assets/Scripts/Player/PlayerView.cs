@@ -1,7 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
-using Bullet.Controller;
-using System;
 
 namespace Player
 {
@@ -10,6 +7,7 @@ namespace Player
 
         [SerializeField]
         private GameObject muzzlePoint;
+        private PlayerController currentPlayerController;
         private Rigidbody bulletRb;
 
         public void MovePlayer(float h, float v, float speed)
@@ -42,5 +40,20 @@ namespace Player
         {
             return muzzlePoint.transform.forward;
         }
+
+        private void OnCollisionEnter(Collision collision)
+        {
+            if(collision.collider.CompareTag("Enemy"))
+            {
+                PlayerService.Instance.DestroyPlayer(currentPlayerController);
+                Destroy(this.gameObject);
+            }
+        }
+
+        public void SetPlayerController(PlayerController _currentPlayerController)
+        {
+            currentPlayerController = _currentPlayerController;
+        }
+
     }
 }
