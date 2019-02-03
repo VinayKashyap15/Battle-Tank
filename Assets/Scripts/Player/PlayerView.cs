@@ -45,8 +45,9 @@ namespace Player
         {
             if(collision.collider.CompareTag("Enemy"))
             {
-                PlayerService.Instance.DestroyPlayer(currentPlayerController);
-                Destroy(this.gameObject);
+                //PlayerService.Instance.DestroyPlayer(currentPlayerController);
+                //Destroy(this.gameObject);
+                gameObject.transform.position=PlayerService.Instance.Respawn();
             }
         }
 

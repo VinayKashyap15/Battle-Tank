@@ -1,5 +1,6 @@
 ﻿using Common;
 using UnityEngine;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Enemy
@@ -7,7 +8,7 @@ namespace Enemy
     public class EnemyService : SingletonBase<EnemyService>
     {
         [SerializeField] private EnemyScriptableObjectList listOfEnemies;
-
+        private List<EnemyController> spawnedEnemies=new List<EnemyController>();
         
         public void OnStart()
         {
@@ -38,13 +39,19 @@ namespace Enemy
 
         public void CreateEnemyController(EnemyScriptableObject _enemyScriptableObject)
         {
-            new EnemyController(_enemyScriptableObject);
+            var enemy=new EnemyController(_enemyScriptableObject);
+            spawnedEnemies.Add(enemy);
         }
 
         public void DestroyController(EnemyController _enemyController)
         {
             _enemyController.StartDestroy();
             _enemyController = null;
+        }
+
+        public List<EnemyController> GetEnemyList()
+        {
+            return spawnedEnemies;
         }
     }
 }

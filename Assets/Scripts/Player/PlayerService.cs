@@ -3,28 +3,29 @@ using InputComponents;
 using Common;
 using System.Collections.Generic;
 using System.Linq;
+using SceneSpecific;
 using Player.UI;
 using SaveFile;
+using System;
 
 namespace Player
 {
     public class PlayerService : SingletonBase<PlayerService>
     {
-
         
-        public List<PlayerController> listOfPlayerControllers = new List<PlayerController>();
+
         [SerializeField]
         private InputScriptableObjectList listOfPlayerInputComponents;
         [SerializeField]
         private PlayerPrefabScriptableObject newPlayerPrefabScriptableObj;
+
         private PlayerController playerControllerInstance;
         private GameObject playerPrefab;
-
-      
-
         private GameObject playerInstance;
-        int playerID = 0;
-       
+        private int playerID = 0;
+        private SceneController currentSceneController;
+
+        public List<PlayerController> listOfPlayerControllers = new List<PlayerController>();            
 
         private GameObject SpawnPrefabInstance(Vector3 _spawnPos)
         {
@@ -38,14 +39,18 @@ namespace Player
             return _playerInstance;
         }
             
-        public void OnStart()
+        public void OnStart(SceneController _currentSceneController)
         {
             if(newPlayerPrefabScriptableObj)
             {
                 playerPrefab=newPlayerPrefabScriptableObj.newPlayerPrefab;
             }
+            currentSceneController = _currentSceneController;
             SpawnPlayers();
         }
+
+        
+
         private void SpawnPlayers()
         {
             PlayerController _playerControllerInstance;
@@ -119,6 +124,13 @@ namespace Player
         {
             PlayerSaveData.Instance.SetHighScoreData(_playerController.GetID(), _newHghScore);
             
+        }
+
+        public Vector3 Respawn()
+        {
+            //findSafePosition
+            Vector3 pos =currentSceneController.FindSafePosition();
+            return pos;
         }
 
     }

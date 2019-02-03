@@ -43,5 +43,10 @@ namespace SceneSpecific
        
         }
 
+        public virtual Vector3 FindSafePosition()
+        {
+            return Vector3.zero;
+        }
+
     }
 }

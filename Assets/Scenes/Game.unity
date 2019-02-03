@@ -217,10 +217,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _sceneScriptableObj: {fileID: 0}
-  highScoreText: {fileID: 0}
   scoreViewPrefab: {fileID: 114582802112069880, guid: 251a8f95abaac1642b33a86c2b876505,
     type: 2}
+  maxThreatLevel: 2
   parentLayoutGroup: {fileID: 983030277}
+  xDimension: 10
+  yDimension: 10
+  maxIterationLimit: 5
 --- !u!1 &983030275
 GameObject:
   m_ObjectHideFlags: 0
