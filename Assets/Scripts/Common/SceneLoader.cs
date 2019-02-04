@@ -18,8 +18,7 @@ namespace Common
         }
         public void OnReturnHome()
         {
-            SceneManager.LoadScene(0);
-            
+            SceneManager.LoadScene(0);            
         }
 
     }

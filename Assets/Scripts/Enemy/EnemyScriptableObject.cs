@@ -9,6 +9,7 @@ namespace Enemy
         public Material enemyMaterial;
         public GameObject enemyPrefab;
         public EnemyView enemyView;
+        public int enemyHealth;
         public Vector3 pos;
 
         

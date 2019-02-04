@@ -6,17 +6,19 @@ namespace Enemy
     {
         private float enemySpeed;
         private Material enemyMaterial;
-        private GameObject enemyModel;       
+        private GameObject enemyModel;
+        private int health;  
 
         public EnemyModel(EnemyScriptableObject _enemyScriptableObject)
         {          
             this.enemyMaterial = _enemyScriptableObject.enemyMaterial;
             this.enemySpeed = _enemyScriptableObject.enemySpeed;
             this.enemyModel = _enemyScriptableObject.enemyPrefab;
+            health = _enemyScriptableObject.enemyHealth;
 
         }
 
-        //speed for enemy movement to be written
+      
         public float GetEnemySpeed()
         {
             return enemySpeed;
@@ -29,6 +31,13 @@ namespace Enemy
         {            
             return enemyModel;
         }
-
+        public int GetEnemyHealth()
+        {
+            return health;
+        }
+        public void SetEnemyHealth(int _newHealth)
+        {
+             health=_newHealth;
+        }
     }
 }

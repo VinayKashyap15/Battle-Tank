@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using Enemy;
+using Interfaces;
 using Weapons.Bullet;
 using Bullet.Controller;
 using System;
@@ -10,15 +12,12 @@ namespace Bullet.View
     public class BulletView : MonoBehaviour
     {
         private BulletController currentBulletController;
-       
-
+      
         public void SetController(BulletController _bulletController)
         {
             currentBulletController = _bulletController;
         }
-        protected virtual void SetMaterial()
-        {
-        }
+      
         protected virtual void DestroyBullet()
         {
             BulletService.Instance.DestroyController(currentBulletController);
@@ -27,9 +26,9 @@ namespace Bullet.View
         }
         private void OnCollisionEnter(Collision collision)
         {
-            if(collision.collider.CompareTag("Enemy"))
+            if(collision.collider.GetComponent<ITakeDamage>() != null)
             {
-                currentBulletController.UpdateScore();
+                currentBulletController.InvokeAction(collision.collider.gameObject);               
             }
             DestroyBullet();
 

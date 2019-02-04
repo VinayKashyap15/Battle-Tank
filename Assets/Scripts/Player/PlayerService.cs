@@ -127,8 +127,7 @@ namespace Player
         }
 
         public Vector3 Respawn()
-        {
-            //findSafePosition
+        {            
             Vector3 pos =currentSceneController.FindSafePosition();
             return pos;
         }

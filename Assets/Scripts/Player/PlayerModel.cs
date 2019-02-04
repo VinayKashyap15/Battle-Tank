@@ -8,6 +8,7 @@
         private float playerSpeed;
         private float bulletSpeed;
         private int playerScore;
+        private int health;
 
         public PlayerModel()
         {
@@ -43,6 +44,15 @@
         public void SetCurrentScore(int _newScore)
         {
            playerScore=_newScore;
+        }
+        public int GetHealth()
+        {
+            return health;
+        }
+
+        public void SetHealth(int _newHealth)
+        {
+            health=_newHealth;
         }
     }
 }

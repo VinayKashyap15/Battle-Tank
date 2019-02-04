@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using Weapons.Bullet;
 using InputComponents;
 using Interfaces;
+using System;
 
 namespace Player
 {
@@ -11,7 +12,8 @@ namespace Player
         private PlayerView playerView;
         private PlayerModel playerModel;
         private InputComponent currentInputComponent;
-
+        private bool isFriendlyFire;
+       
 
         public PlayerController(PlayerView playerViewInstance, int _playerID, InputScriptableObject _customInputScheme = null)
         {
@@ -25,7 +27,29 @@ namespace Player
                 currentInputComponent = new KeyboardComponent(this);
             }
             playerView.SetPlayerController(this);
-
+           
+        }
+        public void CheckCollision(GameObject _gameObject,int damageValue)
+        {          
+            /*if(Enemyview)
+              enemy.takedamage();
+                UpdateScore();
+            /else
+            if(friendlyfire&& self)
+                take damage();
+            if(props)
+                prop.takedamage();
+            */
+            if(_gameObject.GetComponent<Enemy.EnemyView>())
+            {
+                _gameObject.GetComponent<Enemy.EnemyView>().TakeDamage(damageValue);
+                UpdateScore();
+            }
+            else if(_gameObject.GetComponent<PlayerView>() && isFriendlyFire)
+            {
+                _gameObject.GetComponent<PlayerView>().TakeDamage(damageValue);
+            }
+           
         }
 
         public void Move(float h, float v)
@@ -35,6 +59,7 @@ namespace Player
         public void Fire()
         {
             var _bulletController = BulletService.Instance.SpawnBullet(this);
+            
 
             Vector3 firePos = playerView.GetMuzzlePosition();
             Quaternion fireRot = playerView.GetMuzzleRotation();
@@ -73,6 +98,16 @@ namespace Player
         public void DestroySelf()
         {
             playerModel = null;
+        }
+
+        public void TakeDamage(int _damage)
+        {
+            playerModel.SetHealth( playerModel.GetHealth()-_damage);
+            if(playerModel.GetHealth()<=0)
+            {
+                Debug.Log("player dead");
+                playerView.
+            }
         }
     }
 }

@@ -1,5 +1,5 @@
 using UnityEngine;
-using Common;
+using Interfaces;
 using Player;
 using Bullet.Model;
 using Bullet.View;
@@ -19,6 +19,8 @@ namespace Bullet.Controller
 
         protected PlayerController currentPlayerController;
 
+        public event Action<GameObject,int> HasCollided;
+
         public BulletController()
         {
             currentBulletModel = CreateModel();
@@ -37,6 +39,7 @@ namespace Bullet.Controller
             currentBulletView = bulletInstance.GetComponent<BulletView>();
             currentBulletView.SetController(this);
             SetPlayerControllerInstance();
+            HasCollided+= currentPlayerController.CheckCollision;
 
         }
         protected virtual BulletModel CreateModel()
@@ -62,6 +65,7 @@ namespace Bullet.Controller
         public virtual void StartDestroy()
         {
             currentBulletModel = null;
+            HasCollided -= currentPlayerController.CheckCollision;
         }
 
         public void FireBullet(Vector3 _firePosition, Quaternion _fireRotation, Vector3 _fireDirection)
@@ -74,9 +78,9 @@ namespace Bullet.Controller
             currentPlayerController = PlayerService.Instance.GetPlayerControllerInstance();
         }
 
-        public void UpdateScore()
+        public void InvokeAction(GameObject _gameObject)
         {
-            currentPlayerController.UpdateScore();
+            HasCollided.Invoke(_gameObject,currentBulletModel.GetPointDamage());
         }
     }
 }

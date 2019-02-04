@@ -1,4 +1,5 @@
-﻿
+﻿using System;
+using Interfaces;
 using UnityEngine;
 
 namespace Enemy
@@ -40,6 +41,11 @@ namespace Enemy
         public Vector3 GetPosition()
         {
             return currentEnemyView.GetPosition();
+        }
+
+        public void DamageEnemy(int _damage)
+        {
+            currentEnemyModel.SetEnemyHealth(currentEnemyModel.GetEnemyHealth() - _damage);
         }
     }
 }

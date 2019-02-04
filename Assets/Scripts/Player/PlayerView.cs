@@ -1,12 +1,16 @@
 using UnityEngine;
+using Interfaces;
+using System;
 
 namespace Player
 {
-    public class PlayerView : MonoBehaviour
+    public class PlayerView : MonoBehaviour,ITakeDamage
     {
 
         [SerializeField]
         private GameObject muzzlePoint;
+        public bool isFriendlyFire;
+        
         private PlayerController currentPlayerController;
         private Rigidbody bulletRb;
 
@@ -22,12 +26,14 @@ namespace Player
         {
             Debug.Log("Fire Button Pressed");
         }
+
         public int UpdateMyScore(int _currentScore)
         {
             _currentScore += 10;
             Debug.Log("Score :" + _currentScore.ToString());
             return _currentScore;
         }
+
         public Vector3 GetMuzzlePosition()
         {
             return muzzlePoint.transform.position;
@@ -43,12 +49,8 @@ namespace Player
 
         private void OnCollisionEnter(Collision collision)
         {
-            if(collision.collider.CompareTag("Enemy"))
-            {
-                //PlayerService.Instance.DestroyPlayer(currentPlayerController);
-                //Destroy(this.gameObject);
-                gameObject.transform.position=PlayerService.Instance.Respawn();
-            }
+          
+         
         }
 
         public void SetPlayerController(PlayerController _currentPlayerController)
@@ -56,5 +58,14 @@ namespace Player
             currentPlayerController = _currentPlayerController;
         }
 
+        public void TakeDamage(int _damage)
+        {
+            currentPlayerController.TakeDamage(_damage);
+        }
+
+        public void DestoySelf()
+        {
+           gameObject.transform.position= PlayerService.Instance.Respawn();
+        }
     }
 }

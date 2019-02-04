@@ -1,10 +1,12 @@
-﻿using Common;
+﻿using System;
 using UnityEngine;
+using Interfaces;
+
 namespace Enemy
 {
     [RequireComponent(typeof(Rigidbody))]
     [RequireComponent(typeof(BoxCollider))]
-    public class EnemyView : MonoBehaviour
+    public class EnemyView : MonoBehaviour,ITakeDamage
     {
         private EnemyController currentEnemyController;
 
@@ -23,14 +25,15 @@ namespace Enemy
 
         private void OnCollisionEnter(Collision collision)
         {
-     
+
             if (collision.collider.CompareTag("Bullet"))
             {
                 //destroy self when bullet collides. Take Damage Functionality would be added at later stage
                 DestroySelf();
             }
+            //TakeDamage();
         }
-        
+
 
         public void SetMaterial(Material _newMat)
         {
@@ -40,6 +43,11 @@ namespace Enemy
         public Vector3 GetPosition()
         {
             return gameObject.transform.position;
+        }
+
+        public void TakeDamage(int _damage)
+        {
+            currentEnemyController.DamageEnemy(_damage);
         }
     }
 }
