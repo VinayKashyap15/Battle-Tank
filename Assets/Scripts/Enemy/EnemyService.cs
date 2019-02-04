@@ -12,6 +12,7 @@ namespace Enemy
         
         public void OnStart()
         {
+            Debug.Log("enemyservice");
             SpawnEnemyControllers();
         }
 

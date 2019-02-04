@@ -2,8 +2,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using Weapons.Bullet;
 using InputComponents;
+using SaveFile;
 using Interfaces;
-using System;
+
 
 namespace Player
 {
@@ -12,7 +13,7 @@ namespace Player
         private PlayerView playerView;
         private PlayerModel playerModel;
         private InputComponent currentInputComponent;
-        private bool isFriendlyFire=true;
+        private bool isFriendlyFire = true;
         private int highScoreAchievement;
         private int enemyKillAchievement;
         private int gamePlayedAchievement;
@@ -29,20 +30,22 @@ namespace Player
                 currentInputComponent = new KeyboardComponent(this);
             }
             playerView.SetPlayerController(this);
-           
-        }
-        public void CheckCollision(GameObject _gameObject,int damageValue)
-        {          
-            if(_gameObject.GetComponent<Enemy.EnemyView>())
+            highScoreAchievement = AchievementManager.Instance.GetHighScore();
+            enemyKillAchievement = AchievementManager.Instance.GetKillCount();
+            gamePlayedAchievement = AchievementManager.Instance.GetGamesPlayed();
+          }
+        public void CheckCollision(GameObject _gameObject, int damageValue)
+        {
+            if (_gameObject.GetComponent<Enemy.EnemyView>())
             {
                 _gameObject.GetComponent<Enemy.EnemyView>().TakeDamage(damageValue);
                 UpdateScore();
             }
-            else if(_gameObject.GetComponent<PlayerView>() && isFriendlyFire)
+            else if (_gameObject.GetComponent<PlayerView>() && isFriendlyFire)
             {
                 _gameObject.GetComponent<PlayerView>().TakeDamage(damageValue);
             }
-           
+
         }
 
         public void Move(float h, float v)
@@ -52,7 +55,7 @@ namespace Player
         public void Fire()
         {
             var _bulletController = BulletService.Instance.SpawnBullet(this);
-            
+
 
             Vector3 firePos = playerView.GetMuzzlePosition();
             Quaternion fireRot = playerView.GetMuzzleRotation();
@@ -73,16 +76,23 @@ namespace Player
         {
             int _newScore = playerView.UpdateMyScore(playerModel.GetCurrentScore());
             Debug.Log("Updated score for player :" + playerModel.GetID());
-            
-            playerModel.SetCurrentScore(_newScore);
-            PlayerService.Instance.UpdateScoreView(this,_newScore,playerModel.GetID());
 
-            int highScore = PlayerService.Instance.GetHighScore(this);   
-            if(_newScore>=highScore)
+            playerModel.SetCurrentScore(_newScore);
+            PlayerService.Instance.UpdateScoreView(this, _newScore, playerModel.GetID());
+
+            int highScore = PlayerService.Instance.GetHighScore(this);
+            if (_newScore >= highScore)
             {
-                PlayerService.Instance.SetHighScore(this,_newScore);
-            }                             
-            
+                PlayerService.Instance.SetHighScore(this, _newScore);
+            }
+            if (PlayerSaveData.Instance.GetHighScoreAchievementStatus(playerModel.GetID()) == 0)
+            {
+                if (highScore >= highScoreAchievement)
+                {
+                    PlayerService.Instance.OnAchievementUnlocked("Achievement Unlocked for player " + playerModel.GetID() + "SCORE:" + highScoreAchievement.ToString() + "!!");
+                    PlayerSaveData.Instance.OnHighScoreAchievementUnlocked(playerModel.GetID());
+                }
+            }
         }
 
         public int GetID()
@@ -95,8 +105,8 @@ namespace Player
         }
         public void TakeDamage(int _damage)
         {
-            playerModel.SetHealth( playerModel.GetHealth()-_damage);
-            if(playerModel.GetHealth()<=0)
+            playerModel.SetHealth(playerModel.GetHealth() - _damage);
+            if (playerModel.GetHealth() <= 0)
             {
                 Debug.Log("player dead");
                 playerView.DestoySelf();
@@ -106,6 +116,6 @@ namespace Player
         {
             playerModel.SetHealth(100);
         }
-
+        
     }
 }

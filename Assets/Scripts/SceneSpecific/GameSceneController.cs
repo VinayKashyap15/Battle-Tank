@@ -33,10 +33,9 @@ namespace SceneSpecific
         private Vector3 spawnPos = Vector3.zero;
 
         protected override void OnIntialize()
-        {
-            base.OnIntialize();
+        {           
             Player.PlayerService.Instance.OnStart(this);
-            EnemyService.Instance.OnStart();
+            Enemy.EnemyService.Instance.OnStart();
         }
         private void Start()
         {

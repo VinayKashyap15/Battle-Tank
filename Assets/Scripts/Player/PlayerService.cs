@@ -40,13 +40,14 @@ namespace Player
         }            
         public void OnStart(SceneController _currentSceneController)
         {
+
             if(newPlayerPrefabScriptableObj)
             {
                 playerPrefab=newPlayerPrefabScriptableObj.newPlayerPrefab;
             }
             currentSceneController = _currentSceneController;
             SpawnPlayers();
-            RegenrateHealth+=playerControllerInstance.RegenerateHealth;
+           
         }     
         private void SpawnPlayers()
         {
@@ -73,8 +74,9 @@ namespace Player
                 listOfPlayerControllers.Add(_playerControllerInstance);
                 ScoreManager.Instance.AddPlayerUI(_playerControllerInstance);
             }
-         
-            
+
+           
+
         }
         public void DestroyPlayer(PlayerController _playerController)
         {
@@ -106,6 +108,7 @@ namespace Player
         public void SetCurrentInstance(PlayerController _playerControllerInstance)
         {
             playerControllerInstance = _playerControllerInstance;
+            RegenrateHealth += playerControllerInstance.RegenerateHealth;
         }
         public void UpdateScoreView(PlayerController _p,int _score,int _playerID)
         {
@@ -128,9 +131,9 @@ namespace Player
             return pos;
         }
 
-        public void OnAchievementUnlocked()
+        public void OnAchievementUnlocked(string _achievement)
         {
-
+            AchievementManager.Instance.AchievementUnlocked(_achievement);
         }
     }
 }

@@ -16,9 +16,9 @@ namespace Enemy
             currentEnemyController = _enemyController;
         }
 
-        protected virtual void DestroySelf()
+        public void DestroySelf()
         {
-            EnemyService.Instance.DestroyController(currentEnemyController);
+            //EnemyService.Instance.DestroyController(currentEnemyController);
 
             Destroy(this.gameObject);
         }
@@ -26,11 +26,11 @@ namespace Enemy
         private void OnCollisionEnter(Collision collision)
         {
 
-            if (collision.collider.CompareTag("Bullet"))
-            {
-                //destroy self when bullet collides. Take Damage Functionality would be added at later stage
-                DestroySelf();
-            }
+            //if (collision.collider.CompareTag("Bullet"))
+            //{
+            //    //destroy self when bullet collides. Take Damage Functionality would be added at later stage
+            //    DestroySelf();
+            //}
             //TakeDamage();
         }
 

@@ -46,6 +46,11 @@ namespace Enemy
         public void DamageEnemy(int _damage)
         {
             currentEnemyModel.SetEnemyHealth(currentEnemyModel.GetEnemyHealth() - _damage);
+            if(currentEnemyModel.GetEnemyHealth()<=0)
+            {
+                EnemyService.Instance.DestroyController(this);
+                currentEnemyView.DestroySelf();
+            }
         }
     }
 }

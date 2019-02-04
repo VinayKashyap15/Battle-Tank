@@ -36,5 +36,9 @@ namespace Player.UI
             return highScoreTexts;
         }
        
+        public void OnAchievementUnlocked(string _achievementText)
+        {
+            Debug.Log(_achievementText);
+        }
     }
 }

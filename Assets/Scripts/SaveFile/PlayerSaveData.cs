@@ -2,6 +2,7 @@
 using Common;
 using Player.UI;
 using System.Collections.Generic;
+using System;
 
 namespace SaveFile
 {
@@ -22,5 +23,13 @@ namespace SaveFile
             return _currenthighScore;
         }
 
+        public void OnHighScoreAchievementUnlocked(int _ID)
+        {
+            PlayerPrefs.SetInt("HighScore Achievement Status for Player"+_ID.ToString(), 1);
+        }
+        public int GetHighScoreAchievementStatus(int _ID)
+        {
+           return PlayerPrefs.GetInt("HighScore Achievement Status for Player" + _ID.ToString());
+        }
     }
 }

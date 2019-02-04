@@ -16,4 +16,5 @@ MonoBehaviour:
   enemyPrefab: {fileID: 1442881743796026, guid: 0de7d4b6ec7f2424a9b0fa7e7ae86ef3,
     type: 2}
   enemyView: {fileID: 0}
+  enemyHealth: 10
   pos: {x: -18.04, y: 0, z: 5}
