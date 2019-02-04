@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿
+using UnityEngine;
 
 namespace Enemy
 {
@@ -31,9 +32,14 @@ namespace Enemy
             SpawnEnemy(_enemyModel,_enemyScriptableObject.pos);
         }
 
-        public virtual void StartDestroy()
+        public  void StartDestroy()
         {
             currentEnemyModel = null;
+        }
+
+        public Vector3 GetPosition()
+        {
+            return currentEnemyView.GetPosition();
         }
     }
 }

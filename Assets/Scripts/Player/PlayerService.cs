@@ -3,26 +3,29 @@ using InputComponents;
 using Common;
 using System.Collections.Generic;
 using System.Linq;
+using SceneSpecific;
 using Player.UI;
+using SaveFile;
+using System;
 
 namespace Player
 {
     public class PlayerService : SingletonBase<PlayerService>
     {
-
         
-        public List<PlayerController> listOfPlayerControllers = new List<PlayerController>();
+
         [SerializeField]
         private InputScriptableObjectList listOfPlayerInputComponents;
         [SerializeField]
         private PlayerPrefabScriptableObject newPlayerPrefabScriptableObj;
+
         private PlayerController playerControllerInstance;
         private GameObject playerPrefab;
-
-      
-
         private GameObject playerInstance;
-        int playerID = 0;
+        private int playerID = 0;
+        private SceneController currentSceneController;
+
+        public List<PlayerController> listOfPlayerControllers = new List<PlayerController>();            
 
         private GameObject SpawnPrefabInstance(Vector3 _spawnPos)
         {
@@ -35,15 +38,18 @@ namespace Player
             _playerInstance.transform.position = _spawnPos;
             return _playerInstance;
         }
-
-        public void OnStart()
+            
+        public void OnStart(SceneController _currentSceneController)
         {
             if(newPlayerPrefabScriptableObj)
             {
                 playerPrefab=newPlayerPrefabScriptableObj.newPlayerPrefab;
             }
+            currentSceneController = _currentSceneController;
             SpawnPlayers();
         }
+
+        
 
         private void SpawnPlayers()
         {
@@ -72,14 +78,12 @@ namespace Player
             }
          
         }
-
         public void DestroyPlayer(PlayerController _playerController)
         {
             RemmoveFromList(_playerController);
             _playerController.DestroySelf();
             _playerController = null;
         }
-
         public void RemmoveFromList(PlayerController _playerController)
         {
             if (listOfPlayerControllers.Contains(_playerController))
@@ -97,19 +101,37 @@ namespace Player
                 SceneLoader.Instance.OnGameOver();
             }
         }
-
         public PlayerController GetPlayerControllerInstance()
         {
             return playerControllerInstance;
         }
+
         public void SetCurrentInstance(PlayerController _playerControllerInstance)
         {
             playerControllerInstance = _playerControllerInstance;
         }
-
         public void UpdateScoreView(PlayerController _p,int _score,int _playerID)
         {
             ScoreManager.Instance.UpdateScoreView(_p,_score,_playerID);
         }
+
+        public int GetHighScore(PlayerController _playerController)
+        {
+            int _highScore = PlayerSaveData.Instance.GetHighScoreData(_playerController.GetID());
+            return _highScore;
+        }
+        public void SetHighScore(PlayerController _playerController, int _newHghScore)
+        {
+            PlayerSaveData.Instance.SetHighScoreData(_playerController.GetID(), _newHghScore);
+            
+        }
+
+        public Vector3 Respawn()
+        {
+            //findSafePosition
+            Vector3 pos =currentSceneController.FindSafePosition();
+            return pos;
+        }
+
     }
 }

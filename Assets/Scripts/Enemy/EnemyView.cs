@@ -36,5 +36,10 @@ namespace Enemy
         {
             this.GetComponentInChildren<Renderer>().sharedMaterial = _newMat;
         }
+
+        public Vector3 GetPosition()
+        {
+            return gameObject.transform.position;
+        }
     }
 }

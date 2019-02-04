@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using Common;
+using System.Collections.Generic;
 using SceneSpecific;
 
 namespace Player.UI
@@ -8,6 +10,7 @@ namespace Player.UI
     {
         
         private SceneController sceneController;
+        private List<string> highScoreTexts = new List<string>();
 
         public void SetSceneController(SceneController _scemeController)
         {
@@ -24,5 +27,14 @@ namespace Player.UI
             sceneController.UpdateScoreView( _p,  _score,_playerID);
         }
 
+        public void PopulateHighScoreTexts(string _highScoreText)
+        {
+            highScoreTexts.Add(_highScoreText);
+        }
+        public List<string> GetHighScoreTextList()
+        {
+            return highScoreTexts;
+        }
+       
     }
 }
