@@ -104,7 +104,7 @@ namespace SceneSpecific
                 else
                 {
                     spawnPos = GetRandomSpawnPos();
-                    if(i==10)
+                    if(i==maxIterationLimit)
                     {
                         spawnPos=GetMaxSafeLocation();
                     }
