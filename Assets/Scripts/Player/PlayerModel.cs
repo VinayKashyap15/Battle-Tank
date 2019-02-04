@@ -8,7 +8,7 @@
         private float playerSpeed;
         private float bulletSpeed;
         private int playerScore;
-        private int health;
+        private  int health=100;
 
         public PlayerModel()
         {
@@ -16,6 +16,7 @@
             playerName = "Vinay";
             playerSpeed = 3f;
             bulletSpeed = 6f;
+            
         }
         public int GetID()
         {

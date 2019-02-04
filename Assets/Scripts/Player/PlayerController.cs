@@ -12,8 +12,10 @@ namespace Player
         private PlayerView playerView;
         private PlayerModel playerModel;
         private InputComponent currentInputComponent;
-        private bool isFriendlyFire;
-       
+        private bool isFriendlyFire=true;
+        private int highScoreAchievement;
+        private int enemyKillAchievement;
+        private int gamePlayedAchievement;
 
         public PlayerController(PlayerView playerViewInstance, int _playerID, InputScriptableObject _customInputScheme = null)
         {
@@ -31,15 +33,6 @@ namespace Player
         }
         public void CheckCollision(GameObject _gameObject,int damageValue)
         {          
-            /*if(Enemyview)
-              enemy.takedamage();
-                UpdateScore();
-            /else
-            if(friendlyfire&& self)
-                take damage();
-            if(props)
-                prop.takedamage();
-            */
             if(_gameObject.GetComponent<Enemy.EnemyView>())
             {
                 _gameObject.GetComponent<Enemy.EnemyView>().TakeDamage(damageValue);
@@ -89,6 +82,7 @@ namespace Player
             {
                 PlayerService.Instance.SetHighScore(this,_newScore);
             }                             
+            
         }
 
         public int GetID()
@@ -99,15 +93,19 @@ namespace Player
         {
             playerModel = null;
         }
-
         public void TakeDamage(int _damage)
         {
             playerModel.SetHealth( playerModel.GetHealth()-_damage);
             if(playerModel.GetHealth()<=0)
             {
                 Debug.Log("player dead");
-                playerView.
+                playerView.DestoySelf();
             }
         }
+        public void RegenerateHealth()
+        {
+            playerModel.SetHealth(100);
+        }
+
     }
 }

@@ -49,7 +49,10 @@ namespace Player
 
         private void OnCollisionEnter(Collision collision)
         {
-          
+            if(collision.collider.GetComponent<Enemy.EnemyView>())
+            {
+                TakeDamage(25);
+            }
          
         }
 
@@ -66,6 +69,7 @@ namespace Player
         public void DestoySelf()
         {
            gameObject.transform.position= PlayerService.Instance.Respawn();
+            
         }
     }
 }

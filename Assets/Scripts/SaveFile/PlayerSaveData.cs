@@ -8,7 +8,6 @@ namespace SaveFile
     public class PlayerSaveData : SingletonBase<PlayerSaveData>
     {
         
-
         public void SetHighScoreData(int _playerID,int _highScore)
         {
           PlayerPrefs.SetInt("HighScore for Player"+_playerID.ToString(),_highScore);
@@ -22,7 +21,6 @@ namespace SaveFile
          
             return _currenthighScore;
         }
-
 
     }
 }

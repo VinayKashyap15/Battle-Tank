@@ -11,13 +11,13 @@ using System;
 namespace Player
 {
     public class PlayerService : SingletonBase<PlayerService>
-    {
-        
-
+    {        
         [SerializeField]
         private InputScriptableObjectList listOfPlayerInputComponents;
         [SerializeField]
         private PlayerPrefabScriptableObject newPlayerPrefabScriptableObj;
+
+        public event Action RegenrateHealth;
 
         private PlayerController playerControllerInstance;
         private GameObject playerPrefab;
@@ -37,8 +37,7 @@ namespace Player
             _playerInstance = GameObject.Instantiate(playerPrefab);
             _playerInstance.transform.position = _spawnPos;
             return _playerInstance;
-        }
-            
+        }            
         public void OnStart(SceneController _currentSceneController)
         {
             if(newPlayerPrefabScriptableObj)
@@ -47,10 +46,8 @@ namespace Player
             }
             currentSceneController = _currentSceneController;
             SpawnPlayers();
-        }
-
-        
-
+            RegenrateHealth+=playerControllerInstance.RegenerateHealth;
+        }     
         private void SpawnPlayers()
         {
             PlayerController _playerControllerInstance;
@@ -77,6 +74,7 @@ namespace Player
                 ScoreManager.Instance.AddPlayerUI(_playerControllerInstance);
             }
          
+            
         }
         public void DestroyPlayer(PlayerController _playerController)
         {
@@ -105,7 +103,6 @@ namespace Player
         {
             return playerControllerInstance;
         }
-
         public void SetCurrentInstance(PlayerController _playerControllerInstance)
         {
             playerControllerInstance = _playerControllerInstance;
@@ -114,7 +111,6 @@ namespace Player
         {
             ScoreManager.Instance.UpdateScoreView(_p,_score,_playerID);
         }
-
         public int GetHighScore(PlayerController _playerController)
         {
             int _highScore = PlayerSaveData.Instance.GetHighScoreData(_playerController.GetID());
@@ -125,12 +121,16 @@ namespace Player
             PlayerSaveData.Instance.SetHighScoreData(_playerController.GetID(), _newHghScore);
             
         }
-
         public Vector3 Respawn()
         {            
             Vector3 pos =currentSceneController.FindSafePosition();
+            RegenrateHealth.Invoke();
             return pos;
         }
 
+        public void OnAchievementUnlocked()
+        {
+
+        }
     }
 }
