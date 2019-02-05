@@ -2,7 +2,7 @@
 
 namespace Interfaces
 {
-    public interface Iview
+    public interface IView
     {
 
     }

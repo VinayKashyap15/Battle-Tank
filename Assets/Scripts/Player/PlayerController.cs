@@ -1,8 +1,10 @@
 using UnityEngine;
 using UnityEngine.UI;
+using Enemy;
 using Weapons.Bullet;
 using InputComponents;
 using SaveFile;
+using SaveFile.AchievementSystem;
 using Interfaces;
 
 
@@ -14,9 +16,6 @@ namespace Player
         private PlayerModel playerModel;
         private InputComponent currentInputComponent;
         private bool isFriendlyFire = true;
-        private int highScoreAchievement;
-        private int enemyKillAchievement;
-        private int gamePlayedAchievement;
 
         public PlayerController(PlayerView playerViewInstance, int _playerID, InputScriptableObject _customInputScheme = null)
         {
@@ -30,24 +29,24 @@ namespace Player
                 currentInputComponent = new KeyboardComponent(this);
             }
             playerView.SetPlayerController(this);
-            highScoreAchievement = AchievementManager.Instance.GetHighScore();
-            enemyKillAchievement = AchievementManager.Instance.GetKillCount();
-            gamePlayedAchievement = AchievementManager.Instance.GetGamesPlayed();
+
+            
           }
-        public void CheckCollision(GameObject _gameObject, int damageValue)
+        public void CheckCollision(ITakeDamage _currentView, int damageValue)
         {
-            if (_gameObject.GetComponent<Enemy.EnemyView>())
+            if (_currentView.GetName()=="EnemyView")
             {
-                _gameObject.GetComponent<Enemy.EnemyView>().TakeDamage(damageValue);
-                UpdateScore();
+                EnemyService.Instance.SetDamagingPlayerID(GetID());
+                _currentView.TakeDamage(damageValue);
+              
+               
             }
-            else if (_gameObject.GetComponent<PlayerView>() && isFriendlyFire)
+            else if (_currentView.GetName()=="PlayerView" && isFriendlyFire)
             {
-                _gameObject.GetComponent<PlayerView>().TakeDamage(damageValue);
+                _currentView.TakeDamage(damageValue);
             }
 
         }
-
         public void Move(float h, float v)
         {
             playerView.MovePlayer(h, v, playerModel.GetSpeed());
@@ -72,29 +71,27 @@ namespace Player
             return currentInputComponent;
         }
 
-        public void UpdateScore()
+        public void UpdateScore(int _enemyID, EnemyType _enemytype)
         {
-            int _newScore = playerView.UpdateMyScore(playerModel.GetCurrentScore());
+            int _points;         
+            if(_enemytype == EnemyType.BOSS){
+                _points = 50;
+            }else {
+                _points = 10; }
+            int _newScore = playerView.UpdateMyScore(playerModel.GetCurrentScore(),_points);
             Debug.Log("Updated score for player :" + playerModel.GetID());
 
             playerModel.SetCurrentScore(_newScore);
             PlayerService.Instance.UpdateScoreView(this, _newScore, playerModel.GetID());
 
-            int highScore = PlayerService.Instance.GetHighScore(this);
+            int highScore = PlayerSaveData.Instance.GetHighScoreData(GetID());
             if (_newScore >= highScore)
             {
-                PlayerService.Instance.SetHighScore(this, _newScore);
+                PlayerSaveData.Instance.SetHighScoreData(GetID(), _newScore);
             }
-            if (PlayerSaveData.Instance.GetHighScoreAchievementStatus(playerModel.GetID()) == 0)
-            {
-                if (highScore >= highScoreAchievement)
-                {
-                    PlayerService.Instance.OnAchievementUnlocked("Achievement Unlocked for player " + playerModel.GetID() + "SCORE:" + highScoreAchievement.ToString() + "!!");
-                    PlayerSaveData.Instance.OnHighScoreAchievementUnlocked(playerModel.GetID());
-                }
-            }
+            PlayerService.Instance.InvokeHighScoreAchievement(GetID(),highScore);
+            
         }
-
         public int GetID()
         {
             return playerModel.GetID();

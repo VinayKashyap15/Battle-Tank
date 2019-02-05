@@ -27,9 +27,9 @@ namespace Player
             Debug.Log("Fire Button Pressed");
         }
 
-        public int UpdateMyScore(int _currentScore)
+        public int UpdateMyScore(int _currentScore, int _points)
         {
-            _currentScore += 10;
+            _currentScore += _points;
             Debug.Log("Score :" + _currentScore.ToString());
             return _currentScore;
         }
@@ -52,8 +52,7 @@ namespace Player
             if(collision.collider.GetComponent<Enemy.EnemyView>())
             {
                 TakeDamage(25);
-            }
-         
+            }         
         }
 
         public void SetPlayerController(PlayerController _currentPlayerController)
@@ -68,8 +67,14 @@ namespace Player
 
         public void DestoySelf()
         {
+            PlayerService.Instance.InvokePlayerDeath(currentPlayerController.GetID());
            gameObject.transform.position= PlayerService.Instance.Respawn();
             
+        }
+
+        public string GetName()
+        {
+            return "PlayerView";
         }
     }
 }

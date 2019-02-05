@@ -19,7 +19,7 @@ namespace Bullet.Controller
 
         protected PlayerController currentPlayerController;
 
-        public event Action<GameObject,int> HasCollided;
+        public event Action<ITakeDamage,int> HasCollided;
 
         public BulletController()
         {
@@ -75,12 +75,12 @@ namespace Bullet.Controller
 
         public virtual void SetPlayerControllerInstance()
         {
-            currentPlayerController = PlayerService.Instance.GetPlayerControllerInstance();
+            currentPlayerController = BulletService.Instance.GetPlayerControllerInstance();
         }
 
-        public void InvokeAction(GameObject _gameObject)
+        public void InvokeAction(ITakeDamage _currentView)
         {
-            HasCollided.Invoke(_gameObject,currentBulletModel.GetPointDamage());
+            HasCollided.Invoke(_currentView,currentBulletModel.GetPointDamage());
         }
     }
 }

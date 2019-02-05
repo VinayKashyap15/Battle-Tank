@@ -2,22 +2,34 @@
 
 namespace Enemy
 {
-    class EnemyModel
+   public  class EnemyModel
     {
+
+        private EnemyType enemyType;
         private float enemySpeed;
+        private int enemyID;
+        
         private Material enemyMaterial;
         private GameObject enemyModel;
         private int health;  
 
         public EnemyModel(EnemyScriptableObject _enemyScriptableObject)
-        {          
-            this.enemyMaterial = _enemyScriptableObject.enemyMaterial;
-            this.enemySpeed = _enemyScriptableObject.enemySpeed;
-            this.enemyModel = _enemyScriptableObject.enemyPrefab;
+        {
+            enemyMaterial = _enemyScriptableObject.enemyMaterial;
+            enemySpeed = _enemyScriptableObject.enemySpeed;
+            enemyModel = _enemyScriptableObject.enemyPrefab;
             health = _enemyScriptableObject.enemyHealth;
-
+            enemyType = _enemyScriptableObject.type;
         }
 
+        public int GetID()
+        {
+            return enemyID;
+        }
+        public EnemyType GetEnemyType()
+        {
+            return enemyType;
+        }
       
         public float GetEnemySpeed()
         {

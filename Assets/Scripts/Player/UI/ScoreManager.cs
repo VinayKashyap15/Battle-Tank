@@ -40,5 +40,6 @@ namespace Player.UI
         {
             Debug.Log(_achievementText);
         }
+
     }
 }

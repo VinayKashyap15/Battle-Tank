@@ -18,3 +18,4 @@ MonoBehaviour:
   enemyView: {fileID: 0}
   enemyHealth: 10
   pos: {x: 0, y: 0, z: -10.87}
+  type: 1

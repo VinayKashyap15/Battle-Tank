@@ -1061,10 +1061,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2102884485}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d3c2999ec973f64b85795d9f6d4d3ae, type: 3}
+  m_Script: {fileID: 11500000, guid: 489af7994ea300e46989419b8c1a9eb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  achievementScriptableObj: {fileID: 11400000, guid: b6b23366bd8d61c4ebb43c79600d6ab6,
+  achievementScriptableObj: {fileID: 11400000, guid: 15428afe178174748aef97b7ce516820,
     type: 2}
 --- !u!4 &2102884487
 Transform:

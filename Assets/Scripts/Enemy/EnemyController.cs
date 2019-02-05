@@ -48,9 +48,14 @@ namespace Enemy
             currentEnemyModel.SetEnemyHealth(currentEnemyModel.GetEnemyHealth() - _damage);
             if(currentEnemyModel.GetEnemyHealth()<=0)
             {
-                EnemyService.Instance.DestroyController(this);
+                EnemyService.Instance.OnEnemyDeath(GetID(),currentEnemyModel.GetEnemyType(),EnemyService.Instance.GetDamagingPlayerID());
                 currentEnemyView.DestroySelf();
             }
+        }
+
+        public int GetID()
+        {
+            return currentEnemyModel.GetID();
         }
     }
 }

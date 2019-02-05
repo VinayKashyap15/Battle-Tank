@@ -8,9 +8,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d580743db846ab74591182a7f25936a0, type: 3}
-  m_Name: NewAchievementData
+  m_Script: {fileID: 11500000, guid: f3ae4fcf626a91d45b80fa7b908e5e29, type: 3}
+  m_Name: NewAchievementData 1
   m_EditorClassIdentifier: 
-  highScore: 50
+  highScore: 500
   enemyKills: 5
-  gamesPlayed: 2
+  gamesPlayed: 5
+  dieTimes: 7

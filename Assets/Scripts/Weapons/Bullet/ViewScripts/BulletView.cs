@@ -2,6 +2,7 @@
 using Enemy;
 using Interfaces;
 using Weapons.Bullet;
+using Weapons.Interfaces;
 using Bullet.Controller;
 using System;
 
@@ -28,7 +29,7 @@ namespace Bullet.View
         {
             if(collision.collider.GetComponent<ITakeDamage>() != null)
             {
-                currentBulletController.InvokeAction(collision.collider.gameObject);               
+                currentBulletController.InvokeAction(collision.collider.gameObject.GetComponent<ITakeDamage>());               
             }
             DestroyBullet();
 

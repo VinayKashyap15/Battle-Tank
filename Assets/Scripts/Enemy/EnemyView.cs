@@ -15,25 +15,15 @@ namespace Enemy
         {
             currentEnemyController = _enemyController;
         }
+        public EnemyController GetController()
+        {
+            return currentEnemyController;
+        }
 
         public void DestroySelf()
-        {
-            //EnemyService.Instance.DestroyController(currentEnemyController);
-
+        {     
             Destroy(this.gameObject);
         }
-
-        private void OnCollisionEnter(Collision collision)
-        {
-
-            //if (collision.collider.CompareTag("Bullet"))
-            //{
-            //    //destroy self when bullet collides. Take Damage Functionality would be added at later stage
-            //    DestroySelf();
-            //}
-            //TakeDamage();
-        }
-
 
         public void SetMaterial(Material _newMat)
         {
@@ -48,6 +38,11 @@ namespace Enemy
         public void TakeDamage(int _damage)
         {
             currentEnemyController.DamageEnemy(_damage);
+        }
+
+        public string GetName()
+        {
+            return "EnemyView";
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-namespace SaveFile
+namespace SaveFile.AchievementSystem
 {
     [CreateAssetMenu(fileName = "NewAchievementData", menuName = "Custom Objects/Player/Achievement", order = 0)]
     public class AchievementScriptableObject:ScriptableObject
@@ -7,5 +7,6 @@ namespace SaveFile
         public int highScore;
         public int enemyKills;
         public int gamesPlayed;
+        public int dieTimes;
     }
 }

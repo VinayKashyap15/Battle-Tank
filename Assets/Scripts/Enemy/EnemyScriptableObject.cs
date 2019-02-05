@@ -11,7 +11,7 @@ namespace Enemy
         public EnemyView enemyView;
         public int enemyHealth;
         public Vector3 pos;
-
+        public EnemyType type;
         
     }
 }

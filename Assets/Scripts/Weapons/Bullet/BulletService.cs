@@ -39,7 +39,10 @@ namespace Weapons.Bullet
             _bulletController.StartDestroy();
             _bulletController = null;
         }
-
+        public PlayerController GetPlayerControllerInstance()
+        {
+            return playerControllerInstance;
+        }
 
     }
 }

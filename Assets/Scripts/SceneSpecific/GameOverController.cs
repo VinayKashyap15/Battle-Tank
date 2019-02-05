@@ -22,7 +22,7 @@ namespace SceneSpecific
                 highScoreTextPrefab = Resources.Load("HighScoreText") as Text;
             }
             if (!layoutGroup)
-                layoutGroup = GameObject.Find("Canvas").GetComponentInChildren<LayoutGroup>();
+                Debug.Log("Layout group not specified");
 
             PopulateVerticalGroup();
         }

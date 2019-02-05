@@ -3,6 +3,10 @@ namespace Interfaces
 {
     public interface ITakeDamage
     {
-        void TakeDamage(int _damage);
+        void TakeDamage(int _damage);   
+        string GetName();
+       
+
     }
+    
 }
