@@ -144,7 +144,7 @@ namespace Player
         public void SetCurrentInstance(PlayerController _playerControllerInstance)
         {
             playerControllerInstance = _playerControllerInstance;
-            RegenrateHealth += playerControllerInstance.RegenerateHealth;
+            RegenerateHealth += playerControllerInstance.RegenerateHealth;
         }
         public void UpdateScoreView(PlayerController _p, int _score, int _playerID)
         {
