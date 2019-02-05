@@ -32,20 +32,6 @@ namespace SaveFile.AchievementSystem
             //OnAchievementCrossed.Invoke(_achievement);
         }
 
-        public int GetHighScore()
-        {
-            return highScoreMark;
-        }
-
-        public int GetKillCount()
-        {
-            return enemyKillMark;
-        }
-        public int GetGamesPlayed()
-        {
-            return gamePlayedMark;
-        }
-
         public void DieAchievements(int _id, int _dieCalled)
         {
             

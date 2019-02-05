@@ -28,10 +28,11 @@ namespace Player
         private SceneController currentSceneController;
 
         public List<PlayerController> listOfPlayerControllers = new List<PlayerController>();
+        //player id and kill count
         private Dictionary<int, int> enemyKillCountData = new Dictionary<int, int>();
         private Dictionary<int, int> playerGamesPlayedData = new Dictionary<int, int>();
 
-        public event Action RegenrateHealth;
+        public event Action RegenerateHealth;
         public event Action<int, int> PlayerDeath;
         public event Action<int,int> HighScoreUpdate;
         public event Action<int, int> EnemyKill;
@@ -60,6 +61,7 @@ namespace Player
             SpawnPlayers();
            
         }
+
         private void RegisterServices()
         {
             PlayerDeath += PlayerSaveData.Instance.SetDieMark;
