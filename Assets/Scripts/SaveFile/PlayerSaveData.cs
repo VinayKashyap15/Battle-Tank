@@ -2,7 +2,7 @@
 using Common;
 using Player.UI;
 using System;
-using SaveFile.AchievementSystem;
+using AchievementSystem;
 
 namespace SaveFile
 {
@@ -70,9 +70,7 @@ namespace SaveFile
         public void SetAchievementStatus(AchievementTypes _type,int _id, int _status)
         {
             PlayerPrefs.SetInt("Player" + _id.ToString() + _type.ToString(), _status);
-        }
-
-      
+        }      
 
     }
 }

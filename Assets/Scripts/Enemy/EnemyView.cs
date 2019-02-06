@@ -1,6 +1,6 @@
 ﻿using System;
 using UnityEngine;
-using Interfaces;
+using GameplayInterfaces;
 
 namespace Enemy
 {

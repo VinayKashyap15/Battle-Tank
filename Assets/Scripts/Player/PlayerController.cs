@@ -4,13 +4,13 @@ using Enemy;
 using Weapons.Bullet;
 using InputComponents;
 using SaveFile;
-using SaveFile.AchievementSystem;
-using Interfaces;
+using AchievementSystem;
+using GameplayInterfaces;
 
 
 namespace Player
 {
-    public class PlayerController : IController
+    public class PlayerController : ICharacterController
     {
         private PlayerView playerView;
         private PlayerModel playerModel;

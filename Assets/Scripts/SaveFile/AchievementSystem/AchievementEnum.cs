@@ -1,4 +1,4 @@
-﻿namespace SaveFile.AchievementSystem
+﻿namespace AchievementSystem
 {
     public enum AchievementTypes
     {

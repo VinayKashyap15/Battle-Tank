@@ -1,5 +1,5 @@
 ﻿
-namespace Interfaces
+namespace GameplayInterfaces
 {
     public interface ITakeDamage
     {

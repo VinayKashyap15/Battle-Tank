@@ -1,5 +1,5 @@
 ﻿using System;
-using Interfaces;
+using GameplayInterfaces;
 using UnityEngine;
 
 namespace Enemy

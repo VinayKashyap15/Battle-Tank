@@ -1,4 +1,4 @@
-﻿using Interfaces;
+﻿using GameplayInterfaces;
 using Player.UI;
 using Enemy;
 using UnityEngine;
@@ -51,7 +51,7 @@ namespace SceneSpecific
                 parentLayoutGroup = GameObject.FindObjectOfType<LayoutGroup>();
             }
         }
-        public override void SpawnPlayerUI(IController _currentPlayerControllerInstance)
+        public override void SpawnPlayerUI(ICharacterController _currentPlayerControllerInstance)
         {
             scoreViewInstance = Instantiate(scoreViewPrefab, currentViewPos, Quaternion.identity);
             scoreViewInstance.gameObject.transform.SetParent(parentLayoutGroup.transform);
@@ -61,7 +61,7 @@ namespace SceneSpecific
             listOfScoreView.Add(scoreViewInstance);
 
         }
-        public override void UpdateScoreView(IController _currentPlayerController, int _score, int _playerID)
+        public override void UpdateScoreView(ICharacterController _currentPlayerController, int _score, int _playerID)
         {
             if (listOfScoreView.Count == 0)
             {

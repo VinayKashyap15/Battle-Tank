@@ -6,7 +6,7 @@ using System.Linq;
 using SceneSpecific;
 using Player.UI;
 using SaveFile;
-using SaveFile.AchievementSystem;
+using AchievementSystem;
 using System;
 
 namespace Player
@@ -144,7 +144,7 @@ namespace Player
         public void SetCurrentInstance(PlayerController _playerControllerInstance)
         {
             playerControllerInstance = _playerControllerInstance;
-            RegenerateHealth += playerControllerInstance.RegenerateHealth;
+            
         }
         public void UpdateScoreView(PlayerController _p, int _score, int _playerID)
         {

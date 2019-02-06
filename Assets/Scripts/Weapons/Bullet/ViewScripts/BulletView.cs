@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using Enemy;
-using Interfaces;
+using GameplayInterfaces;
 using Weapons.Bullet;
 using Weapons.Interfaces;
 using Bullet.Controller;

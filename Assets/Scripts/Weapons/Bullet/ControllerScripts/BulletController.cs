@@ -1,5 +1,5 @@
 using UnityEngine;
-using Interfaces;
+using GameplayInterfaces;
 using Player;
 using Bullet.Model;
 using Bullet.View;

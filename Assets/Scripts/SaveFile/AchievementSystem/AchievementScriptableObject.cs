@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-namespace SaveFile.AchievementSystem
+namespace AchievementSystem
 {
     [CreateAssetMenu(fileName = "NewAchievementData", menuName = "Custom Objects/Player/Achievement", order = 0)]
     public class AchievementScriptableObject:ScriptableObject
