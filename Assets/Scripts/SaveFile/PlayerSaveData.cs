@@ -8,7 +8,9 @@ namespace SaveFile
 {
     public class PlayerSaveData : SingletonBase<PlayerSaveData>
     {
-        
+        private void Start() {
+           Player.PlayerService.Instance.PlayerDeath += SetDieMark;    
+        }
         public void SetHighScoreData(int _playerID,int _highScore)
         {
           PlayerPrefs.SetInt("HighScore for Player"+_playerID.ToString(),_highScore);

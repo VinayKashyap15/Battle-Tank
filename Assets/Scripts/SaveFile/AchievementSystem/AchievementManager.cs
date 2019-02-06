@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Common;
+using Player;
 using Player.UI;
 using System;
 using SaveFile;
@@ -25,10 +26,19 @@ namespace AchievementSystem
             highScoreMark = achievementScriptableObj.highScore;
             gamePlayedMark = achievementScriptableObj.gamesPlayed;
             dieMark = achievementScriptableObj.dieTimes;
-             GamesJoined += GamePlayedAchievements;
-            OnAchievementCrossed += ScoreManager.Instance.OnAchievementUnlocked;
+             RegisterServices();
+           
+            
        }
-        
+          private void RegisterServices()
+        {
+             GamesJoined += GamePlayedAchievements;
+            PlayerService.Instance.EnemyKill +=EnemyKillAchievements;
+            PlayerService.Instance.PlayerDeath += DieAchievements;
+            PlayerService.Instance.HighScoreUpdate += HighScoreAchievements;
+            
+           
+        }
 
             public void InvokeGamesJoined(int _id, int _currentGamesValue)
             {

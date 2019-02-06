@@ -58,18 +58,9 @@ namespace Player
                 playerPrefab = newPlayerPrefabScriptableObj.newPlayerPrefab;
             }
             currentSceneController = _currentSceneController;
-            RegisterServices();
+           
             SpawnPlayers();
-           
-        }
-
-        private void RegisterServices()
-        {
-            PlayerDeath += PlayerSaveData.Instance.SetDieMark;
-            PlayerDeath += AchievementManager.Instance.DieAchievements;
-            HighScoreUpdate += AchievementManager.Instance.HighScoreAchievements;
-            EnemyKill += AchievementManager.Instance.EnemyKillAchievements;
-           
+            Enemy.EnemyService.Instance.EnemyDeath += InvokePlayerScore;
         }
         private void SpawnPlayers()
         {

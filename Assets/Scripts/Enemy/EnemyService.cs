@@ -21,9 +21,7 @@ namespace Enemy
 
         private void RegisterEvent()
         {
-            EnemyDeath += RemoveEnemyFromList;
-            EnemyDeath += Player.PlayerService.Instance.InvokePlayerScore;
-            
+            EnemyDeath += RemoveEnemyFromList;                      
             
         }
 

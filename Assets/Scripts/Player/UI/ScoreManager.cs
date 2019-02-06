@@ -8,7 +8,9 @@ namespace Player.UI
 {
     public class ScoreManager : SingletonBase<ScoreManager>
     {
-        
+        private void Start() {
+            AchievementSystem.AchievementManager.Instance.OnAchievementCrossed+=OnAchievementUnlocked;
+        }
         private SceneController sceneController;
         private List<string> highScoreTexts = new List<string>();
 
