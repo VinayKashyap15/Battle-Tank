@@ -68,7 +68,7 @@ namespace Player
         public void DestoySelf()
         {
             PlayerService.Instance.InvokePlayerDeath(currentPlayerController.GetID());
-           gameObject.transform.position= PlayerService.Instance.Respawn();
+           gameObject.transform.position= PlayerService.Instance. GetRespawnSafePosition();
             
         }
 

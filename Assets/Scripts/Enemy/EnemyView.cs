@@ -6,11 +6,16 @@ namespace Enemy
 {
     [RequireComponent(typeof(Rigidbody))]
     [RequireComponent(typeof(BoxCollider))]
-    public class EnemyView : MonoBehaviour,ITakeDamage
+    public class EnemyView : MonoBehaviour, ITakeDamage
     {
         private EnemyController currentEnemyController;
+        private Material _mat;
 
 
+        private void Start()
+        {
+            _mat = this.GetComponentInChildren<Renderer>().sharedMaterial;
+        }
         public void SetController(EnemyController _enemyController)
         {
             currentEnemyController = _enemyController;
@@ -21,13 +26,13 @@ namespace Enemy
         }
 
         public void DestroySelf()
-        {     
+        {
             Destroy(this.gameObject);
         }
 
         public void SetMaterial(Material _newMat)
         {
-            this.GetComponentInChildren<Renderer>().sharedMaterial = _newMat;
+            _mat = _newMat;
         }
 
         public Vector3 GetPosition()

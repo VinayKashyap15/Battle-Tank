@@ -30,13 +30,14 @@ namespace Player
         public List<PlayerController> listOfPlayerControllers = new List<PlayerController>();
         //player id and kill count
         private Dictionary<int, int> enemyKillCountData = new Dictionary<int, int>();
+        //player id and games played
         private Dictionary<int, int> playerGamesPlayedData = new Dictionary<int, int>();
 
         public event Action RegenerateHealth;
         public event Action<int, int> PlayerDeath;
         public event Action<int,int> HighScoreUpdate;
         public event Action<int, int> EnemyKill;
-        public event Action<int, int> GamesJoined;
+      
 
         private GameObject SpawnPrefabInstance(Vector3 _spawnPos)
         {
@@ -68,7 +69,7 @@ namespace Player
             PlayerDeath += AchievementManager.Instance.DieAchievements;
             HighScoreUpdate += AchievementManager.Instance.HighScoreAchievements;
             EnemyKill += AchievementManager.Instance.EnemyKillAchievements;
-            GamesJoined += AchievementManager.Instance.GamePlayedAchievements;
+           
         }
         private void SpawnPlayers()
         {
@@ -114,7 +115,7 @@ namespace Player
             Debug.Log("player"+_id.ToString()+" value " +currentGamesValue.ToString());
             PlayerSaveData.Instance.SetGamesPlayedData(_id,currentGamesValue+1);
             playerGamesPlayedData[_id] = currentGamesValue + 1;
-            GamesJoined.Invoke(_id,currentGamesValue+1);
+           AchievementManager.Instance.InvokeGamesJoined(_id,currentGamesValue);
         }
 
         public void DestroyPlayer(PlayerController _playerController)
@@ -150,7 +151,7 @@ namespace Player
         {
             ScoreManager.Instance.UpdateScoreView(_p, _score, _playerID);
         }
-        public Vector3 Respawn()
+        public Vector3  GetRespawnSafePosition()
         {
 
             Vector3 pos = currentSceneController.FindSafePosition();

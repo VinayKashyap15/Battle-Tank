@@ -10,13 +10,14 @@ namespace AchievementSystem
     {
         [SerializeField]
         private AchievementScriptableObject achievementScriptableObj;
+        public event Action<int, int> GamesJoined;
 
         private int highScoreMark;
         private int enemyKillMark;
         private int gamePlayedMark;
         private int dieMark;
 
-        //public event Action<string> OnAchievementCrossed;
+        public event Action<string> OnAchievementCrossed;
 
        private void Start()
        {
@@ -24,15 +25,15 @@ namespace AchievementSystem
             highScoreMark = achievementScriptableObj.highScore;
             gamePlayedMark = achievementScriptableObj.gamesPlayed;
             dieMark = achievementScriptableObj.dieTimes;
-
-            //OnAchievementCrossed += ScoreManager.Instance.OnAchievementUnlocked;
+             GamesJoined += GamePlayedAchievements;
+            OnAchievementCrossed += ScoreManager.Instance.OnAchievementUnlocked;
        }
+        
 
-        public void AchievementUnlocked(string _achievement)
-        {
-            //OnAchievementCrossed.Invoke(_achievement);
-        }
-
+            public void InvokeGamesJoined(int _id, int _currentGamesValue)
+            {
+                 GamesJoined.Invoke(_id,_currentGamesValue+1);
+            }
         public void DieAchievements(int _id, int _dieCalled)
         {
             
@@ -44,7 +45,7 @@ namespace AchievementSystem
             AchievementStatus currentStatus=  PlayerSaveData.Instance.GetAchievementStatus(AchievementTypes.PLAYERDEATHS,_id);
             if(currentStatus==AchievementStatus.FINISHED)
             {
-                ScoreManager.Instance.OnAchievementUnlocked("Achievement Unlocked for player" + _id.ToString()+" Die "+dieMark.ToString()+" times");
+                OnAchievementCrossed.Invoke("Achievement Unlocked for player" + _id.ToString()+" Die "+dieMark.ToString()+" times");
             }
         }
 
@@ -57,7 +58,7 @@ namespace AchievementSystem
             AchievementStatus currentStatus = PlayerSaveData.Instance.GetAchievementStatus(AchievementTypes.ENEMYKILLS, _id);
             if (currentStatus == AchievementStatus.FINISHED)
             {
-                ScoreManager.Instance.OnAchievementUnlocked("Achievement Unlocked for player"+_id.ToString() +"Kill  " + enemyKillMark.ToString() + " Enemies!!");
+                OnAchievementCrossed.Invoke("Achievement Unlocked for player"+_id.ToString() +"Kill  " + enemyKillMark.ToString() + " Enemies!!");
             }
         }
 
@@ -70,7 +71,7 @@ namespace AchievementSystem
             AchievementStatus currentStatus = PlayerSaveData.Instance.GetAchievementStatus(AchievementTypes.HIGHSCORE, _id);
             if (currentStatus == AchievementStatus.FINISHED)
             {
-                ScoreManager.Instance.OnAchievementUnlocked("Achievement Unlocked for player" + _id.ToString()+"Reach HighScore " + highScoreMark.ToString() + "!!");
+                OnAchievementCrossed.Invoke("Achievement Unlocked for player" + _id.ToString()+"Reach HighScore " + highScoreMark.ToString() + "!!");
             }
         }
 
@@ -83,7 +84,7 @@ namespace AchievementSystem
             AchievementStatus currentStatus = PlayerSaveData.Instance.GetAchievementStatus(AchievementTypes.GAMESJOINED, _id);
             if (currentStatus == AchievementStatus.FINISHED)
             {
-                ScoreManager.Instance.OnAchievementUnlocked("Achievement Unlocked for player" + _id.ToString()+"Play  " + gamePlayedMark.ToString() + " Games!!");
+                OnAchievementCrossed.Invoke("Achievement Unlocked for player" + _id.ToString()+"Play  " + gamePlayedMark.ToString() + " Games!!");
             }
         }
 
