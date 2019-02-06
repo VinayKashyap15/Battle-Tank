@@ -1,4 +1,4 @@
-﻿using Interfaces;
+﻿using GameplayInterfaces;
 using Player.UI;
 using Enemy;
 using UnityEngine;
@@ -30,17 +30,13 @@ namespace SceneSpecific
         private Dictionary<Vector3, int> threatLevel = new Dictionary<Vector3, int>();
 
         private Vector3 currentViewPos;
-        private Vector3 spawnPos=Vector3.zero;       
-
-        
+        private Vector3 spawnPos = Vector3.zero;
 
         protected override void OnIntialize()
-        {
-            base.OnIntialize();
+        {           
             Player.PlayerService.Instance.OnStart(this);
-            EnemyService.Instance.OnStart();
+            Enemy.EnemyService.Instance.OnStart();
         }
-
         private void Start()
         {
             if (!scoreViewPrefab)
@@ -48,15 +44,14 @@ namespace SceneSpecific
                 scoreViewPrefab = Resources.Load("PlayerText") as ScoreView;
             }
             currentViewPos = scoreViewPrefab.gameObject.transform.position;
-           
+
             if (!parentLayoutGroup)
             {
                 Debug.Log("Parent not specified, using defaultParent");
                 parentLayoutGroup = GameObject.FindObjectOfType<LayoutGroup>();
             }
         }
-
-        public override void SpawnPlayerUI(IController _currentPlayerControllerInstance)
+        public override void SpawnPlayerUI(ICharacterController _currentPlayerControllerInstance)
         {
             scoreViewInstance = Instantiate(scoreViewPrefab, currentViewPos, Quaternion.identity);
             scoreViewInstance.gameObject.transform.SetParent(parentLayoutGroup.transform);
@@ -66,8 +61,7 @@ namespace SceneSpecific
             listOfScoreView.Add(scoreViewInstance);
 
         }
-
-        public override void UpdateScoreView(IController _currentPlayerController, int _score,int _playerID)
+        public override void UpdateScoreView(ICharacterController _currentPlayerController, int _score, int _playerID)
         {
             if (listOfScoreView.Count == 0)
             {
@@ -79,24 +73,23 @@ namespace SceneSpecific
             {
                 if (item.GetPlayerController() == _currentPlayerController)
                 {
-                    item.UpdateScore(_score,_playerID);
+                    item.UpdateScore(_score, _playerID);
                     return;
                 }
             }
         }
-
         public override Vector3 FindSafePosition()
         {
-           enemyList= EnemyService.Instance.GetEnemyList();
+            enemyList = EnemyService.Instance.GetEnemyList();
             List<Vector3> enemyPositions = new List<Vector3>();
-            foreach(EnemyController i in enemyList)
+            foreach (EnemyController i in enemyList)
             {
                 enemyPositions.Add(i.GetPosition());
             }
-          
+
             for (int i = 0; i < maxIterationLimit; i++)
             {
-                spawnPos = GetRandomSpawnPos();               
+                spawnPos = GetRandomSpawnPos();
                 if (!CheckForThreats(enemyPositions))
                 {
                     return spawnPos;
@@ -104,59 +97,58 @@ namespace SceneSpecific
                 else
                 {
                     spawnPos = GetRandomSpawnPos();
-                    if(i==maxIterationLimit)
+                    if (i == maxIterationLimit)
                     {
-                        spawnPos=GetMaxSafeLocation();
+                        spawnPos = GetMaxSafeLocation();
                     }
                 }
             }
             return spawnPos;
-               
-        }
 
+        }
         private Vector3 GetMaxSafeLocation()
         {
             int _threat;
-            threatLevel.TryGetValue(spawnPos,out _threat);
-            Dictionary<Vector3,int>.ValueCollection value=threatLevel.Values;
-            foreach(int _threatValue in value)
+            threatLevel.TryGetValue(spawnPos, out _threat);
+            Dictionary<Vector3, int>.ValueCollection value = threatLevel.Values;
+            foreach (int _threatValue in value)
             {
-                if(_threatValue<_threat)
+                if (_threatValue < _threat)
                 {
                     _threat = _threatValue;
                 }
             }
-            Vector3 _safestLocation = threatLevel.FirstOrDefault(x=>x.Value==_threat).Key;
+            Vector3 _safestLocation = threatLevel.FirstOrDefault(x => x.Value == _threat).Key;
 
             return _safestLocation;
         }
-
         private bool CheckForThreats(List<Vector3> _enemyPositions)
-        {            
-            int _currentThreatLevel=0;
+        {
+            int _currentThreatLevel = 0;
 
             foreach (Vector3 position in _enemyPositions)
             {
                 if (!(Vector3.Distance(position, spawnPos) >= 3))
-                {                 
+                {
                     _currentThreatLevel++;
-                    if(_currentThreatLevel>maxThreatLevel)
+                    if (_currentThreatLevel > maxThreatLevel)
                     {
                         threatLevel.Add(spawnPos, _currentThreatLevel);
                         return true;
                     }
                 }
             }
-            threatLevel.Add(spawnPos,_currentThreatLevel);
+            threatLevel.Add(spawnPos, _currentThreatLevel);
             return false;
         }
-
         private Vector3 GetRandomSpawnPos()
         {
-            Vector3 _newPos= new Vector3(UnityEngine.Random.Range(0,xDimension),0, UnityEngine.Random.Range(0, yDimension));
+            Vector3 _newPos = new Vector3(UnityEngine.Random.Range(0, xDimension), 0, UnityEngine.Random.Range(0, yDimension));
             if (threatLevel.ContainsKey(_newPos))
                 _newPos = GetRandomSpawnPos();
             return _newPos;
         }
+
+      
     }
 }

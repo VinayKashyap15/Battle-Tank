@@ -1,4 +1,5 @@
-﻿
+﻿using System;
+using GameplayInterfaces;
 using UnityEngine;
 
 namespace Enemy
@@ -40,6 +41,21 @@ namespace Enemy
         public Vector3 GetPosition()
         {
             return currentEnemyView.GetPosition();
+        }
+
+        public void DamageEnemy(int _damage)
+        {
+            currentEnemyModel.SetEnemyHealth(currentEnemyModel.GetEnemyHealth() - _damage);
+            if(currentEnemyModel.GetEnemyHealth()<=0)
+            {
+                EnemyService.Instance.OnEnemyDeath(GetID(),currentEnemyModel.GetEnemyType(),EnemyService.Instance.GetDamagingPlayerID());
+                currentEnemyView.DestroySelf();
+            }
+        }
+
+        public int GetID()
+        {
+            return currentEnemyModel.GetID();
         }
     }
 }

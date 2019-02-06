@@ -4,7 +4,7 @@ namespace Bullet.Model
 {
     public class BulletModel
     {
-        private float pointDamage;
+        protected int pointDamage;
         protected  float bulletSpeed;
         private float bulletLife;
         private Vector3 bulletPosition;
@@ -12,13 +12,13 @@ namespace Bullet.Model
 
         public BulletModel()
         {
-            pointDamage = 10f;
+            pointDamage = 10;
             bulletSpeed = 5f;
             bulletLife = 3f;
             bulletPosition = new Vector3(0, 0, 1);
             fireRate = 5f;
         }
-        public float GetPointDamage()
+        public int GetPointDamage()
         {
             return pointDamage;
         }

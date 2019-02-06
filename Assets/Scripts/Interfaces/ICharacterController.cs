@@ -2,9 +2,8 @@
 
 namespace GameplayInterfaces
 {
-    public interface IView
+    public interface ICharacterController
     {
 
     }
 }
-
