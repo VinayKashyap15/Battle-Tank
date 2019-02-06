@@ -10,10 +10,8 @@ namespace SceneSpecific
     public class SceneController : MonoBehaviour
     {
         [SerializeField]
-        protected SceneScriptableObject _sceneScriptableObj;
-        
-
-        private  void Awake()
+        protected SceneScriptableObject _sceneScriptableObj;        
+        private  void Start()
         {
             OnIntialize();
         }
@@ -22,10 +20,14 @@ namespace SceneSpecific
         {
             ScoreManager.Instance.SetSceneController(this);
         }
+        public virtual void OnClickStart()
+        {
+            SceneLoader.Instance.OnClickStart(_sceneScriptableObj == null ? null: _sceneScriptableObj.gameScene.name);
+        }
 
         protected virtual void OnClickPlay()
         {
-            SceneLoader.Instance.OnClickPlay(_sceneScriptableObj == null ? null: _sceneScriptableObj.gameScene.name);
+            SceneLoader.Instance.OnClickPlay(_sceneScriptableObj == null ? null: _sceneScriptableObj.startScene.name);
         }
 
         protected virtual void OnReturnHome()

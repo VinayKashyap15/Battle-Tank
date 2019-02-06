@@ -50,6 +50,13 @@ namespace SceneSpecific
                 Debug.Log("Parent not specified, using defaultParent");
                 parentLayoutGroup = GameObject.FindObjectOfType<LayoutGroup>();
             }
+            //StateMachineImplementation.StateMachineService.Instance.OnEnterGameScene+=StartServices;
+            StartServices();
+        }
+        private void StartServices()
+        {
+            Player.PlayerService.Instance.OnStart(this);
+            Enemy.EnemyService.Instance.OnStart();
         }
         public override void SpawnPlayerUI(ICharacterController _currentPlayerControllerInstance)
         {

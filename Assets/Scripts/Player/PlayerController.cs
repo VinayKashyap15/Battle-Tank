@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using Enemy;
+using PlayerStates;
 using Weapons.Bullet;
 using InputComponents;
 using SaveFile;
@@ -15,6 +16,7 @@ namespace Player
         private PlayerView playerView;
         private PlayerModel playerModel;
         private InputComponent currentInputComponent;
+        private PlayerState currentState;
         private bool isFriendlyFire = true;
 
         public PlayerController(PlayerView playerViewInstance, int _playerID, InputScriptableObject _customInputScheme = null)
@@ -30,7 +32,11 @@ namespace Player
             }
             playerView.SetPlayerController(this);
 
-            
+            CreateNewPlayerState();
+          }
+          private void CreateNewPlayerState()
+          {
+              currentState=new IdleState();
           }
         public void CheckCollision(ITakeDamage _currentView, int damageValue)
         {
@@ -49,10 +55,15 @@ namespace Player
         }
         public void Move(float h, float v)
         {
+            currentState.OnStateExit(); 
+            currentState=new MovingState();
             playerView.MovePlayer(h, v, playerModel.GetSpeed());
+            
         }
         public void Fire()
         {
+            currentState.OnStateExit();
+            currentState=new FiringState();
             var _bulletController = BulletService.Instance.SpawnBullet(this);
 
 

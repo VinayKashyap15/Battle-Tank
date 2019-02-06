@@ -8,15 +8,16 @@ namespace Player.UI
 {
     public class ScoreManager : SingletonBase<ScoreManager>
     {
-        private void Start() {
+        private void Start() 
+        {
             AchievementSystem.AchievementManager.Instance.OnAchievementCrossed+=OnAchievementUnlocked;
         }
         private SceneController sceneController;
         private List<string> highScoreTexts = new List<string>();
 
-        public void SetSceneController(SceneController _scemeController)
+        public void SetSceneController(SceneController _sceneController)
         {
-            sceneController = _scemeController;
+            sceneController = _sceneController;
         }
 
         public void AddPlayerUI(PlayerController _playerControllerInstance)
