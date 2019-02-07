@@ -12,6 +12,11 @@ namespace StateMachineImplementation
         public event Action OnEnterGameOverScene;
         public event Action OnEnterLoadingScene;
 
+         public event Action OnPause;
+
+         public event Action OnResume;
+
+        private bool isPaused=false;
         private StateMachineEnumTypes currentStateMachineType;
         private StateMachineBase currentStateMachine;
         private void Start()
@@ -19,6 +24,31 @@ namespace StateMachineImplementation
            // OnEnterLoadingScene?.Invoke();
             //SetCurrentStateMachineType(StateMachineEnumTypes.LOADING);            
         }
+
+        public void SetGamePause()
+        {
+           isPaused=!isPaused;
+           if(isPaused)
+           {               
+               InvokePauseActions();
+           }
+           else
+           {
+               InvokeResumeActions();
+           }
+        }
+
+        private void InvokeResumeActions()
+        {
+            OnResume.Invoke();
+        }
+
+        private void InvokePauseActions()
+        {
+            OnPause.Invoke();
+            currentStateMachineType=StateMachineEnumTypes.PAUSE;
+        }
+
         public void InvokeOnEnterStartScene()
         {
             OnEnterStartScene?.Invoke();

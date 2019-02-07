@@ -4,15 +4,14 @@ namespace PlayerStates
 {
     public class MovingState: PlayerState
     {
-          public MovingState()
+          public MovingState(Player.PlayerView _currentPlayerView)
         {
             OnStateEnter();
 
         }
         public override void OnStateEnter()
         {
-            Debug.Log("Inside moving state of player");
-            //play moving animation
+            
         }
         public override void OnStateExit()
         {

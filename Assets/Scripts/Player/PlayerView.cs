@@ -4,16 +4,21 @@ using System;
 
 namespace Player
 {
-    public class PlayerView : MonoBehaviour,ITakeDamage
+    public class PlayerView : MonoBehaviour, ITakeDamage
     {
 
         [SerializeField]
         private GameObject muzzlePoint;
         public bool isFriendlyFire;
-        
+
         private PlayerController currentPlayerController;
         private Rigidbody bulletRb;
+        private Animator anim;
 
+        private void Awake()
+        {
+            anim = gameObject.GetComponentInChildren<Animator>();
+        }
         public void MovePlayer(float h, float v, float speed)
         {
             transform.Translate(new Vector3(h * speed * Time.deltaTime, 0, v * speed * Time.deltaTime));
@@ -46,15 +51,13 @@ namespace Player
         {
             return muzzlePoint.transform.forward;
         }
-
         private void OnCollisionEnter(Collision collision)
         {
-            if(collision.collider.GetComponent<Enemy.EnemyView>())
+            if (collision.collider.GetComponent<Enemy.EnemyView>())
             {
                 TakeDamage(25);
-            }         
+            }
         }
-
         public void SetPlayerController(PlayerController _currentPlayerController)
         {
             currentPlayerController = _currentPlayerController;
@@ -68,13 +71,18 @@ namespace Player
         public void DestoySelf()
         {
             PlayerService.Instance.InvokePlayerDeath(currentPlayerController.GetID());
-           gameObject.transform.position= PlayerService.Instance. GetRespawnSafePosition();
-            
+            gameObject.transform.position = PlayerService.Instance.GetRespawnSafePosition();
+
         }
 
         public string GetName()
         {
             return "PlayerView";
+        }
+
+        public Animator GetAnimator()
+        {
+            return anim;
         }
     }
 }

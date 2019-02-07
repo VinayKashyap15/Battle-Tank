@@ -37,6 +37,8 @@ namespace Player
         public event Action<int, int> PlayerDeath;
         public event Action<int,int> HighScoreUpdate;
         public event Action<int, int> EnemyKill;
+        public event Action StateUpdater;
+        public event Action UpdatePlayer;
       
 
         private GameObject SpawnPrefabInstance(Vector3 _spawnPos)
@@ -61,6 +63,9 @@ namespace Player
            
             SpawnPlayers();
             Enemy.EnemyService.Instance.EnemyDeath += InvokePlayerScore;
+        }
+        public void OnUpdate() {
+            UpdatePlayer.Invoke();
         }
         private void SpawnPlayers()
         {
@@ -108,7 +113,6 @@ namespace Player
             playerGamesPlayedData[_id] = currentGamesValue + 1;
            AchievementManager.Instance.InvokeGamesJoined(_id,currentGamesValue);
         }
-
         public void DestroyPlayer(PlayerController _playerController)
         {
 
@@ -160,19 +164,16 @@ namespace Player
             playerControllerInstance.UpdateScore(_enemyID, _type);
             EnemyKill.Invoke(playerControllerInstance.GetID(),enemyKill);
         }
-
         private int GetEnemyKillFromID(int playerID)
         {
             int killCount;
             enemyKillCountData.TryGetValue(playerID, out killCount);
             return killCount;
         }
-
         public void InvokeHighScoreAchievement(int _id,int _highScore)
         {
             HighScoreUpdate.Invoke(_id,_highScore);
         }
-
         public void AddKillCount(int _playerID)
         {
             int currentKillCount;
@@ -184,6 +185,11 @@ namespace Player
             //enemyKillCountData.Add(_playerID,currentKillCount++);
             enemyKillCountData[_playerID] = currentKillCount+1;
             
+        }
+
+        public void InvokeStateUpdater()
+        {
+            StateUpdater.Invoke();
         }
     }
 }

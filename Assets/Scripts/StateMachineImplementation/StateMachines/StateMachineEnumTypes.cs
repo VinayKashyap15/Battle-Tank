@@ -5,6 +5,7 @@ namespace StateMachine
         LOADING,
         START,
         GAME,
+        PAUSE,
         GAMEOVER
     }
 }

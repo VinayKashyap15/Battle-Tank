@@ -16,7 +16,7 @@ namespace InputComponents
             moveBackwardKey= _customInputScheme.moveBackwardKey;
             moveLeftKey = _customInputScheme.moveLeftKey;
             moveRightKey = _customInputScheme.moveRightKey;
-
+            pauseKey=_customInputScheme.pauseKey;
             currentPlayerController = _currentPlayerControllerInstance;
         }
 
@@ -43,6 +43,10 @@ namespace InputComponents
         public override KeyCode GetMoveRightInput()
         {
             return moveRightKey;
+        }
+        public  override KeyCode GetPauseKey()
+        {
+                return pauseKey;
         }
     }
 }

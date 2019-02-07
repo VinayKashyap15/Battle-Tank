@@ -14,6 +14,10 @@ namespace InputComponents
             }
         }
 
+        public void SetPauseGame()
+        {
+            StateMachineImplementation.StateMachineService.Instance.SetGamePause();
+        }
        
     }
 }

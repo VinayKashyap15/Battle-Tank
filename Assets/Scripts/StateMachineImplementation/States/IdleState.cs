@@ -1,26 +1,33 @@
 using UnityEngine;
+using Player;
 
 namespace PlayerStates
 {
     public class IdleState : PlayerState
     {
-        public IdleState()
+        PlayerView _playerViewInstance;
+        Animator _currentPlayerAnimator;
+        public IdleState(PlayerView _currentPlayerView)
         {
+            _playerViewInstance=_currentPlayerView;
             OnStateEnter();
+
         }
         public override void OnStateEnter()
         {
-            Debug.Log("Inside on State Enter of Idle State");
-            //play idle animation
+           _currentPlayerAnimator = _playerViewInstance.GetAnimator();
         }
         public override void OnStateExit()
         {
             Debug.Log("Exitting idle state of player");
             //disable idle animation
+            _currentPlayerAnimator.SetBool("isIdle",false);
+
         }
         public override void OnStateUpdate()
         {
-            //do something 
+            
+            _currentPlayerAnimator.SetBool("isIdle",true);
         }
     }
 }

@@ -11,6 +11,15 @@ namespace Player.UI
         private void Start() 
         {
             AchievementSystem.AchievementManager.Instance.OnAchievementCrossed+=OnAchievementUnlocked;
+            StateMachineImplementation.StateMachineService.Instance.OnPause+=OnPauseScreen;
+            StateMachineImplementation.StateMachineService.Instance.OnResume+=OnResumeScreen;
+        }
+        private void OnPauseScreen(){
+            Debug.Log("Score manager pause debug");
+        }
+
+        private void OnResumeScreen(){
+            Debug.Log("Score manager resume debug");
         }
         private SceneController sceneController;
         private List<string> highScoreTexts = new List<string>();

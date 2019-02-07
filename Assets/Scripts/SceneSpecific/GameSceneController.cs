@@ -33,7 +33,7 @@ namespace SceneSpecific
         private Vector3 spawnPos = Vector3.zero;
 
         protected override void OnIntialize()
-        {           
+        {
             Player.PlayerService.Instance.OnStart(this);
             Enemy.EnemyService.Instance.OnStart();
         }
@@ -52,6 +52,10 @@ namespace SceneSpecific
             }
             //StateMachineImplementation.StateMachineService.Instance.OnEnterGameScene+=StartServices;
             StartServices();
+        }
+        private void Update()
+        {
+            Player.PlayerService.Instance.OnUpdate();
         }
         private void StartServices()
         {
@@ -156,6 +160,6 @@ namespace SceneSpecific
             return _newPos;
         }
 
-      
+
     }
 }

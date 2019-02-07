@@ -1,17 +1,18 @@
 using UnityEngine;
+using Player;
+
 namespace PlayerStates
 {
     public class FiringState : PlayerState
     {
 
-        public FiringState()
+        public FiringState(PlayerView _currentPlayerView)
         {
             OnStateEnter();
         }
         public override void OnStateEnter()
         {
-            Debug.Log("Inside firing state of player");
-            //play firing animation
+            
         }
         public override void OnStateExit()
         {

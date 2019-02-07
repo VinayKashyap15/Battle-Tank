@@ -13,15 +13,17 @@ namespace InputComponents
         protected KeyCode moveLeftKey;
         protected KeyCode moveRightKey;
 
+        protected KeyCode pauseKey;
+
         private float verticalVal;
         private float horizontalVal;
 
-        protected  PlayerController currentPlayerController;
-         
+        public bool isPaused = false;
+        protected PlayerController currentPlayerController;
+
         public InputComponent()
         {
-            fireKey = KeyCode.Space;         
-
+            fireKey = KeyCode.Space;
         }
         protected virtual PlayerController GetPlayerController()
         {
@@ -30,51 +32,85 @@ namespace InputComponents
 
         public void OnUpdate()
         {
-            if (Input.GetKey(GetFireInput()))
+            if (Input.GetKey(GetPauseKey()))
             {
-                currentPlayerController.Fire();
+                PauseGame();
             }
-            if (Input.GetKey(GetMoveUpInput()))
+
+            if (!isPaused)
             {
-                MoveUp();
-            }
-            if (Input.GetKey(GetMoveDownInput()))
-            {
-                MoveDown();
-            }
-            if (Input.GetKey(GetMoveLeftInput()))
-            {
-                MoveLeft();
-            }
-            if (Input.GetKey(GetMoveRightInput()))
-            {
-                MoveRight();
+                if (Input.GetKey(GetFireInput()))
+                {
+                    currentPlayerController.Fire();
+                    SetFireState(true);                    
+                }
+                else
+                {
+                    SetFireState(false);
+                }
+                
+                if (Input.GetKey(GetMoveUpInput()))
+                {
+                    MoveUp();
+                    return;
+                }
+                if (Input.GetKey(GetMoveDownInput()))
+                {
+                    MoveDown();
+                    return;
+                }
+                if (Input.GetKey(GetMoveLeftInput()))
+                {
+                    MoveLeft();
+                    return;
+                }
+                if (Input.GetKey(GetMoveRightInput()))
+                {
+                    MoveRight();
+                    return;
+                }                                
+                
+                SetPlayerIdle();
+                
             }
         }
 
+        private void PauseGame()
+        {
+            GetPlayerController().PauseGame();
+            InputManagerBase.Instance.SetPauseGame();
+        }
+        private void SetFireState(bool _isFiring)
+        {
+            GetPlayerController().SetFireState(_isFiring);
+        }
+        private void SetPlayerIdle()
+        {
+            GetPlayerController().PlayerIdle();
+        }
         private void MoveUp()
         {
             verticalVal = 1f;
             horizontalVal = 0;
-            GetPlayerController().Move(horizontalVal,verticalVal);
+            GetPlayerController().Move(horizontalVal, verticalVal);
         }
         private void MoveDown()
         {
             verticalVal = -1f;
             horizontalVal = 0;
-            GetPlayerController().Move( horizontalVal,verticalVal);
+            GetPlayerController().Move(horizontalVal, verticalVal);
         }
         private void MoveLeft()
         {
             verticalVal = 0;
             horizontalVal = -1;
-            GetPlayerController().Move( horizontalVal,verticalVal);
+            GetPlayerController().Move(horizontalVal, verticalVal);
         }
         private void MoveRight()
         {
             verticalVal = 0;
             horizontalVal = 1;
-            GetPlayerController().Move( horizontalVal,verticalVal);
+            GetPlayerController().Move(horizontalVal, verticalVal);
 
         }
 
@@ -98,6 +134,9 @@ namespace InputComponents
         {
             return moveRightKey;
         }
-        
+        public virtual KeyCode GetPauseKey()
+        {
+            return pauseKey;
+        }
     }
 }

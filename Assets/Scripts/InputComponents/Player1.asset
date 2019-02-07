@@ -16,3 +16,4 @@ MonoBehaviour:
   moveBackwardKey: 274
   moveLeftKey: 276
   moveRightKey: 275
+  pauseKey: 27
