@@ -5,9 +5,10 @@ namespace PlayerStates
 {
     public class FiringState : PlayerState
     {
-
+        PlayerView _playerViewInstance;
         public FiringState(PlayerView _currentPlayerView)
         {
+            _playerViewInstance=_currentPlayerView;
             OnStateEnter();
         }
         public override void OnStateEnter()
@@ -16,8 +17,7 @@ namespace PlayerStates
         }
         public override void OnStateExit()
         {
-             Debug.Log("Exitting firing state of player");
-            //disable firing animation
+            
         }
         public override void OnStateUpdate()
         {

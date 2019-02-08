@@ -21,8 +21,7 @@ namespace StateMachineImplementation
         private StateMachineBase currentStateMachine;
         private void Start()
         {
-           // OnEnterLoadingScene?.Invoke();
-            //SetCurrentStateMachineType(StateMachineEnumTypes.LOADING);            
+                    
         }
 
         public void SetGamePause()
@@ -52,7 +51,6 @@ namespace StateMachineImplementation
         public void InvokeOnEnterStartScene()
         {
             OnEnterStartScene?.Invoke();
-
         }
         public void InvokeOnEnterGameScene()
         {
@@ -72,7 +70,6 @@ namespace StateMachineImplementation
             Debug.Log("Current State Machine : "+currentStateMachineType.ToString());
             CreateStateMachine();
         }
-
         private void CreateStateMachine()
         {
             switch(currentStateMachineType){

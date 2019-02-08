@@ -19,7 +19,7 @@ namespace Player
         private PlayerView playerView;
         private PlayerModel playerModel;
         private InputComponent currentInputComponent;
-        private PlayerState currentState;
+       
         private IdleState idleState;
         private MovingState movingState;
         private FiringState firingState;
@@ -74,8 +74,8 @@ namespace Player
                 idleState = new IdleState(playerView);
                 AddToStateDictionary(idleState, true);
             }
-            currentState = idleState;
-            SetActiveInDictionary(currentState, true);
+          
+            SetActiveInDictionary(idleState, true);
         }
 
         private void SetActiveInDictionary(PlayerState _currentState, bool _isActive)
@@ -114,8 +114,7 @@ namespace Player
                 AddToStateDictionary(movingState, true);
             }
             SetActiveInDictionary(movingState,true);
-
-            currentState = movingState;
+          
             playerView.MovePlayer(h, v, playerModel.GetSpeed());
                   
         }
@@ -137,7 +136,7 @@ namespace Player
                 firingState = new FiringState(playerView);
                 AddToStateDictionary(firingState, true);
             }            
-            currentState = firingState;
+            
             var _bulletController = BulletService.Instance.SpawnBullet(this);
 
             Vector3 firePos = playerView.GetMuzzlePosition();
@@ -200,10 +199,6 @@ namespace Player
                 Debug.Log("player dead");
                 playerView.DestoySelf();
             }
-        }
-        public void RegenerateHealth()
-        {
-            playerModel.SetHealth(100);
         }
 
     }
