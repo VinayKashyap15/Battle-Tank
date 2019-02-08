@@ -18,6 +18,7 @@ namespace Player
         private void Awake()
         {
             anim = gameObject.GetComponentInChildren<Animator>();
+            
         }
         public void MovePlayer(float h, float v, float speed)
         {
