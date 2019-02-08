@@ -4,6 +4,7 @@ using Common;
 using System.Collections.Generic;
 using System.Linq;
 using SceneSpecific;
+using RewardSystem;
 using Player.UI;
 using SaveFile;
 using AchievementSystem;
@@ -18,28 +19,40 @@ namespace Player
         [SerializeField]
         private PlayerPrefabScriptableObject newPlayerPrefabScriptableObj;
 
-        
+
 
         private PlayerController playerControllerInstance;
         private GameObject playerPrefab;
         private GameObject playerInstance;
         private int playerID = 0;
-        private int dieActionCalled = 0;        
+        private int dieActionCalled = 0;
+
+        public void SetConfig(RewardProperties _rewardProperty)
+        {
+
+        }
+
         private SceneController currentSceneController;
 
         public List<PlayerController> listOfPlayerControllers = new List<PlayerController>();
         //player id and kill count
         private Dictionary<int, int> enemyKillCountData = new Dictionary<int, int>();
+
+
+
         //player id and games played
         private Dictionary<int, int> playerGamesPlayedData = new Dictionary<int, int>();
 
         public event Action RegenerateHealth;
         public event Action<int, int> PlayerDeath;
-        public event Action<int,int> HighScoreUpdate;
+        public event Action<int, int> HighScoreUpdate;
         public event Action<int, int> EnemyKill;
         public event Action StateUpdater;
         public event Action UpdatePlayer;
-      
+        private int noOfPlayers;
+
+        private Material _rewardedMat;
+
 
         private GameObject SpawnPrefabInstance(Vector3 _spawnPos)
         {
@@ -52,9 +65,22 @@ namespace Player
             _playerInstance.transform.position = _spawnPos;
             return _playerInstance;
         }
+
+        private void Start()
+        {
+            if (listOfPlayerInputComponents)
+            {
+                noOfPlayers = listOfPlayerInputComponents.playerList.Count;
+            }
+            else
+            {
+                noOfPlayers = 1;
+            }
+
+        }
         public void OnStart(SceneController _currentSceneController)
         {
-
+            listOfPlayerControllers.Clear();
             if (newPlayerPrefabScriptableObj)
             {
                 playerPrefab = newPlayerPrefabScriptableObj.newPlayerPrefab;
@@ -64,8 +90,14 @@ namespace Player
             SpawnPlayers();
             Enemy.EnemyService.Instance.EnemyDeath += InvokePlayerScore;
         }
-        public void OnUpdate() {
-            UpdatePlayer.Invoke();
+        public void SaveMaterialFromReward(Material materialToSave)
+        {
+            _rewardedMat = materialToSave;
+
+        }
+        public void OnUpdate()
+        {
+            UpdatePlayer?.Invoke();
         }
         private void SpawnPlayers()
         {
@@ -78,10 +110,10 @@ namespace Player
                 for (int i = 0; i < listOfPlayerInputComponents.playerList.Count; i++)
                 {
                     playerInstance = SpawnPrefabInstance(pos);
-                    _playerControllerInstance = new PlayerController(playerInstance.GetComponent<PlayerView>(), playerID, listOfPlayerInputComponents.playerList.ElementAt(i));
-                    listOfPlayerControllers.Add(_playerControllerInstance);                    
-                    enemyKillCountData.Add(_playerControllerInstance.GetID(),PlayerSaveData.Instance.GetEnemyKillData(_playerControllerInstance.GetID()));
-                    playerGamesPlayedData.Add(_playerControllerInstance.GetID(),PlayerSaveData.Instance.GetGamesPlayedData(_playerControllerInstance.GetID()));
+                    _playerControllerInstance = new PlayerController(playerInstance.GetComponent<PlayerView>(), playerID, listOfPlayerInputComponents.playerList.ElementAt(i), _rewardedMat);
+                    listOfPlayerControllers.Add(_playerControllerInstance);
+                    enemyKillCountData.Add(_playerControllerInstance.GetID(), PlayerSaveData.Instance.GetEnemyKillData(_playerControllerInstance.GetID()));
+                    playerGamesPlayedData.Add(_playerControllerInstance.GetID(), PlayerSaveData.Instance.GetGamesPlayedData(_playerControllerInstance.GetID()));
 
                     SetGameJoined(_playerControllerInstance.GetID());
 
@@ -94,7 +126,7 @@ namespace Player
             else
             {
                 playerInstance = SpawnPrefabInstance(new Vector3(0, 0, 0));
-                _playerControllerInstance = new PlayerController(playerInstance.GetComponent<PlayerView>(), playerID, null);
+                _playerControllerInstance = new PlayerController(playerInstance.GetComponent<PlayerView>(), playerID, null, _rewardedMat);
                 listOfPlayerControllers.Add(_playerControllerInstance);
                 enemyKillCountData.Add(_playerControllerInstance.GetID(), 0);
                 ScoreManager.Instance.AddPlayerUI(_playerControllerInstance);
@@ -103,15 +135,14 @@ namespace Player
 
 
         }
-
         private void SetGameJoined(int _id)
         {
             int currentGamesValue;
-            playerGamesPlayedData.TryGetValue(_id,out currentGamesValue);
-            Debug.Log("player"+_id.ToString()+" value " +currentGamesValue.ToString());
-            PlayerSaveData.Instance.SetGamesPlayedData(_id,currentGamesValue+1);
+            playerGamesPlayedData.TryGetValue(_id, out currentGamesValue);
+            Debug.Log("player" + _id.ToString() + " value " + currentGamesValue.ToString());
+            PlayerSaveData.Instance.SetGamesPlayedData(_id, currentGamesValue + 1);
             playerGamesPlayedData[_id] = currentGamesValue + 1;
-           AchievementManager.Instance.InvokeGamesJoined(_id,currentGamesValue);
+            AchievementManager.Instance.InvokeGamesJoined(_id, currentGamesValue);
         }
         public void DestroyPlayer(PlayerController _playerController)
         {
@@ -136,17 +167,17 @@ namespace Player
             {
                 SceneLoader.Instance.OnGameOver();
             }
-        }       
+        }
         public void SetCurrentInstance(PlayerController _playerControllerInstance)
         {
             playerControllerInstance = _playerControllerInstance;
-            
+
         }
         public void UpdateScoreView(PlayerController _p, int _score, int _playerID)
         {
             ScoreManager.Instance.UpdateScoreView(_p, _score, _playerID);
         }
-        public Vector3  GetRespawnSafePosition()
+        public Vector3 GetRespawnSafePosition()
         {
 
             Vector3 pos = currentSceneController.FindSafePosition();
@@ -158,11 +189,11 @@ namespace Player
             dieActionCalled++;
             PlayerDeath.Invoke(_id, dieActionCalled);
         }
-        public void InvokePlayerScore(int _enemyID, Enemy.EnemyType _type,int playerID)
+        public void InvokePlayerScore(int _enemyID, Enemy.EnemyType _type, int playerID)
         {
             int enemyKill = GetEnemyKillFromID(playerID);
             playerControllerInstance.UpdateScore(_enemyID, _type);
-            EnemyKill.Invoke(playerControllerInstance.GetID(),enemyKill);
+            EnemyKill.Invoke(playerControllerInstance.GetID(), enemyKill);
         }
         private int GetEnemyKillFromID(int playerID)
         {
@@ -170,26 +201,30 @@ namespace Player
             enemyKillCountData.TryGetValue(playerID, out killCount);
             return killCount;
         }
-        public void InvokeHighScoreAchievement(int _id,int _highScore)
+        public void InvokeHighScoreAchievement(int _id, int _highScore)
         {
-            HighScoreUpdate.Invoke(_id,_highScore);
+            HighScoreUpdate.Invoke(_id, _highScore);
         }
         public void AddKillCount(int _playerID)
         {
             int currentKillCount;
-            if(!enemyKillCountData.ContainsKey(_playerID))
+            if (!enemyKillCountData.ContainsKey(_playerID))
             {
                 return;
             }
             enemyKillCountData.TryGetValue(_playerID, out currentKillCount);
             //enemyKillCountData.Add(_playerID,currentKillCount++);
-            enemyKillCountData[_playerID] = currentKillCount+1;
-            
+            enemyKillCountData[_playerID] = currentKillCount + 1;
+
         }
 
         public void InvokeStateUpdater()
         {
             StateUpdater.Invoke();
+        }
+        public int GetNoOfPlayers()
+        {
+            return noOfPlayers;
         }
     }
 }

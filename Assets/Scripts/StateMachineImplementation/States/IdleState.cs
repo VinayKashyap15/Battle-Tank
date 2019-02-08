@@ -9,6 +9,10 @@ namespace PlayerStates
         Animator _currentPlayerAnimator;
         public IdleState(PlayerView _currentPlayerView)
         {
+            if(_playerViewInstance!=null)
+            {
+                _playerViewInstance=null;
+            }
             _playerViewInstance=_currentPlayerView;
             OnStateEnter();
 

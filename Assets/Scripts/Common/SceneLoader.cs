@@ -1,6 +1,7 @@
 ﻿using UnityEngine.SceneManagement;
 using StateMachineImplementation;
 using StateMachine;
+using Lobby;
 using System;
 
 namespace Common
@@ -19,6 +20,7 @@ namespace Common
 
         public void OnClickPlay(string _gameScene=null)
         {
+            LobbyService.Instance.UnSubscribeDummyControllers();
             SceneManager.LoadScene(_gameScene==null? "Game":_gameScene);
             StateMachineService.Instance.SetCurrentStateMachineType(StateMachineEnumTypes.GAME);
             StateMachineService.Instance.InvokeOnEnterGameScene();

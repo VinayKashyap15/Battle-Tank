@@ -22,12 +22,12 @@ namespace SceneSpecific
         }
         public virtual void OnClickStart()
         {
-            SceneLoader.Instance.OnClickStart(_sceneScriptableObj == null ? null: _sceneScriptableObj.gameScene.name);
+            SceneLoader.Instance.OnClickStart(_sceneScriptableObj == null ? "Start": _sceneScriptableObj.gameScene.name);
         }
 
-        protected virtual void OnClickPlay()
+        public virtual void OnClickPlay()
         {
-            SceneLoader.Instance.OnClickPlay(_sceneScriptableObj == null ? null: _sceneScriptableObj.startScene.name);
+            SceneLoader.Instance.OnClickPlay(_sceneScriptableObj == null ? "Game": _sceneScriptableObj.startScene.name);
         }
 
         protected virtual void OnReturnHome()

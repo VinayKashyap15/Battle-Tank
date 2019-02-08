@@ -27,11 +27,16 @@ namespace Player
         private bool isActive = false;
 
         private Dictionary<PlayerState, bool> currentStateDictionary = new Dictionary<PlayerState, bool>();
-        public PlayerController(PlayerView playerViewInstance, int _playerID, InputScriptableObject _customInputScheme = null)
+       
+        public PlayerController(PlayerView playerViewInstance, int _playerID, InputScriptableObject _customInputScheme = null, Material _rewardedMat = null)
         {
+          
             playerModel = new PlayerModel();
             playerModel.SetID(_playerID);
             playerView = playerViewInstance;
+           
+           if(_rewardedMat!=null) 
+           {SetMaterial(_rewardedMat);}
             if (_customInputScheme)
             { currentInputComponent = new CustomInputComponent(_customInputScheme, this); }
             else
@@ -39,12 +44,14 @@ namespace Player
                 currentInputComponent = new KeyboardComponent(this);
             }
             playerView.SetPlayerController(this);
-
+            currentStateDictionary.Clear();
             CreateNewPlayerState();
+
             PlayerService.Instance.UpdatePlayer += UpdateCurrentPlayer;
         }
         private void UpdateCurrentPlayer()
         {
+            
             foreach (PlayerState _state in currentStateDictionary.Keys)
             {
 
@@ -52,7 +59,7 @@ namespace Player
                 if (isActive)
                 {
                     _state.OnStateUpdate();
-                    Debug.Log(" Active State :"+_state.ToString()+"for player "+GetID().ToString());
+                    Debug.Log(" Active State :" + _state.ToString() + "for player " + GetID().ToString());
                 }
                 else
                 {
@@ -63,19 +70,19 @@ namespace Player
 
         public void PauseGame()
         {
-            currentInputComponent.isPaused=!currentInputComponent.isPaused;
-            Debug.Log("isPaused for player "+GetID().ToString()+" "+currentInputComponent.isPaused);            
+            currentInputComponent.isPaused = !currentInputComponent.isPaused;
+            Debug.Log("isPaused for player " + GetID().ToString() + " " + currentInputComponent.isPaused);
         }
 
         private void CreateNewPlayerState()
         {
-            if (idleState == null)
+            if (idleState != null)
             {
-                idleState = new IdleState(playerView);
-                AddToStateDictionary(idleState, true);
+                currentStateDictionary.Clear();
             }
-            currentState = idleState;
-            SetActiveInDictionary(currentState, true);
+            idleState = new IdleState(playerView);
+            AddToStateDictionary(idleState, true);
+            SetActiveInDictionary(idleState, true);
         }
 
         private void SetActiveInDictionary(PlayerState _currentState, bool _isActive)
@@ -113,30 +120,30 @@ namespace Player
                 movingState = new MovingState(playerView);
                 AddToStateDictionary(movingState, true);
             }
-            SetActiveInDictionary(movingState,true);
+            SetActiveInDictionary(movingState, true);
 
             currentState = movingState;
             playerView.MovePlayer(h, v, playerModel.GetSpeed());
-                  
+
         }
         public void PlayerIdle()
         {
-            if(movingState!=null)
-                SetActiveInDictionary(movingState,false);
+            if (movingState != null)
+                SetActiveInDictionary(movingState, false);
 
-           else if(firingState!=null)
-                SetActiveInDictionary(firingState,false);
+            else if (firingState != null)
+                SetActiveInDictionary(firingState, false);
 
-            SetActiveInDictionary(idleState,true);
+            SetActiveInDictionary(idleState, true);
         }
         public void Fire()
         {
-            
+
             if (firingState == null)
             {
                 firingState = new FiringState(playerView);
                 AddToStateDictionary(firingState, true);
-            }            
+            }
             currentState = firingState;
             var _bulletController = BulletService.Instance.SpawnBullet(this);
 
@@ -148,8 +155,8 @@ namespace Player
 
         public void SetFireState(bool _isFiring)
         {
-            if(firingState!=null)
-                SetActiveInDictionary(firingState,_isFiring);
+            if (firingState != null)
+                SetActiveInDictionary(firingState, _isFiring);
         }
         public void RotatePlayer(float pitch)
         {
@@ -190,6 +197,7 @@ namespace Player
         }
         public void DestroySelf()
         {
+            PlayerService.Instance.UpdatePlayer-=UpdateCurrentPlayer;
             playerModel = null;
         }
         public void TakeDamage(int _damage)
@@ -206,5 +214,9 @@ namespace Player
             playerModel.SetHealth(100);
         }
 
+        public void SetMaterial(Material _mat)
+        {
+            playerView.SetMaterial(_mat);
+        }
     }
 }

@@ -85,5 +85,10 @@ namespace Player
         {
             return anim;
         }
+
+        public void SetMaterial(Material mat)
+        {
+            gameObject.GetComponentInChildren<Renderer>().sharedMaterial= mat;
+        }
     }
 }

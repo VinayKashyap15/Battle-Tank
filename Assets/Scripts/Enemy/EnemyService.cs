@@ -14,7 +14,8 @@ namespace Enemy
         public event Action<int,EnemyType,int> EnemyDeath;
         int currentDamagingID;
         public void OnStart()
-        {          
+        {      
+            
             SpawnEnemyControllers();
             RegisterEvent();
         }

@@ -7,6 +7,6 @@ namespace AchievementSystem
         public int highScore;
         public int enemyKills;
         public int gamesPlayed;
-        public int dieTimes;
+        public int dieTimes;       
     }
 }

@@ -20,7 +20,7 @@ namespace Enemy
         private void SpawnEnemy(EnemyModel _enemyInstance,Vector3 _position)
         {
            GameObject currentEnemyInstance= GameObject.Instantiate(_enemyInstance.GetEnemyModel());
-            currentEnemyInstance.transform.position = _position;           
+            currentEnemyInstance.transform.position = new Vector3(UnityEngine.Random.Range(5,40),0,UnityEngine.Random.Range(5,40)); 
             currentEnemyView = currentEnemyInstance.GetComponent<EnemyView>();
             currentEnemyView.SetMaterial(_enemyInstance.GetEnemyMaterial());
             currentEnemyView.SetController(this);   
