@@ -17,12 +17,8 @@ namespace InputComponents
     }
     public class InputManagerBase : SingletonBase<InputManagerBase>
     {
-        //private QueueData queueData;
-        [SerializeField]
+        
         private Queue<QueueData> saveQueue = new Queue<QueueData>();
-
-
-
         int startTime;
         private void Start()
         {
@@ -30,18 +26,18 @@ namespace InputComponents
         }
         private void Update()
         {
-            if (!ReplayService.Instance.GetReplayValue())
+            if (ReplayService.Instance.GetReplayValue())
             {
-                InputUpdate();
+                ReplayUpdate();
             }
-            ReplayUpdate();
+            InputUpdate();
 
         }
 
         public void InputUpdate()
         {
             int frameNo = Math.Abs(startTime - Time.frameCount);
-           
+
             foreach (var _currentPlayerController in PlayerService.Instance.listOfPlayerControllers)
             {
                 List<InputActions> actionsToPerform = _currentPlayerController.GetInputComponent().OnUpdate();
