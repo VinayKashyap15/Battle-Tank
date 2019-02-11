@@ -142,7 +142,7 @@ namespace Player
             Debug.Log("player" + _id.ToString() + " value " + currentGamesValue.ToString());
             PlayerSaveData.Instance.SetGamesPlayedData(_id, currentGamesValue + 1);
             playerGamesPlayedData[_id] = currentGamesValue + 1;
-            AchievementManager.Instance.InvokeGamesJoined(_id, currentGamesValue);
+//            AchievementManager.Instance.InvokeGamesJoined(_id, currentGamesValue);
         }
         public void DestroyPlayer(PlayerController _playerController)
         {

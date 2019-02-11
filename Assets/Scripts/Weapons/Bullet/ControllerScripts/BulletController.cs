@@ -17,7 +17,7 @@ namespace Bullet.Controller
         private BulletView currentBulletView;
 
 
-        protected PlayerController currentPlayerController;
+        protected Player.PlayerController currentPlayerController;
 
         public event Action<ITakeDamage,int> HasCollided;
 

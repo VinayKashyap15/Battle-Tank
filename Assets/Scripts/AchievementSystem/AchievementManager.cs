@@ -25,16 +25,16 @@ namespace AchievementSystem
         public event Action<int, RewardSystem.RewardUnlockType> UnlockReward;
         private RewardSystem.RewardUnlockType _type;
 
-        private void Start()
-        {
-            _currentAchievementList = achievementScriptableObj.listOfAchievements;
-            _type = RewardSystem.RewardUnlockType.ACHIEVEMENT;
+        // private void Start()
+        // {
+        //     _currentAchievementList = achievementScriptableObj.listOfAchievements;
+        //     _type = RewardSystem.RewardUnlockType.ACHIEVEMENT;
 
-            AddRespectiveMarks();
-            RegisterServices();
+        //     AddRespectiveMarks();
+        //     RegisterServices();
 
 
-        }
+        // }
 
         private void AddRespectiveMarks()
         {
@@ -70,10 +70,10 @@ namespace AchievementSystem
 
         }
 
-        public void InvokeGamesJoined(int _id, int _currentGamesValue)
-        {
-            GamesJoined.Invoke(_id, _currentGamesValue + 1);
-        }
+        // public void InvokeGamesJoined(int _id, int _currentGamesValue)
+        // {
+        //     GamesJoined.Invoke(_id, _currentGamesValue + 1);
+        // }
         public void DieAchievements(int _id, int _dieCalled)
         {
             //idToUnlock = 1;

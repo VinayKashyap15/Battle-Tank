@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using Common;
+using System.Collections.Generic;
+using GameplayInterfaces;
 using Player;
 using System;
 
@@ -12,26 +14,28 @@ namespace InputComponents
         protected KeyCode moveBackwardKey;
         protected KeyCode moveLeftKey;
         protected KeyCode moveRightKey;
-
-        protected KeyCode pauseKey;
+        
+        protected List<InputActions> _actions= new List<InputActions>();
+                protected KeyCode pauseKey;
 
         private float verticalVal;
         private float horizontalVal;
 
         public bool isPaused = false;
-        protected PlayerController currentPlayerController;
+        protected ICharacterController currentCharacterController;
 
         public InputComponent()
         {
             fireKey = KeyCode.Space;
         }
-        protected virtual PlayerController GetPlayerController()
+        protected virtual ICharacterController GetCharacterCoontroller()
         {
-            return currentPlayerController;
+            return currentCharacterController;
         }
 
-        public void OnUpdate()
+        public List<InputActions> OnUpdate()
         {
+            _actions.Clear();
             if (Input.GetKey(GetPauseKey()))
             {
                 PauseGame();
@@ -41,7 +45,7 @@ namespace InputComponents
             {
                 if (Input.GetKey(GetFireInput()))
                 {
-                    currentPlayerController.Fire();
+                    _actions.Add(Fire());
                     SetFireState(true);                    
                 }
                 else
@@ -51,66 +55,71 @@ namespace InputComponents
                 
                 if (Input.GetKey(GetMoveUpInput()))
                 {
-                    MoveUp();
-                    return;
+                    _actions.Add(MoveUp());
+                    
                 }
                 if (Input.GetKey(GetMoveDownInput()))
                 {
-                    MoveDown();
-                    return;
+                   _actions.Add( MoveDown());
+                    
                 }
                 if (Input.GetKey(GetMoveLeftInput()))
                 {
-                    MoveLeft();
-                    return;
+                   _actions.Add( MoveLeft());
+                   
                 }
                 if (Input.GetKey(GetMoveRightInput()))
                 {
-                    MoveRight();
-                    return;
-                }                                
-                
-                SetPlayerIdle();
+                   _actions.Add( MoveRight());
+                    
+                }                                                      
                 
             }
+            return _actions;
+        }
+
+        private InputActions Fire()
+        {            
+            return new FireAction();           
+            
         }
 
         private void PauseGame()
         {
-            GetPlayerController().PauseGame();
+            GetCharacterCoontroller().PauseGame();
             InputManagerBase.Instance.SetPauseGame();
         }
         private void SetFireState(bool _isFiring)
         {
-            GetPlayerController().SetFireState(_isFiring);
+            GetCharacterCoontroller().SetFireState(_isFiring);
         }
-        private void SetPlayerIdle()
-        {
-            GetPlayerController().PlayerIdle();
-        }
-        private void MoveUp()
+    
+        private InputActions MoveUp()
         {
             verticalVal = 1f;
             horizontalVal = 0;
-            GetPlayerController().Move(horizontalVal, verticalVal);
+            
+            return new MoveAction(horizontalVal,verticalVal);
         }
-        private void MoveDown()
+        private InputActions MoveDown()
         {
             verticalVal = -1f;
             horizontalVal = 0;
-            GetPlayerController().Move(horizontalVal, verticalVal);
+          
+            return new MoveAction(horizontalVal,verticalVal);
         }
-        private void MoveLeft()
+        private InputActions MoveLeft()
         {
             verticalVal = 0;
             horizontalVal = -1;
-            GetPlayerController().Move(horizontalVal, verticalVal);
+           
+            return new MoveAction(horizontalVal,verticalVal);
         }
-        private void MoveRight()
+        private InputActions MoveRight()
         {
             verticalVal = 0;
             horizontalVal = 1;
-            GetPlayerController().Move(horizontalVal, verticalVal);
+            return new MoveAction(horizontalVal,verticalVal);
 
         }
 

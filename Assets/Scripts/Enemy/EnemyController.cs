@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Enemy
 {
-    public class EnemyController
+    public class EnemyController:ICharacterController
     {
         private EnemyScriptableObject enemyScriptableObject;
         private EnemyModel currentEnemyModel;
@@ -56,6 +56,31 @@ namespace Enemy
         public int GetID()
         {
             return currentEnemyModel.GetID();
+        }
+
+        public void Fire()
+        {
+            //fire;
+        }
+
+        public void Move(float h, float v)
+        {
+            //move enemy;
+        }
+
+        public void PauseGame()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetFireState(bool isFiring)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void PlayerIdle()
+        {
+            throw new NotImplementedException();
         }
     }
 }

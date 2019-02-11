@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Player;
+using GameplayInterfaces;
 using System;
 
 namespace InputComponents
@@ -9,10 +10,10 @@ namespace InputComponents
     /// </summary>
     public class KeyboardComponent : InputComponent
     {        
-        public KeyboardComponent(PlayerController _playerControllerInstance)
+        public KeyboardComponent(ICharacterController _playerControllerInstance)
         {           
             SetDefaultInputScheme();
-            currentPlayerController = _playerControllerInstance;
+            currentCharacterController = _playerControllerInstance;
         }
 
         private void SetDefaultInputScheme()

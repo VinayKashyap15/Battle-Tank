@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Common;
 using UnityEngine;
+using GameplayInterfaces;
 using RewardSystem;
 using SceneSpecific;
 using Player;
