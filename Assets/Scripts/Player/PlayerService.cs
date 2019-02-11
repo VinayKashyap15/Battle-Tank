@@ -187,13 +187,13 @@ namespace Player
         public void InvokePlayerDeath(int _id)
         {
             dieActionCalled++;
-            PlayerDeath.Invoke(_id, dieActionCalled);
+            PlayerDeath?.Invoke(_id, dieActionCalled);
         }
         public void InvokePlayerScore(int _enemyID, Enemy.EnemyType _type, int playerID)
         {
             int enemyKill = GetEnemyKillFromID(playerID);
             playerControllerInstance.UpdateScore(_enemyID, _type);
-            EnemyKill.Invoke(playerControllerInstance.GetID(), enemyKill);
+            EnemyKill?.Invoke(playerControllerInstance.GetID(), enemyKill);
         }
         private int GetEnemyKillFromID(int playerID)
         {
