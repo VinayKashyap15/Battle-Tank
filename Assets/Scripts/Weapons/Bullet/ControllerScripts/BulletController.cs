@@ -80,7 +80,7 @@ namespace Bullet.Controller
 
         public void InvokeAction(ITakeDamage _currentView)
         {
-            HasCollided.Invoke(_currentView,currentBulletModel.GetPointDamage());
+            HasCollided?.Invoke(_currentView,currentBulletModel.GetPointDamage());
         }
     }
 }

@@ -16,7 +16,7 @@ namespace PlayerStates
         }
         public override void OnStateExit()
         {
-             Debug.Log("Exitting firing state of player");
+           
             //disable firing animation
         }
         public override void OnStateUpdate()

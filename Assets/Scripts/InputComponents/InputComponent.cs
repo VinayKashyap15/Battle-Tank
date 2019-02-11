@@ -15,7 +15,7 @@ namespace InputComponents
         protected KeyCode moveLeftKey;
         protected KeyCode moveRightKey;
         
-        protected List<InputActions> _actions= new List<InputActions>();
+        
                 protected KeyCode pauseKey;
 
         private float verticalVal;
@@ -35,7 +35,8 @@ namespace InputComponents
 
         public List<InputActions> OnUpdate()
         {
-            _actions.Clear();
+            //_actions.Clear();
+            List<InputActions> actions=new List<InputActions>();
             if (Input.GetKey(GetPauseKey()))
             {
                 PauseGame();
@@ -45,7 +46,7 @@ namespace InputComponents
             {
                 if (Input.GetKey(GetFireInput()))
                 {
-                    _actions.Add(Fire());
+                    actions.Add(Fire());
                     SetFireState(true);                    
                 }
                 else
@@ -55,27 +56,27 @@ namespace InputComponents
                 
                 if (Input.GetKey(GetMoveUpInput()))
                 {
-                    _actions.Add(MoveUp());
+                    actions.Add(MoveUp());
                     
                 }
                 if (Input.GetKey(GetMoveDownInput()))
                 {
-                   _actions.Add( MoveDown());
+                   actions.Add( MoveDown());
                     
                 }
                 if (Input.GetKey(GetMoveLeftInput()))
                 {
-                   _actions.Add( MoveLeft());
+                   actions.Add( MoveLeft());
                    
                 }
                 if (Input.GetKey(GetMoveRightInput()))
                 {
-                   _actions.Add( MoveRight());
+                   actions.Add( MoveRight());
                     
                 }                                                      
                 
             }
-            return _actions;
+            return actions;
         }
 
         private InputActions Fire()
@@ -97,8 +98,7 @@ namespace InputComponents
         private InputActions MoveUp()
         {
             verticalVal = 1f;
-            horizontalVal = 0;
-            
+            horizontalVal = 0;           
             return new MoveAction(horizontalVal,verticalVal);
         }
         private InputActions MoveDown()

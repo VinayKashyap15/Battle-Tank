@@ -203,7 +203,7 @@ namespace Player
         }
         public void InvokeHighScoreAchievement(int _id, int _highScore)
         {
-            HighScoreUpdate.Invoke(_id, _highScore);
+            HighScoreUpdate?.Invoke(_id, _highScore);
         }
         public void AddKillCount(int _playerID)
         {

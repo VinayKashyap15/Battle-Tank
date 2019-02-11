@@ -1,6 +1,7 @@
 ﻿using Common;
 using GameplayInterfaces;
 using System.Collections.Generic;
+using ReplaySystem;
 using Player;
 using UnityEngine;
 using System;
@@ -18,21 +19,35 @@ namespace InputComponents
     {
         //private QueueData queueData;
         [SerializeField]
-        private Queue<QueueData> saveQueue= new Queue<QueueData>();
+        private Queue<QueueData> saveQueue = new Queue<QueueData>();
 
-        [SerializeField]
-        private List<InputActions> actionsToPerform=new List<InputActions>();
+
+
+        int startTime;
+        private void Start()
+        {
+            startTime = Time.frameCount;
+        }
         private void Update()
         {
-            int frameNo = Time.frameCount;
-            //actionsToPerform.Clear();
+            if (!ReplayService.Instance.GetReplayValue())
+            {
+                InputUpdate();
+            }
+            ReplayUpdate();
+
+        }
+
+        public void InputUpdate()
+        {
+            int frameNo = Math.Abs(startTime - Time.frameCount);
+           
             foreach (var _currentPlayerController in PlayerService.Instance.listOfPlayerControllers)
             {
-                actionsToPerform = _currentPlayerController.GetInputComponent().OnUpdate();
+                List<InputActions> actionsToPerform = _currentPlayerController.GetInputComponent().OnUpdate();
 
                 if (actionsToPerform.Count != 0)
                 {
-                    PerformAction(_currentPlayerController);
                     SaveInQueue(_currentPlayerController.GetID(), frameNo, actionsToPerform);
                 }
                 else
@@ -41,12 +56,23 @@ namespace InputComponents
                 }
             }
         }
-
-        private void PerformAction(ICharacterController _controller)
+        public void ReplayUpdate()
         {
-            foreach(InputActions item in actionsToPerform)
+            foreach (var _currentPlayerController in PlayerService.Instance.listOfPlayerControllers)
             {
-                item.Execute(_controller);
+                PerformAction(_currentPlayerController, saveQueue);
+            }
+        }
+        private void PerformAction(ICharacterController _controller, Queue<QueueData> _queueToRead)
+        {
+            while (_queueToRead.Count != 0)
+            {
+                QueueData queueData = _queueToRead.Peek();
+                foreach (InputActions _action in queueData.actions)
+                {
+                    _action.Execute(_controller);
+                    _queueToRead.Dequeue();
+                }
             }
         }
 
@@ -58,16 +84,9 @@ namespace InputComponents
             newData.frameNo = _frameNo;
 
             saveQueue.Enqueue(newData);
-            Debug.Log(saveQueue.Peek());
 
         }
 
-        public void ReadFromQueue()
-        {
-            QueueData qData = saveQueue.Peek();           
-            saveQueue.Dequeue();
-
-        }
         public void SetPauseGame()
         {
             StateMachineImplementation.StateMachineService.Instance.SetGamePause();
