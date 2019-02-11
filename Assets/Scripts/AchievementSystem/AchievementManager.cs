@@ -12,13 +12,13 @@ namespace AchievementSystem
     {
         [SerializeField]
         private AchievementScriptableList achievementScriptableObj;
-        private List<AchievementScriptableObject> _currentAchievementList= new List<AchievementScriptableObject>();
+        private List<AchievementScriptableObject> _currentAchievementList = new List<AchievementScriptableObject>();
         public event Action<int, int> GamesJoined;
 
-        private Dictionary<int,int> highScoreMark;
-        private Dictionary<int,int> enemyKillMark;
-        private Dictionary<int,int> gamePlayedMark;
-        private Dictionary<int,int> dieMark;
+        private Dictionary<int, int> highScoreMark;
+        private Dictionary<int, int> enemyKillMark;
+        private Dictionary<int, int> gamePlayedMark;
+        private Dictionary<int, int> dieMark;
         private int idToUnlock;
 
         public event Action<string> OnAchievementCrossed;
@@ -27,36 +27,36 @@ namespace AchievementSystem
 
         private void Start()
         {
-            _currentAchievementList = achievementScriptableObj.listOfAchievements;            
+            _currentAchievementList = achievementScriptableObj.listOfAchievements;
             _type = RewardSystem.RewardUnlockType.ACHIEVEMENT;
-            
+
             AddRespectiveMarks();
             RegisterServices();
-            
+
 
         }
 
         private void AddRespectiveMarks()
         {
-            foreach(AchievementScriptableObject _item in _currentAchievementList)
+            foreach (AchievementScriptableObject _item in _currentAchievementList)
             {
-                switch(_item.achievementTypes)
+                switch (_item.achievementTypes)
                 {
                     case AchievementTypes.ENEMYKILLS:
-                        enemyKillMark.Add( _item.value,_item.rewardIDToUnlock);                    
-                    break;
-                    
+                        enemyKillMark.Add(_item.value, _item.rewardIDToUnlock);
+                        break;
+
                     case AchievementTypes.GAMESJOINED:
-                        gamePlayedMark.Add( _item.value,_item.rewardIDToUnlock);
-                    break;
-                    
+                        gamePlayedMark.Add(_item.value, _item.rewardIDToUnlock);
+                        break;
+
                     case AchievementTypes.HIGHSCORE:
-                        highScoreMark.Add( _item.value,_item.rewardIDToUnlock);
-                    break;
-                    
+                        highScoreMark.Add(_item.value, _item.rewardIDToUnlock);
+                        break;
+
                     case AchievementTypes.PLAYERDEATHS:
-                        dieMark.Add( _item.value,_item.rewardIDToUnlock);
-                    break;
+                        dieMark.Add(_item.value, _item.rewardIDToUnlock);
+                        break;
 
                 }
             }
@@ -77,7 +77,7 @@ namespace AchievementSystem
         public void DieAchievements(int _id, int _dieCalled)
         {
             //idToUnlock = 1;
-            
+
             // if (_dieCalled >= dieMark)
             // {
             //     PlayerSaveData.Instance.SetAchievementStatus(AchievementTypes.PLAYERDEATHS, _id, 1);
@@ -89,8 +89,8 @@ namespace AchievementSystem
             //     OnAchievementCrossed.Invoke("Achievement Unlocked for player" + _id.ToString() + " Die " + dieMark.ToString() + " times");
             //     UnlockReward.Invoke(idToUnlock, _type);
             // }
-            
-            
+
+
 
         }
 

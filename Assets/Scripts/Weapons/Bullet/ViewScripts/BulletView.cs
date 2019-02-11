@@ -27,7 +27,7 @@ namespace Bullet.View
             currentBulletController = _bulletController;
         }
 
-        protected virtual void DestroyBullet()
+        protected virtual void DestroyBulletView()
         {
             BulletService.Instance.DestroyController(currentBulletController);
 
@@ -39,7 +39,7 @@ namespace Bullet.View
             {
                 currentBulletController.InvokeAction(collision.collider.gameObject.GetComponent<ITakeDamage>());
             }
-            DestroyBullet();
+            DestroyBulletView();
 
         }
 

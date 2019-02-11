@@ -144,7 +144,7 @@ namespace Player
                 firingState = new FiringState(playerView);
                 AddToStateDictionary(firingState, true);
             }
-            currentState = firingState;
+            
             var _bulletController = BulletService.Instance.SpawnBullet(this);
 
             Vector3 firePos = playerView.GetMuzzlePosition();
