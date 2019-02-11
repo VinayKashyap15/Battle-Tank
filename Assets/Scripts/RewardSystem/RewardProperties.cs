@@ -11,6 +11,8 @@ namespace RewardSystem
     {
         [SerializeField]
         private Material _mat;
+
+        GameObject faderSphere;
         [SerializeField]
         private RewardStatusEnum _currentStatus;
 
@@ -70,5 +72,7 @@ namespace RewardSystem
         {
             return _currentData.material;
         }
+
+   
     }
 }

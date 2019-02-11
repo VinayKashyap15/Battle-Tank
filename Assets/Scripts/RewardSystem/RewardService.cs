@@ -56,9 +56,7 @@ namespace RewardSystem
                         var currentItem=rewardDataList.ElementAt(currentIndex);
                         currentItem._currentRewardStatus= RewardStatusEnum.UNLOCKED;
                         rewardDataList[currentIndex]=currentItem;                       
-                        item._currentRewardPrefab.SetStatus(RewardStatusEnum.UNLOCKED);
-
-                     
+                        item._currentRewardPrefab.SetStatus(RewardStatusEnum.UNLOCKED);                    
                     }
                 }
             }
