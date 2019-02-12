@@ -74,25 +74,23 @@ namespace Player
             {
                 noOfPlayers = 1;
             }
-            startFrameCount= Time.frameCount;
+            startFrameCount = Time.frameCount;
 
         }
-        public void OnStart(SceneController _currentSceneController=null)
+        public void OnStart(SceneController _currentSceneController)
         {
             listOfPlayerControllers.Clear();
             if (newPlayerPrefabScriptableObj)
             {
                 playerPrefab = newPlayerPrefabScriptableObj.newPlayerPrefab;
             }
-            if(currentSceneController!=null)
+            if (_currentSceneController != null)
             {
                 currentSceneController = _currentSceneController;
             }
             SpawnPlayers();
             Enemy.EnemyService.Instance.EnemyDeath += InvokePlayerScore;
         }
-
-        
         public void SetSpawnPos(Vector3 position)
         {
             SpawnPlayers();
@@ -107,8 +105,10 @@ namespace Player
         {
             UpdatePlayer?.Invoke();
         }
-        private void SpawnPlayers()
+        public void SpawnPlayers()
         {
+            listOfPlayerControllers.Clear();
+            playerID = 0;
             PlayerController _playerControllerInstance;
             if (listOfPlayerInputComponents)
             {
@@ -120,11 +120,13 @@ namespace Player
                     playerInstance = SpawnPrefabInstance(pos);
                     _playerControllerInstance = new PlayerController(playerInstance.GetComponent<PlayerView>(), playerID, listOfPlayerInputComponents.playerList.ElementAt(i), _rewardedMat);
                     listOfPlayerControllers.Add(_playerControllerInstance);
-                    enemyKillCountData.Add(_playerControllerInstance.GetID(), PlayerSaveData.Instance.GetEnemyKillData(_playerControllerInstance.GetID()));
-                    playerGamesPlayedData.Add(_playerControllerInstance.GetID(), PlayerSaveData.Instance.GetGamesPlayedData(_playerControllerInstance.GetID()));
-
+                    if (!ReplaySystem.ReplayService.Instance.startReplay)
+                    {
+                        enemyKillCountData.Add(_playerControllerInstance.GetID(), PlayerSaveData.Instance.GetEnemyKillData(_playerControllerInstance.GetID()));
+                        playerGamesPlayedData.Add(_playerControllerInstance.GetID(), PlayerSaveData.Instance.GetGamesPlayedData(_playerControllerInstance.GetID()));
+                    }
                     SetGameJoined(_playerControllerInstance.GetID());
-                    
+
 
                     ScoreManager.Instance.AddPlayerUI(_playerControllerInstance);
                     pos += new Vector3(3, 0, 0);
@@ -134,10 +136,10 @@ namespace Player
             }
             else
             {
-                Vector3 pos= new Vector3(0,0,0);
+                Vector3 pos = new Vector3(0, 0, 0);
                 playerInstance = SpawnPrefabInstance(pos);
-                _playerControllerInstance = new PlayerController(playerInstance.GetComponent<PlayerView>(), playerID, null, _rewardedMat);                
-                listOfPlayerControllers.Add(_playerControllerInstance);                
+                _playerControllerInstance = new PlayerController(playerInstance.GetComponent<PlayerView>(), playerID, null, _rewardedMat);
+                listOfPlayerControllers.Add(_playerControllerInstance);
                 enemyKillCountData.Add(_playerControllerInstance.GetID(), 0);
                 ScoreManager.Instance.AddPlayerUI(_playerControllerInstance);
             }
@@ -152,14 +154,20 @@ namespace Player
             Debug.Log("player" + _id.ToString() + " value " + currentGamesValue.ToString());
             PlayerSaveData.Instance.SetGamesPlayedData(_id, currentGamesValue + 1);
             playerGamesPlayedData[_id] = currentGamesValue + 1;
-//            AchievementManager.Instance.InvokeGamesJoined(_id, currentGamesValue);
+            //            AchievementManager.Instance.InvokeGamesJoined(_id, currentGamesValue);
         }
         public void DestroyPlayer(PlayerController _playerController)
         {
 
             RemoveFromList(_playerController);
             _playerController.DestroySelf();
+
             _playerController = null;
+
+            if (listOfPlayerControllers.Count == 0)
+            {
+                SceneLoader.Instance.OnReplay();
+            }
         }
         public void RemoveFromList(PlayerController _playerController)
         {
@@ -173,10 +181,6 @@ namespace Player
                 return;
             }
 
-            if (listOfPlayerControllers.Count == 0)
-            {
-                SceneLoader.Instance.OnReplay();
-            }
         }
         public void SetCurrentInstance(PlayerController _playerControllerInstance)
         {
@@ -190,14 +194,12 @@ namespace Player
         public Vector3 GetRespawnSafePosition()
         {
             Vector3 pos = currentSceneController.FindSafePosition();
-            
+
             return pos;
         }
         public void InvokePlayerDeath(int _id, int _dieActionCalled)
-        {            
+        {
             PlayerDeath?.Invoke(_id, _dieActionCalled);
-           
-            
         }
         public void InvokePlayerScore(int _enemyID, Enemy.EnemyType _type, int playerID)
         {

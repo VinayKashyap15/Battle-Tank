@@ -15,7 +15,7 @@ namespace Player
 
         public PlayerModel()
         {
-            playerID =1 ;
+            playerID =0 ;
             playerName = "Vinay";
             playerSpeed = 3f;
             bulletSpeed = 6f;
@@ -54,12 +54,10 @@ namespace Player
         {
             return health;
         }
-
         public void SetHealth(int _newHealth)
         {
             health=_newHealth;
         }
-
         public int GetDeaths()
         {
             return noOfDeaths;

@@ -11,6 +11,7 @@ namespace InputComponents
     [System.Serializable]
     public struct QueueData
     {
+
         public List<InputActions> actions;
         public int controllerID;
         public int frameNo;
@@ -60,17 +61,34 @@ namespace InputComponents
         }
         public void ReplayUpdate(Queue<QueueData> _recievedQueue)
         {
+            if (_recievedQueue == null)
+            {
+                return;
+            }
             foreach (var _currentPlayerController in PlayerService.Instance.listOfPlayerControllers)
             {
                 if (_recievedQueue == null)
                 {
+                    SceneLoader.Instance.OnGameOver();
                     return;
                 }
-                QueueData data = _recievedQueue.Peek();
-                if (_currentPlayerController.GetID() == data.controllerID)
+                else
                 {
-                    PerformAction(_currentPlayerController, data.actions);
-                    _recievedQueue.Dequeue();
+
+
+                    QueueData data = new QueueData();
+                    if (_recievedQueue.Count == 0)
+                    {
+                        SceneLoader.Instance.OnGameOver();
+                        return;
+                    }
+                    data = _recievedQueue.Peek();
+                    if (_currentPlayerController.GetID() == data.controllerID)
+                    {
+                        PerformAction(_currentPlayerController, data.actions);
+                        _recievedQueue.Dequeue();
+
+                    }
                 }
             }
         }
@@ -78,7 +96,6 @@ namespace InputComponents
         {
             foreach (InputActions _action in _actionsToPerform)
             {
-                
                 _action.Execute(_controller);
             }
         }

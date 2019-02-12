@@ -2,8 +2,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using Enemy;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using ReplaySystem;
 using PlayerStates;
 using Weapons.Bullet;
 using InputComponents;
@@ -20,6 +22,7 @@ namespace Player
         private PlayerModel playerModel;
         private InputComponent currentInputComponent;
         private PlayerState currentState;
+        private int playerID;
         private IdleState idleState;
         private MovingState movingState;
         private FiringState firingState;
@@ -27,16 +30,18 @@ namespace Player
         private bool isActive = false;
 
         private Dictionary<PlayerState, bool> currentStateDictionary = new Dictionary<PlayerState, bool>();
-       
+
         public PlayerController(PlayerView playerViewInstance, int _playerID, InputScriptableObject _customInputScheme = null, Material _rewardedMat = null)
         {
-          
+
             playerModel = new PlayerModel();
             playerModel.SetID(_playerID);
+            playerID=playerModel.GetID();
+
             playerView = playerViewInstance;
-           
-           if(_rewardedMat!=null) 
-           {SetMaterial(_rewardedMat);}
+
+            if (_rewardedMat != null)
+            { SetMaterial(_rewardedMat); }
             if (_customInputScheme)
             { currentInputComponent = new CustomInputComponent(_customInputScheme, this); }
             else
@@ -51,7 +56,7 @@ namespace Player
         }
         private void UpdateCurrentPlayer()
         {
-            
+
             foreach (PlayerState _state in currentStateDictionary.Keys)
             {
 
@@ -70,7 +75,7 @@ namespace Player
 
         public int GetNoOfDeaths()
         {
-           return playerModel.GetDeaths();
+            return playerModel.GetDeaths();
         }
 
         public void PauseGame()
@@ -108,8 +113,6 @@ namespace Player
             {
                 EnemyService.Instance.SetDamagingPlayerID(GetID());
                 _currentView.TakeDamage(damageValue);
-
-
             }
             else if (_currentView.GetName() == "PlayerView" && isFriendlyFire)
             {
@@ -149,7 +152,7 @@ namespace Player
                 firingState = new FiringState(playerView);
                 AddToStateDictionary(firingState, true);
             }
-            
+
             var _bulletController = BulletService.Instance.SpawnBullet(this);
 
             Vector3 firePos = playerView.GetMuzzlePosition();
@@ -198,11 +201,13 @@ namespace Player
         }
         public int GetID()
         {
-            return playerModel.GetID();
+            return playerID;
         }
         public void DestroySelf()
         {
-            PlayerService.Instance.UpdatePlayer-=UpdateCurrentPlayer;
+            PlayerService.Instance.UpdatePlayer -= UpdateCurrentPlayer;
+            playerView.DestroyView();
+            Debug.Log("inside Destroy self");
             playerModel = null;
         }
         public void TakeDamage(int _damage)
@@ -211,13 +216,14 @@ namespace Player
             if (playerModel.GetHealth() <= 0)
             {
                 Debug.Log("player dead");
-                if(PlayerService.Instance.listOfPlayerControllers.Count<=1)
+                playerView.StartCoroutine(playerView.DestroySelf());
+
+                if (PlayerService.Instance.listOfPlayerControllers.Count > 1)
                 {
-                    playerView.DestoySelf();
+                    Vector3 pos = PlayerService.Instance.GetRespawnSafePosition();
+                    ReplayService.Instance.SaveSpawnPointData(GetID(), Math.Abs(PlayerService.Instance.startFrameCount - Time.frameCount), new SpawnAction(pos));
+                    playerView.gameObject.transform.position = pos;
                 }
-                var pos=PlayerService.Instance.GetRespawnSafePosition();
-                ReplaySystem.ReplayService.Instance.SaveSpawnPointData(this.GetID(),Math.Abs(PlayerService.Instance.startFrameCount-Time.frameCount),new SpawnAction(pos));
-                playerView.gameObject.transform.position= pos;
             }
         }
         public void RegenerateHealth()

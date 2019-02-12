@@ -1,5 +1,7 @@
 using UnityEngine;
 using GameplayInterfaces;
+using System.Collections.Generic;
+using System.Collections;
 using Common;
 using System;
 
@@ -19,7 +21,7 @@ namespace Player
         private void Awake()
         {
             anim = gameObject.GetComponentInChildren<Animator>();
-            
+
         }
         public void MovePlayer(float h, float v, float speed)
         {
@@ -65,17 +67,20 @@ namespace Player
             currentPlayerController = _currentPlayerController;
         }
 
-        public void TakeDamage(int _damage)
+        public void 
+        TakeDamage(int _damage)
         {
-            currentPlayerController.TakeDamage(_damage);
+            if(currentPlayerController != null)
+            {
+                currentPlayerController.TakeDamage(_damage);
+            }
         }
 
-        public void DestoySelf()
+        public IEnumerator DestroySelf()
         {
-            
-            PlayerService.Instance.InvokePlayerDeath(currentPlayerController.GetID(),currentPlayerController.GetNoOfDeaths());
-           //gameObject.transform.position = PlayerService.Instance.GetRespawnSafePosition();
-           
+            PlayerService.Instance.InvokePlayerDeath(currentPlayerController.GetID(), currentPlayerController.GetNoOfDeaths());
+            PlayerService.Instance.DestroyPlayer(currentPlayerController);
+            yield return new WaitForSeconds(5f);
 
         }
 
@@ -91,7 +96,14 @@ namespace Player
 
         public void SetMaterial(Material mat)
         {
-            gameObject.GetComponentInChildren<Renderer>().sharedMaterial= mat;
+            gameObject.GetComponentInChildren<Renderer>().sharedMaterial = mat;
         }
+
+        public void DestroyView()
+        {
+            Debug.Log("InDestroy");
+            Destroy(this.gameObject);
+        }
+
     }
 }
