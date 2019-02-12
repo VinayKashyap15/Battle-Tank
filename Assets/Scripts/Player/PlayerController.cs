@@ -235,5 +235,15 @@ namespace Player
         {
             playerView.SetMaterial(_mat);
         }
+
+        public Vector3 GetCurrentLocation()
+        {
+            return playerView.gameObject.transform.position;
+        }
+
+        public void SetNewLocation(Vector3 vector3)
+        {
+            //throw new NotImplementedException();
+        }
     }
 }

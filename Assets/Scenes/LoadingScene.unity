@@ -184,6 +184,7 @@ MonoBehaviour:
     type: 2}
   newPlayerPrefabScriptableObj: {fileID: 11400000, guid: 9ac1f2562df9b2344ab1c2c697e2388a,
     type: 2}
+  startFrameCount: 0
 --- !u!4 &20259770
 Transform:
   m_ObjectHideFlags: 0
@@ -624,6 +625,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f275b33e32aea6340835512b3181c05e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startReplay: 0
 --- !u!4 &1219180016
 Transform:
   m_ObjectHideFlags: 0

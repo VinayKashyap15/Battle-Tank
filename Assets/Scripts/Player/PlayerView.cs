@@ -83,6 +83,10 @@ namespace Player
             yield return new WaitForSeconds(5f);
 
         }
+        public PlayerController GetPlayerController()
+        {
+            return currentPlayerController;
+        }
 
         public string GetName()
         {

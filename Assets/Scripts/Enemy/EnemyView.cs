@@ -32,7 +32,7 @@ namespace Enemy
 
         public void SetMaterial(Material _newMat)
         {
-            _mat = _newMat;
+           GetComponentInChildren<Renderer>().sharedMaterial = _newMat;
         }
 
         public Vector3 GetPosition()
@@ -48,6 +48,14 @@ namespace Enemy
         public string GetName()
         {
             return "EnemyView";
+        }
+
+        private void OnTriggerEnter(Collider other) {
+            var view=other.gameObject.GetComponent<Player.PlayerView>();
+            if(other.gameObject.GetComponent<Player.PlayerView>())
+            {
+                EnemyService.Instance.AlertAllEnemies(view.GetPlayerController());
+            }
         }
     }
 }

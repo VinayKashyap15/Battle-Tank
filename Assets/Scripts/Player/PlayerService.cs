@@ -88,6 +88,7 @@ namespace Player
             {
                 currentSceneController = _currentSceneController;
             }
+            ScoreManager.Instance.SetSceneController(currentSceneController);
             SpawnPlayers();
             Enemy.EnemyService.Instance.EnemyDeath += InvokePlayerScore;
         }
@@ -124,11 +125,11 @@ namespace Player
                     {
                         enemyKillCountData.Add(_playerControllerInstance.GetID(), PlayerSaveData.Instance.GetEnemyKillData(_playerControllerInstance.GetID()));
                         playerGamesPlayedData.Add(_playerControllerInstance.GetID(), PlayerSaveData.Instance.GetGamesPlayedData(_playerControllerInstance.GetID()));
+                        ScoreManager.Instance.AddPlayerUI(_playerControllerInstance);
                     }
                     SetGameJoined(_playerControllerInstance.GetID());
 
 
-                    ScoreManager.Instance.AddPlayerUI(_playerControllerInstance);
                     pos += new Vector3(3, 0, 0);
                     playerID += 1;
 

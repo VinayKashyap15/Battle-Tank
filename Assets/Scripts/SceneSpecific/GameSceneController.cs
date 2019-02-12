@@ -1,4 +1,5 @@
 ﻿using GameplayInterfaces;
+using Player;
 using Player.UI;
 using Enemy;
 using UnityEngine;
@@ -12,6 +13,9 @@ namespace SceneSpecific
     {
         [SerializeField]
         private ScoreView scoreViewPrefab;
+
+        [SerializeField]
+        private ReplayView replayUIPrefab;
         [SerializeField]
         private int maxThreatLevel;
         [SerializeField]
@@ -24,6 +28,7 @@ namespace SceneSpecific
         private int maxIterationLimit;
 
         private ScoreView scoreViewInstance;
+        private ReplayView replayViewInstance;
 
         private List<EnemyController> enemyList = new List<EnemyController>();
         private List<ScoreView> listOfScoreView = new List<ScoreView>();
@@ -42,6 +47,11 @@ namespace SceneSpecific
             if (!scoreViewPrefab)
             {
                 scoreViewPrefab = Resources.Load("PlayerText") as ScoreView;
+
+            }
+            else if (!replayUIPrefab)
+            {
+                replayUIPrefab = Resources.Load("ReplayUI") as ReplayView;
             }
             currentViewPos = scoreViewPrefab.gameObject.transform.position;
 
@@ -56,6 +66,7 @@ namespace SceneSpecific
         private void Update()
         {
             Player.PlayerService.Instance.OnUpdate();
+            Enemy.EnemyService.Instance.OnUpdate();
         }
         private void StartServices()
         {
@@ -64,7 +75,9 @@ namespace SceneSpecific
         }
         public override void SpawnPlayerUI(ICharacterController _currentPlayerControllerInstance)
         {
-            scoreViewInstance = Instantiate(scoreViewPrefab, currentViewPos, Quaternion.identity);
+         
+
+            scoreViewInstance = GameObject.Instantiate(scoreViewPrefab, currentViewPos, Quaternion.identity);
             scoreViewInstance.gameObject.transform.SetParent(parentLayoutGroup.transform);
             currentViewPos += new Vector3(0, -5f, 0);
 
@@ -88,6 +101,12 @@ namespace SceneSpecific
                     return;
                 }
             }
+        }
+
+        public override void SpawnReplayUI()
+        {
+            replayViewInstance = GameObject.Instantiate(replayUIPrefab, currentViewPos, Quaternion.identity);
+            replayViewInstance.gameObject.transform.SetParent(parentLayoutGroup.transform);
         }
         public override Vector3 FindSafePosition()
         {
@@ -159,7 +178,5 @@ namespace SceneSpecific
                 _newPos = GetRandomSpawnPos();
             return _newPos;
         }
-
-
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using GameplayInterfaces;
+using EnemyStates;
 using UnityEngine;
 
 namespace Enemy
@@ -10,12 +11,19 @@ namespace Enemy
         private EnemyModel currentEnemyModel;
         private EnemyView currentEnemyView;
 
+        public EnemyState currentState;
+
         public EnemyController(EnemyScriptableObject _enemyScriptableObject)
         {
             enemyScriptableObject = _enemyScriptableObject;
             CreateModel(_enemyScriptableObject);           
+            EnemyService.Instance.PlayerSpotted+=StartChasing;
         }
 
+        private void StartChasing(ICharacterController _spottedPlayer)
+        {
+           currentState= new ChaseState(this,_spottedPlayer);
+        }
 
         private void SpawnEnemy(EnemyModel _enemyInstance,Vector3 _position)
         {
@@ -70,17 +78,27 @@ namespace Enemy
 
         public void PauseGame()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void SetFireState(bool isFiring)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void PlayerIdle()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+        }
+
+        public Vector3 GetCurrentLocation()
+        {
+            return currentEnemyView.gameObject.transform.position;
+        }
+
+        public void SetNewLocation(Vector3 _pos)
+        {
+           currentEnemyView.gameObject.transform.position= Vector3.Lerp(currentEnemyView.gameObject.transform.position,_pos,0.1f*Time.deltaTime);
         }
     }
 }

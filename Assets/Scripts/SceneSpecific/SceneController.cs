@@ -30,6 +30,11 @@ namespace SceneSpecific
             SceneLoader.Instance.OnClickPlay(_sceneScriptableObj == null ? "Game": _sceneScriptableObj.startScene.name);
         }
 
+        public virtual void SpawnReplayUI()
+        {
+            
+        }
+
         protected virtual void OnReturnHome()
         {
             SceneLoader.Instance.OnReturnHome();

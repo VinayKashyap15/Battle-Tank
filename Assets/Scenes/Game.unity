@@ -219,6 +219,8 @@ MonoBehaviour:
   _sceneScriptableObj: {fileID: 0}
   scoreViewPrefab: {fileID: 114582802112069880, guid: 251a8f95abaac1642b33a86c2b876505,
     type: 2}
+  replayUIPrefab: {fileID: 114804488852077372, guid: f23c8fa763586f44eb2d655ffb8678c2,
+    type: 2}
   maxThreatLevel: 2
   parentLayoutGroup: {fileID: 983030277}
   xDimension: 10
@@ -471,7 +473,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1304999366
 Transform:
   m_ObjectHideFlags: 0

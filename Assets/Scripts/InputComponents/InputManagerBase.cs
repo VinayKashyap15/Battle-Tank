@@ -11,7 +11,7 @@ namespace InputComponents
     [System.Serializable]
     public struct QueueData
     {
-
+        
         public List<InputActions> actions;
         public int controllerID;
         public int frameNo;
@@ -21,22 +21,24 @@ namespace InputComponents
 
         private Queue<QueueData> saveQueue = new Queue<QueueData>();
         int startTime;
+        bool isReplayPaused = false;
         private void Start()
         {
             startTime = Time.frameCount;
         }
         private void Update()
         {
-            if (ReplayService.Instance.GetReplayValue())
-            {
-                ReplayUpdate(ReplayService.Instance.GetSavedQueue());
-            }
-            else
-            {
-                InputUpdate();
+            
+                if (ReplayService.Instance.GetReplayValue())
+                {
+                    ReplayUpdate(ReplayService.Instance.GetSavedQueue());
+                }
+                else
+                {
+                    InputUpdate();
 
-            }
-
+                }
+            
         }
 
         public void InputUpdate()
@@ -61,6 +63,10 @@ namespace InputComponents
         }
         public void ReplayUpdate(Queue<QueueData> _recievedQueue)
         {
+            if(isReplayPaused)
+            {
+                return;
+            }
             if (_recievedQueue == null)
             {
                 return;
@@ -114,6 +120,12 @@ namespace InputComponents
         public void SetPauseGame()
         {
             StateMachineImplementation.StateMachineService.Instance.SetGamePause();
+            
+        }
+        public void ReplayPaused()
+        {
+            isReplayPaused=!isReplayPaused;
+            
         }
 
     }

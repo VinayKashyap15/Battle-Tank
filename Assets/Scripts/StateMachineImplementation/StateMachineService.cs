@@ -20,7 +20,9 @@ namespace StateMachineImplementation
 
         private bool isPaused=false;
         private StateMachineEnumTypes currentStateMachineType;
+        private StateMachineEnumTypes previousStateMachineType;
         private StateMachineBase currentStateMachine;
+        
         private void Start()
         {
            // OnEnterLoadingScene?.Invoke();
@@ -39,16 +41,17 @@ namespace StateMachineImplementation
                InvokeResumeActions();
            }
         }
-
         private void InvokeResumeActions()
         {
             OnResume.Invoke();
+            SetCurrentStateMachineType(previousStateMachineType);
+            
         }
 
         private void InvokePauseActions()
         {
             OnPause.Invoke();
-            currentStateMachineType=StateMachineEnumTypes.PAUSE;
+            SetPreviousStateMachineType(currentStateMachineType);
         }
 
         public void InvokeOnEnterStartScene()
@@ -62,17 +65,21 @@ namespace StateMachineImplementation
         }
         public void InvokeOnEnterGameOverScene()
         {
-            OnEnterGameScene?.Invoke();
+            OnEnterGameOverScene?.Invoke();
         }
         public void InvokeOnLoadingScene()
         {
-            OnEnterGameScene?.Invoke();
+            OnEnterLoadingScene?.Invoke();
         }
         public void SetCurrentStateMachineType(StateMachineEnumTypes _currentStateMachine)
         {
             currentStateMachineType = _currentStateMachine;
             Debug.Log("Current State Machine : "+currentStateMachineType.ToString());
             CreateStateMachine();
+        }
+        public void SetPreviousStateMachineType(StateMachineEnumTypes _currentStateMachine)
+        {
+            previousStateMachineType = _currentStateMachine;           
         }
 
         public void InvokeOnStartReplay()
@@ -95,6 +102,10 @@ namespace StateMachineImplementation
                 case StateMachineEnumTypes.LOADING:
                     currentStateMachine= new LoadingStateMachine(currentStateMachineType);
                 break;
+                case StateMachineEnumTypes.REPLAY:
+                    currentStateMachine= new ReplayStateParent(currentStateMachineType);
+                break;
+                
             }            
             
         }
