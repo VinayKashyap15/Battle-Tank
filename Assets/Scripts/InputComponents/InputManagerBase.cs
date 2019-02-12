@@ -28,9 +28,13 @@ namespace InputComponents
         {
             if (ReplayService.Instance.GetReplayValue())
             {
-                ReplayUpdate();
+                ReplayUpdate(ReplayService.Instance.GetSavedQueue());
             }
-            InputUpdate();
+            else
+            {
+                InputUpdate();
+
+            }
 
         }
 
@@ -46,7 +50,7 @@ namespace InputComponents
                 {
                     SaveInQueue(_currentPlayerController.GetID(), frameNo, actionsToPerform);
                     if (saveQueue.Count != 0)
-                    { PerformAction(_currentPlayerController); }
+                    { PerformAction(_currentPlayerController, actionsToPerform); }
                 }
                 else
                 {
@@ -54,26 +58,29 @@ namespace InputComponents
                 }
             }
         }
-        public void ReplayUpdate()
+        public void ReplayUpdate(Queue<QueueData> _recievedQueue)
         {
             foreach (var _currentPlayerController in PlayerService.Instance.listOfPlayerControllers)
             {
-                PerformAction(_currentPlayerController);
+                if (_recievedQueue == null)
+                {
+                    return;
+                }
+                QueueData data = _recievedQueue.Peek();
+                if (_currentPlayerController.GetID() == data.controllerID)
+                {
+                    PerformAction(_currentPlayerController, data.actions);
+                    _recievedQueue.Dequeue();
+                }
             }
         }
-        private void PerformAction(ICharacterController _controller)
+        private void PerformAction(ICharacterController _controller, List<InputActions> _actionsToPerform)
         {
-            Queue<QueueData>_queueToRead= new Queue<QueueData>();
-            _queueToRead=saveQueue;
-            // while (_queueToRead.Count != 0)
-            //{
-            QueueData queueData = _queueToRead.Peek();
-            foreach (InputActions _action in queueData.actions)
+            foreach (InputActions _action in _actionsToPerform)
             {
+                
                 _action.Execute(_controller);
-                queueData = _queueToRead.Dequeue();
             }
-            //}
         }
 
         public void SaveInQueue(int _controllerID, int _frameNo, List<InputActions> _currentActionList)
@@ -84,6 +91,7 @@ namespace InputComponents
             newData.frameNo = _frameNo;
 
             saveQueue.Enqueue(newData);
+            ReplayService.Instance.SaveQueue(newData);
         }
 
         public void SetPauseGame()

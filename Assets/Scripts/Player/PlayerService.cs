@@ -16,11 +16,9 @@ namespace Player
     {
         [SerializeField]
         private InputScriptableObjectList listOfPlayerInputComponents;
+
         [SerializeField]
         private PlayerPrefabScriptableObject newPlayerPrefabScriptableObj;
-
-
-
         private PlayerController playerControllerInstance;
         private GameObject playerPrefab;
         private GameObject playerInstance;
@@ -50,7 +48,7 @@ namespace Player
         public event Action StateUpdater;
         public event Action UpdatePlayer;
         private int noOfPlayers;
-
+        public int startFrameCount;
         private Material _rewardedMat;
 
 
@@ -76,20 +74,30 @@ namespace Player
             {
                 noOfPlayers = 1;
             }
+            startFrameCount= Time.frameCount;
 
         }
-        public void OnStart(SceneController _currentSceneController)
+        public void OnStart(SceneController _currentSceneController=null)
         {
             listOfPlayerControllers.Clear();
             if (newPlayerPrefabScriptableObj)
             {
                 playerPrefab = newPlayerPrefabScriptableObj.newPlayerPrefab;
             }
-            currentSceneController = _currentSceneController;
-           
+            if(currentSceneController!=null)
+            {
+                currentSceneController = _currentSceneController;
+            }
             SpawnPlayers();
             Enemy.EnemyService.Instance.EnemyDeath += InvokePlayerScore;
         }
+
+        
+        public void SetSpawnPos(Vector3 position)
+        {
+            SpawnPlayers();
+        }
+
         public void SaveMaterialFromReward(Material materialToSave)
         {
             _rewardedMat = materialToSave;
@@ -116,6 +124,7 @@ namespace Player
                     playerGamesPlayedData.Add(_playerControllerInstance.GetID(), PlayerSaveData.Instance.GetGamesPlayedData(_playerControllerInstance.GetID()));
 
                     SetGameJoined(_playerControllerInstance.GetID());
+                    
 
                     ScoreManager.Instance.AddPlayerUI(_playerControllerInstance);
                     pos += new Vector3(3, 0, 0);
@@ -125,9 +134,10 @@ namespace Player
             }
             else
             {
-                playerInstance = SpawnPrefabInstance(new Vector3(0, 0, 0));
-                _playerControllerInstance = new PlayerController(playerInstance.GetComponent<PlayerView>(), playerID, null, _rewardedMat);
-                listOfPlayerControllers.Add(_playerControllerInstance);
+                Vector3 pos= new Vector3(0,0,0);
+                playerInstance = SpawnPrefabInstance(pos);
+                _playerControllerInstance = new PlayerController(playerInstance.GetComponent<PlayerView>(), playerID, null, _rewardedMat);                
+                listOfPlayerControllers.Add(_playerControllerInstance);                
                 enemyKillCountData.Add(_playerControllerInstance.GetID(), 0);
                 ScoreManager.Instance.AddPlayerUI(_playerControllerInstance);
             }
@@ -165,7 +175,7 @@ namespace Player
 
             if (listOfPlayerControllers.Count == 0)
             {
-                SceneLoader.Instance.OnGameOver();
+                SceneLoader.Instance.OnReplay();
             }
         }
         public void SetCurrentInstance(PlayerController _playerControllerInstance)
@@ -179,15 +189,15 @@ namespace Player
         }
         public Vector3 GetRespawnSafePosition()
         {
-
             Vector3 pos = currentSceneController.FindSafePosition();
-            // RegenrateHealth.Invoke();
+            
             return pos;
         }
-        public void InvokePlayerDeath(int _id)
-        {
-            dieActionCalled++;
-            PlayerDeath?.Invoke(_id, dieActionCalled);
+        public void InvokePlayerDeath(int _id, int _dieActionCalled)
+        {            
+            PlayerDeath?.Invoke(_id, _dieActionCalled);
+           
+            
         }
         public void InvokePlayerScore(int _enemyID, Enemy.EnemyType _type, int playerID)
         {

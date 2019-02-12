@@ -1,4 +1,6 @@
-﻿namespace Player
+﻿using System;
+
+namespace Player
 {
     public class PlayerModel
     {
@@ -9,6 +11,7 @@
         private float bulletSpeed;
         private int playerScore;
         private  int health=100;
+        private int noOfDeaths;
 
         public PlayerModel()
         {
@@ -16,6 +19,7 @@
             playerName = "Vinay";
             playerSpeed = 3f;
             bulletSpeed = 6f;
+            noOfDeaths=5;
             
         }
         public int GetID()
@@ -54,6 +58,11 @@
         public void SetHealth(int _newHealth)
         {
             health=_newHealth;
+        }
+
+        public int GetDeaths()
+        {
+            return noOfDeaths;
         }
     }
 }

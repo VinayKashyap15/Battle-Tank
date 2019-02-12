@@ -68,6 +68,11 @@ namespace Player
             }
         }
 
+        public int GetNoOfDeaths()
+        {
+           return playerModel.GetDeaths();
+        }
+
         public void PauseGame()
         {
             currentInputComponent.isPaused = !currentInputComponent.isPaused;
@@ -206,7 +211,13 @@ namespace Player
             if (playerModel.GetHealth() <= 0)
             {
                 Debug.Log("player dead");
-                playerView.DestoySelf();
+                if(PlayerService.Instance.listOfPlayerControllers.Count<=1)
+                {
+                    playerView.DestoySelf();
+                }
+                var pos=PlayerService.Instance.GetRespawnSafePosition();
+                ReplaySystem.ReplayService.Instance.SaveSpawnPointData(this.GetID(),Math.Abs(PlayerService.Instance.startFrameCount-Time.frameCount),new SpawnAction(pos));
+                playerView.gameObject.transform.position= pos;
             }
         }
         public void RegenerateHealth()

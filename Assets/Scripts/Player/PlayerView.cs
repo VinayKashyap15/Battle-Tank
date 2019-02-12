@@ -1,5 +1,6 @@
 using UnityEngine;
 using GameplayInterfaces;
+using Common;
 using System;
 
 namespace Player
@@ -71,8 +72,10 @@ namespace Player
 
         public void DestoySelf()
         {
-            PlayerService.Instance.InvokePlayerDeath(currentPlayerController.GetID());
-            gameObject.transform.position = PlayerService.Instance.GetRespawnSafePosition();
+            
+            PlayerService.Instance.InvokePlayerDeath(currentPlayerController.GetID(),currentPlayerController.GetNoOfDeaths());
+           //gameObject.transform.position = PlayerService.Instance.GetRespawnSafePosition();
+           
 
         }
 

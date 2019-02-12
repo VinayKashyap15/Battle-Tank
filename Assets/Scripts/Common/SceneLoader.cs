@@ -44,6 +44,11 @@ namespace Common
             StateMachineService.Instance.SetCurrentStateMachineType(StateMachineEnumTypes.LOADING);       
             StateMachineService.Instance.InvokeOnLoadingScene();
         }
+        public void OnReplay()
+        {
+            StateMachineService.Instance.SetCurrentStateMachineType(StateMachineEnumTypes.REPLAY);
+            StateMachineService.Instance.InvokeOnStartReplay();
+        }
 
     }
 }

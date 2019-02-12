@@ -12,6 +12,8 @@ namespace StateMachineImplementation
         public event Action OnEnterGameOverScene;
         public event Action OnEnterLoadingScene;
 
+        public event Action OnStartReplay;
+
          public event Action OnPause;
 
          public event Action OnResume;
@@ -71,6 +73,11 @@ namespace StateMachineImplementation
             currentStateMachineType = _currentStateMachine;
             Debug.Log("Current State Machine : "+currentStateMachineType.ToString());
             CreateStateMachine();
+        }
+
+        public void InvokeOnStartReplay()
+        {
+            OnStartReplay?.Invoke();
         }
 
         private void CreateStateMachine()
