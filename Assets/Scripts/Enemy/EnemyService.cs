@@ -88,7 +88,7 @@ namespace Enemy
         public void OnEnemyDeath(int _id, EnemyType _type, int _pid)
         {
             Player.PlayerService.Instance.AddKillCount(_pid);
-            EnemyDeath.Invoke(_id, _type, _pid);
+            EnemyDeath?.Invoke(_id, _type, _pid);
         }
 
         public void SetDamagingPlayerID(int _playerID)
@@ -102,7 +102,7 @@ namespace Enemy
         }
         public void AlertAllEnemies(ICharacterController _spottedPlayer)
         {
-            PlayerSpotted.Invoke(_spottedPlayer);
+            //PlayerSpotted?.Invoke(_spottedPlayer);
         }
     }
 }

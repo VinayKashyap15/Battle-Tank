@@ -13,11 +13,14 @@ namespace Player.UI
         private Button _2xBtn;
         [SerializeField]
         private Button _halfxBtn;
+        [SerializeField]
+        private Button _pauseBtn;
         private void Start() 
         {            
             exitBtn.onClick.AddListener(()=>OnExitClicked());
             _2xBtn.onClick.AddListener(()=>On2xClicked());
             _halfxBtn.onClick.AddListener(()=>OnHalfxClicked());
+           _pauseBtn.onClick.AddListener(()=>OnPauseClicked());
             
         }
 
@@ -36,6 +39,10 @@ namespace Player.UI
         public void On2xClicked()
         {
             Time.timeScale=2.0f;
+        }
+        public void OnPauseClicked()
+        {
+            StateMachineImplementation.StateMachineService.Instance.SetGamePause();
         }
     }
 }

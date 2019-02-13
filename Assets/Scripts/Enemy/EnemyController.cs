@@ -43,6 +43,7 @@ namespace Enemy
 
         public  void StartDestroy()
         {
+            EnemyService.Instance.PlayerSpotted-=StartChasing;
             currentEnemyModel = null;
         }
 
@@ -58,6 +59,7 @@ namespace Enemy
             {
                 EnemyService.Instance.OnEnemyDeath(GetID(),currentEnemyModel.GetEnemyType(),EnemyService.Instance.GetDamagingPlayerID());
                 currentEnemyView.DestroySelf();
+                EnemyService.Instance.DestroyController(this);
             }
         }
 

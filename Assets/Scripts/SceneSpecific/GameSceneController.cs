@@ -63,7 +63,7 @@ namespace SceneSpecific
             //StateMachineImplementation.StateMachineService.Instance.OnEnterGameScene+=StartServices;
             StartServices();
         }
-        private void Update()
+        private void FixedUpdate()
         {
             Player.PlayerService.Instance.OnUpdate();
             Enemy.EnemyService.Instance.OnUpdate();
