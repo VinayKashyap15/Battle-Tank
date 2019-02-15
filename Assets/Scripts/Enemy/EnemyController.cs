@@ -10,7 +10,7 @@ namespace Enemy
         private EnemyScriptableObject enemyScriptableObject;
         private EnemyModel currentEnemyModel;
         private EnemyView currentEnemyView;
-int enemyID;
+        int enemyID;
         public IEnemyState currentState;
         private EnemyStateMachine currentStateMachine;
         public  IEnemyState previousState;
@@ -26,10 +26,17 @@ int enemyID;
         }
 
         private void StartChasing(Vector3 _position)
-        {
-          
+        {          
+            currentEnemyView.gameObject.GetComponent<ChaseState>().lastSeenPosition=_position;
            currentStateMachine.ChangeCurrentState(currentEnemyView.gameObject.GetComponent<ChaseState>());
-           
+            
+        }
+
+        public void BackToPatrolling()
+        {
+            Debug.Log("back to patrol");
+            currentStateMachine.ChangeCurrentState(currentEnemyView.gameObject.GetComponent<PatrollingState>());
+            
         }
 
         private void SpawnEnemy(EnemyModel _enemyInstance,Vector3 _position)

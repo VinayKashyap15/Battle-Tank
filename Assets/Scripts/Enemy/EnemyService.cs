@@ -8,10 +8,15 @@ using System.Linq;
 
 namespace Enemy
 {
+    [System.Serializable]
+    public struct EnemyData
+    {
+        Vector3 spawnPosition;
+    }
     public class EnemyService : SingletonBase<EnemyService>
     {
         [SerializeField] private EnemyScriptableObjectList listOfEnemies;
-        private Dictionary<EnemyController,Vector3> spawnedEnemies = new Dictionary<EnemyController,Vector3>();
+        private List<EnemyController> spawnedEnemies = new List<EnemyController>();
         public event Action<int, EnemyType, int> EnemyDeath;
         public event Action<Vector3> PlayerSpotted;
         int currentDamagingID;
@@ -23,7 +28,7 @@ namespace Enemy
         }
         public void OnUpdate()
         {
-            foreach (EnemyController item in spawnedEnemies.Keys)
+            foreach (EnemyController item in spawnedEnemies)
             {
                 if (item.currentState != null)
                 {
@@ -31,6 +36,16 @@ namespace Enemy
                 }
             }
         }
+
+        public void StopChasing()
+        {
+            Debug.Log("stop chasing");
+            foreach(EnemyController item in spawnedEnemies)
+            {
+                item.BackToPatrolling();
+            }
+        }
+
         private void RegisterEvent()
         {
             EnemyDeath += RemoveEnemyFromList;
@@ -59,7 +74,7 @@ namespace Enemy
         {
             var enemy = new EnemyController(_enemyScriptableObject);
             var currentLocation= enemy.GetPosition();
-            spawnedEnemies.Add(enemy,currentLocation);
+            spawnedEnemies.Add(enemy);
         }
 
         public void DestroyController(EnemyController _enemyController)
@@ -69,14 +84,14 @@ namespace Enemy
             _enemyController = null;
         }
 
-        public Dictionary<EnemyController,Vector3> GetEnemyList()
+        public List<EnemyController> GetEnemyList()
         {
             return spawnedEnemies;
         }
 
         public void RemoveEnemyFromList(int _id, EnemyType _type, int playerID)
         {
-            foreach (EnemyController _enemy in spawnedEnemies.Keys)
+            foreach (EnemyController _enemy in spawnedEnemies)
             {
                 if (_enemy.GetID() == _id)
                 {
