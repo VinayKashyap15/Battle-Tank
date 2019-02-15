@@ -36,7 +36,7 @@ namespace Player
 
             playerModel = new PlayerModel();
             playerModel.SetID(_playerID);
-            playerID=playerModel.GetID();
+            playerID = playerModel.GetID();
 
             playerView = playerViewInstance;
 
@@ -207,10 +207,10 @@ namespace Player
         {
             PlayerService.Instance.UpdatePlayer -= UpdateCurrentPlayer;
             playerModel = null;
-            playerView.DestroyView();           
+            playerView.DestroyView();
         }
         public void TakeDamage(int _damage)
-        {
+        {          
             playerModel.SetHealth(playerModel.GetHealth() - _damage);
             if (playerModel.GetHealth() <= 0)
             {
@@ -220,7 +220,7 @@ namespace Player
                 if (PlayerService.Instance.listOfPlayerControllers.Count > 1)
                 {
                     Vector3 pos = PlayerService.Instance.GetRespawnSafePosition();
-                    ReplayService.Instance.SaveSpawnPointData(GetID(), Math.Abs(PlayerService.Instance.startFrameCount - Time.frameCount), new SpawnAction(pos));
+                    ReplayService.Instance.SaveSpawnPointData(GetID(), InputManagerBase.Instance.startTime, new SpawnAction(pos));
                     playerView.gameObject.transform.position = pos;
                 }
             }
@@ -235,6 +235,6 @@ namespace Player
             playerView.SetMaterial(_mat);
         }
 
-     
+
     }
 }

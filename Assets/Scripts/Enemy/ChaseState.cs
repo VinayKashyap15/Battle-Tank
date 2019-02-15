@@ -26,9 +26,8 @@ namespace EnemyStates
         }
 
         public void OnStateUpdate()
-        {
-            Vector3 posToReach= Vector3.MoveTowards(this.gameObject.transform.localPosition, lastSeenPosition, 10f);
-            this.gameObject.transform.localPosition=Vector3.Lerp(this.gameObject.transform.localPosition,posToReach,0.1f);
+        {            
+            this.gameObject.transform.localPosition=Vector3.Lerp(this.gameObject.transform.localPosition,lastSeenPosition,0.1f*Time.deltaTime);
 
         }
     }

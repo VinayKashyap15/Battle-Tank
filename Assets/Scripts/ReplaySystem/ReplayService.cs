@@ -10,13 +10,19 @@ namespace ReplaySystem
     {
         public bool startReplay = false;
         Queue<QueueData> savedQueueData = new Queue<QueueData>();
+        SceneSpecific.SceneController sceneController;
 
         private void Start()
         {
             savedQueueData.Clear();
             StateMachineImplementation.StateMachineService.Instance.OnStartReplay += StartReplay;
+            
         }
 
+        public void SetSceneController(SceneSpecific.SceneController _controller)
+        {
+            sceneController=_controller;
+        }
         public bool GetReplayValue()
         {
             return startReplay;
@@ -25,9 +31,13 @@ namespace ReplaySystem
         private void StartReplay()
         {
             startReplay = true;
-            Player.PlayerService.Instance.SpawnPlayers();
+            Player.PlayerService.Instance.OnStart(sceneController);
         }
 
+        public void SetEnemyData()
+        {
+            
+        }
         public void SaveQueue(QueueData _dataToSave)
         {
             savedQueueData.Enqueue(_dataToSave);

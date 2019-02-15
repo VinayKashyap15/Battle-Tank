@@ -109,5 +109,10 @@ namespace StateMachineImplementation
             }            
             
         }
+
+        public StateMachineEnumTypes GetCurrentStateMachineType()
+        {
+            return currentStateMachineType;
+        }
     }
 }

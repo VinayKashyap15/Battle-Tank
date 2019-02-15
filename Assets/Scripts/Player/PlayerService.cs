@@ -48,7 +48,7 @@ namespace Player
         public event Action StateUpdater;
         public event Action UpdatePlayer;
         private int noOfPlayers;
-        public int startFrameCount;
+       // public int startFrameCount;
         private Material _rewardedMat;
 
 
@@ -74,7 +74,7 @@ namespace Player
             {
                 noOfPlayers = 1;
             }
-            startFrameCount = Time.frameCount;
+           // startFrameCount = Time.frameCount;
 
         }
         public void OnStart(SceneController _currentSceneController)
@@ -108,7 +108,7 @@ namespace Player
         }
         public void SpawnPlayers()
         {
-            listOfPlayerControllers.Clear();
+            
             enemyKillCountData.Clear();
             playerGamesPlayedData.Clear();
             playerID = 0;

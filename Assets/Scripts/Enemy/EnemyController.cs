@@ -27,7 +27,7 @@ int enemyID;
 
         private void StartChasing(Vector3 _position)
         {
-           //currentState= new ChaseState(this,_spottedPlayer);
+          
            currentStateMachine.ChangeCurrentState(currentEnemyView.gameObject.GetComponent<ChaseState>());
            
         }
@@ -100,12 +100,6 @@ int enemyID;
         {
             //throw new NotImplementedException();
         }
-
-        public Vector3 GetCurrentLocation()
-        {
-            return currentEnemyView.gameObject.transform.position;
-        }
-
       
     }
 }

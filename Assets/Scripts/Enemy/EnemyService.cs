@@ -11,7 +11,7 @@ namespace Enemy
     public class EnemyService : SingletonBase<EnemyService>
     {
         [SerializeField] private EnemyScriptableObjectList listOfEnemies;
-        private List<EnemyController> spawnedEnemies = new List<EnemyController>();
+        private Dictionary<EnemyController,Vector3> spawnedEnemies = new Dictionary<EnemyController,Vector3>();
         public event Action<int, EnemyType, int> EnemyDeath;
         public event Action<Vector3> PlayerSpotted;
         int currentDamagingID;
@@ -23,7 +23,7 @@ namespace Enemy
         }
         public void OnUpdate()
         {
-            foreach (EnemyController item in spawnedEnemies)
+            foreach (EnemyController item in spawnedEnemies.Keys)
             {
                 if (item.currentState != null)
                 {
@@ -58,7 +58,8 @@ namespace Enemy
         public void CreateEnemyController(EnemyScriptableObject _enemyScriptableObject)
         {
             var enemy = new EnemyController(_enemyScriptableObject);
-            spawnedEnemies.Add(enemy);
+            var currentLocation= enemy.GetPosition();
+            spawnedEnemies.Add(enemy,currentLocation);
         }
 
         public void DestroyController(EnemyController _enemyController)
@@ -68,14 +69,14 @@ namespace Enemy
             _enemyController = null;
         }
 
-        public List<EnemyController> GetEnemyList()
+        public Dictionary<EnemyController,Vector3> GetEnemyList()
         {
             return spawnedEnemies;
         }
 
         public void RemoveEnemyFromList(int _id, EnemyType _type, int playerID)
         {
-            foreach (EnemyController _enemy in spawnedEnemies)
+            foreach (EnemyController _enemy in spawnedEnemies.Keys)
             {
                 if (_enemy.GetID() == _id)
                 {
@@ -105,5 +106,6 @@ namespace Enemy
         {
             PlayerSpotted.Invoke(_lastKnownPlayerLocation);
         }
+
     }
 }

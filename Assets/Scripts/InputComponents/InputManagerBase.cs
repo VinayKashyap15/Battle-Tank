@@ -20,7 +20,7 @@ namespace InputComponents
     {
 
         private Queue<QueueData> saveQueue = new Queue<QueueData>();
-        int startTime;
+        public int startTime;
         bool isReplayPaused = false;
         private void Start()
         {

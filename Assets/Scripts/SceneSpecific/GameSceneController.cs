@@ -30,7 +30,7 @@ namespace SceneSpecific
         private ScoreView scoreViewInstance;
         private ReplayView replayViewInstance;
 
-        private List<EnemyController> enemyList = new List<EnemyController>();
+        private Dictionary<EnemyController,Vector3> enemyList = new Dictionary<EnemyController,Vector3>();
         private List<ScoreView> listOfScoreView = new List<ScoreView>();
         private Dictionary<Vector3, int> threatLevel = new Dictionary<Vector3, int>();
 
@@ -60,7 +60,7 @@ namespace SceneSpecific
                 Debug.Log("Parent not specified, using defaultParent");
                 parentLayoutGroup = GameObject.FindObjectOfType<LayoutGroup>();
             }
-            //StateMachineImplementation.StateMachineService.Instance.OnEnterGameScene+=StartServices;
+            ReplaySystem.ReplayService.Instance.SetSceneController(this);
             StartServices();
         }
         private void FixedUpdate()
@@ -112,7 +112,7 @@ namespace SceneSpecific
         {
             enemyList = EnemyService.Instance.GetEnemyList();
             List<Vector3> enemyPositions = new List<Vector3>();
-            foreach (EnemyController i in enemyList)
+            foreach (EnemyController i in enemyList.Keys)
             {
                 enemyPositions.Add(i.GetPosition());
             }
