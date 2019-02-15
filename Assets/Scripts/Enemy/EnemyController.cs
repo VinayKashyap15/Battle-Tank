@@ -59,6 +59,7 @@ namespace Enemy
         {
             EnemyService.Instance.PlayerSpotted-=StartChasing;
             currentEnemyModel = null;
+            currentState=null;
             currentEnemyView.DestroySelf();
         }
 

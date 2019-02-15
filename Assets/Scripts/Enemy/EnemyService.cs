@@ -80,7 +80,7 @@ namespace Enemy
         public void DestroyController(EnemyController _enemyController)
         {
             spawnedEnemies.Remove(_enemyController);
-            _enemyController.StartDestroy();
+            _enemyController.StartDestroy();           
             _enemyController = null;
         }
 
