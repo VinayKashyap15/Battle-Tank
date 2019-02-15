@@ -109,6 +109,8 @@ namespace Player
         public void SpawnPlayers()
         {
             listOfPlayerControllers.Clear();
+            enemyKillCountData.Clear();
+            playerGamesPlayedData.Clear();
             playerID = 0;
             PlayerController _playerControllerInstance;
             if (listOfPlayerInputComponents)

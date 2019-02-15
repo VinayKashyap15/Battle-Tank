@@ -51,10 +51,10 @@ namespace Enemy
         }
 
         private void OnTriggerEnter(Collider other) {
-            var view=other.gameObject.GetComponent<Player.PlayerView>();
+            
             if(other.gameObject.GetComponent<Player.PlayerView>())
             {
-                EnemyService.Instance.AlertAllEnemies(view.GetPlayerController());
+                EnemyService.Instance.AlertAllEnemies(other.transform.localPosition);
             }
         }
     }

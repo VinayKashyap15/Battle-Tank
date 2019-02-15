@@ -3,32 +3,33 @@ using GameplayInterfaces;
 
 namespace EnemyStates
 {
-    public class ChaseState : EnemyState
+    public class ChaseState : MonoBehaviour, IEnemyState
     {
-        ICharacterController playerToChase;
-        ICharacterController enemyChasing;
-        public ChaseState(ICharacterController _enemyChasing,ICharacterController _playerToChase)
+        private Vector3 lastSeenPosition;
+        public ChaseState(Vector3 position)
         {
-            enemyChasing=_enemyChasing;
-            playerToChase=_playerToChase;
-            OnStateEnter();
+            lastSeenPosition=position;
         }
 
-        public override void OnStateEnter()
+        private void OnEnable()
         {
-            //throw new System.NotImplementedException();
-            Debug.Log("Inside enemy chase state");            
+            OnStateUpdate();
+        }
+        public void OnStateEnter()
+        {
+            this.enabled = true;
         }
 
-        public override void OnStateExit()
+        public void OnStateExit()
         {
-            //throw new System.NotImplementedException();
+            this.enabled = false;
         }
 
-        public override void OnStateUpdate()
+        public void OnStateUpdate()
         {
-            //throw new System.NotImplementedException();
-           enemyChasing.SetNewLocation(Vector3.MoveTowards( enemyChasing.GetCurrentLocation(),playerToChase.GetCurrentLocation(),10f));
+            Vector3 posToReach= Vector3.MoveTowards(this.gameObject.transform.localPosition, lastSeenPosition, 10f);
+            this.gameObject.transform.localPosition=Vector3.Lerp(this.gameObject.transform.localPosition,posToReach,0.1f);
+
         }
     }
 }

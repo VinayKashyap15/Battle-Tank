@@ -24,11 +24,15 @@ namespace InputComponents
         bool isReplayPaused = false;
         private void Start()
         {
-            startTime = Time.frameCount;
+            startTime = 0;
+            StateMachineImplementation.StateMachineService.Instance.OnPause+=ReplayPaused;
         }
         private void Update()
         {
-            
+            if(!isReplayPaused)
+            {
+                startTime++;
+            }
                 if (ReplayService.Instance.GetReplayValue())
                 {
                     ReplayUpdate(ReplayService.Instance.GetSavedQueue());
@@ -43,7 +47,7 @@ namespace InputComponents
 
         public void InputUpdate()
         {
-            int frameNo = Math.Abs(startTime - Time.frameCount);
+            int frameNo = startTime;
 
             foreach (var _currentPlayerController in PlayerService.Instance.listOfPlayerControllers)
             {

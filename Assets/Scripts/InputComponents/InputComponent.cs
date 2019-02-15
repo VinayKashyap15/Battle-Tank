@@ -35,7 +35,7 @@ namespace InputComponents
 
         public List<InputActions> OnUpdate()
         {
-            //_actions.Clear();
+           
             List<InputActions> actions=new List<InputActions>();
             if (Input.GetKey(GetPauseKey()))
             {
@@ -87,8 +87,7 @@ namespace InputComponents
 
         private void PauseGame()
         {
-            GetCharacterCoontroller().PauseGame();
-            InputManagerBase.Instance.SetPauseGame();
+            GetCharacterCoontroller().PauseGame();           
         }
         private void SetFireState(bool _isFiring)
         {

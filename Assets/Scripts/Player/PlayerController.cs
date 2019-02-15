@@ -206,9 +206,8 @@ namespace Player
         public void DestroySelf()
         {
             PlayerService.Instance.UpdatePlayer -= UpdateCurrentPlayer;
-            playerView.DestroyView();
-            Debug.Log("inside Destroy self");
             playerModel = null;
+            playerView.DestroyView();           
         }
         public void TakeDamage(int _damage)
         {
@@ -236,14 +235,6 @@ namespace Player
             playerView.SetMaterial(_mat);
         }
 
-        public Vector3 GetCurrentLocation()
-        {
-            return playerView.gameObject.transform.position;
-        }
-
-        public void SetNewLocation(Vector3 vector3)
-        {
-            //throw new NotImplementedException();
-        }
+     
     }
 }

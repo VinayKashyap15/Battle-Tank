@@ -10,25 +10,32 @@ namespace Enemy
         private EnemyScriptableObject enemyScriptableObject;
         private EnemyModel currentEnemyModel;
         private EnemyView currentEnemyView;
-
-        public EnemyState currentState;
+int enemyID;
+        public IEnemyState currentState;
+        private EnemyStateMachine currentStateMachine;
+        public  IEnemyState previousState;
 
         public EnemyController(EnemyScriptableObject _enemyScriptableObject)
         {
             enemyScriptableObject = _enemyScriptableObject;
-            CreateModel(_enemyScriptableObject);           
+            CreateModel(_enemyScriptableObject);
+            currentStateMachine= new EnemyStateMachine(this);
+            currentStateMachine.ChangeCurrentState(currentEnemyView.gameObject.GetComponent<PatrollingState>());        
+            enemyID=currentEnemyModel.GetID();
             EnemyService.Instance.PlayerSpotted+=StartChasing;
         }
 
-        private void StartChasing(ICharacterController _spottedPlayer)
+        private void StartChasing(Vector3 _position)
         {
-           currentState= new ChaseState(this,_spottedPlayer);
+           //currentState= new ChaseState(this,_spottedPlayer);
+           currentStateMachine.ChangeCurrentState(currentEnemyView.gameObject.GetComponent<ChaseState>());
+           
         }
 
         private void SpawnEnemy(EnemyModel _enemyInstance,Vector3 _position)
         {
            GameObject currentEnemyInstance= GameObject.Instantiate(_enemyInstance.GetEnemyModel());
-            currentEnemyInstance.transform.position = new Vector3(UnityEngine.Random.Range(5,40),0,UnityEngine.Random.Range(5,40)); 
+            currentEnemyInstance.transform.position = new Vector3(UnityEngine.Random.Range(-20,40),0,UnityEngine.Random.Range(-20,40)); 
             currentEnemyView = currentEnemyInstance.GetComponent<EnemyView>();
             currentEnemyView.SetMaterial(_enemyInstance.GetEnemyMaterial());
             currentEnemyView.SetController(this);   
@@ -45,6 +52,7 @@ namespace Enemy
         {
             EnemyService.Instance.PlayerSpotted-=StartChasing;
             currentEnemyModel = null;
+            currentEnemyView.DestroySelf();
         }
 
         public Vector3 GetPosition()
@@ -58,14 +66,14 @@ namespace Enemy
             if(currentEnemyModel.GetEnemyHealth()<=0)
             {
                 EnemyService.Instance.OnEnemyDeath(GetID(),currentEnemyModel.GetEnemyType(),EnemyService.Instance.GetDamagingPlayerID());
-                currentEnemyView.DestroySelf();
                 EnemyService.Instance.DestroyController(this);
+                
             }
         }
 
         public int GetID()
         {
-            return currentEnemyModel.GetID();
+            return enemyID;
         }
 
         public void Fire()
@@ -98,9 +106,6 @@ namespace Enemy
             return currentEnemyView.gameObject.transform.position;
         }
 
-        public void SetNewLocation(Vector3 _pos)
-        {
-           currentEnemyView.gameObject.transform.position= Vector3.Lerp(currentEnemyView.gameObject.transform.position,_pos,0.1f*Time.deltaTime);
-        }
+      
     }
 }

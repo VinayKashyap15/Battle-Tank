@@ -13,7 +13,7 @@ namespace Enemy
         [SerializeField] private EnemyScriptableObjectList listOfEnemies;
         private List<EnemyController> spawnedEnemies = new List<EnemyController>();
         public event Action<int, EnemyType, int> EnemyDeath;
-        public event Action<ICharacterController> PlayerSpotted;
+        public event Action<Vector3> PlayerSpotted;
         int currentDamagingID;
         public void OnStart()
         {
@@ -63,6 +63,7 @@ namespace Enemy
 
         public void DestroyController(EnemyController _enemyController)
         {
+            spawnedEnemies.Remove(_enemyController);
             _enemyController.StartDestroy();
             _enemyController = null;
         }
@@ -100,9 +101,9 @@ namespace Enemy
         {
             return currentDamagingID;
         }
-        public void AlertAllEnemies(ICharacterController _spottedPlayer)
+        public void AlertAllEnemies(Vector3 _lastKnownPlayerLocation)
         {
-            //PlayerSpotted?.Invoke(_spottedPlayer);
+            PlayerSpotted.Invoke(_lastKnownPlayerLocation);
         }
     }
 }

@@ -538,7 +538,7 @@ MonoBehaviour:
   exitBtn: {fileID: 114829882758950878}
   _2xBtn: {fileID: 114990907898954224}
   _halfxBtn: {fileID: 114106572454958978}
-  _pauseBtn: {fileID: 0}
+  _pauseBtn: {fileID: 114800061374807116}
 --- !u!114 &114829882758950878
 MonoBehaviour:
   m_ObjectHideFlags: 1
