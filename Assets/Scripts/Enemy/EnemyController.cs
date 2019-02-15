@@ -20,6 +20,7 @@ namespace Enemy
             enemyScriptableObject = _enemyScriptableObject;
             CreateModel(_enemyScriptableObject);
             currentStateMachine= new EnemyStateMachine(this);
+            currentState=currentEnemyView.gameObject.GetComponent<PatrollingState>();
             currentStateMachine.ChangeCurrentState(currentEnemyView.gameObject.GetComponent<PatrollingState>());        
             enemyID=currentEnemyModel.GetID();
             EnemyService.Instance.PlayerSpotted+=StartChasing;
@@ -27,6 +28,7 @@ namespace Enemy
 
         private void StartChasing(Vector3 _position)
         {          
+
             currentEnemyView.gameObject.GetComponent<ChaseState>().lastSeenPosition=_position;
            currentStateMachine.ChangeCurrentState(currentEnemyView.gameObject.GetComponent<ChaseState>());
             

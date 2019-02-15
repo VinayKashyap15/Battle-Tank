@@ -11,7 +11,9 @@ namespace Enemy
     [System.Serializable]
     public struct EnemyData
     {
-        Vector3 spawnPosition;
+        public Vector3 spawnPosition;
+        public EnemyType currentType;
+
     }
     public class EnemyService : SingletonBase<EnemyService>
     {
