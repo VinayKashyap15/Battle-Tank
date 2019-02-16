@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using InputComponents;
+using CameraManagement;
 using Common;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,9 @@ namespace Player
 
         [SerializeField]
         private PlayerPrefabScriptableObject newPlayerPrefabScriptableObj;
+        [SerializeField]
+        private Camera miniMapCameraPrefab;
+        
         private PlayerController playerControllerInstance;
         private GameObject playerPrefab;
         private GameObject playerInstance;
@@ -35,11 +39,10 @@ namespace Player
         public List<PlayerController> listOfPlayerControllers = new List<PlayerController>();
         //player id and kill count
         private Dictionary<int, int> enemyKillCountData = new Dictionary<int, int>();
-
-
-
         //player id and games played
         private Dictionary<int, int> playerGamesPlayedData = new Dictionary<int, int>();
+
+        private List<Camera> playerMainCamera= new List<Camera>();
 
         public event Action RegenerateHealth;
         public event Action<int, int> PlayerDeath;
@@ -48,7 +51,7 @@ namespace Player
         public event Action StateUpdater;
         public event Action UpdatePlayer;
         private int noOfPlayers;
-       // public int startFrameCount;
+        
         private Material _rewardedMat;
 
 
@@ -121,6 +124,7 @@ namespace Player
                 for (int i = 0; i < listOfPlayerInputComponents.playerList.Count; i++)
                 {
                     playerInstance = SpawnPrefabInstance(pos);
+
                     _playerControllerInstance = new PlayerController(playerInstance.GetComponent<PlayerView>(), playerID, listOfPlayerInputComponents.playerList.ElementAt(i), _rewardedMat);
                     listOfPlayerControllers.Add(_playerControllerInstance);
                     if (!ReplaySystem.ReplayService.Instance.startReplay)
@@ -131,9 +135,12 @@ namespace Player
                     }
                     SetGameJoined(_playerControllerInstance.GetID());
 
+                    SetupCameras(_playerControllerInstance,playerID);
 
                     pos += new Vector3(3, 0, 0);
                     playerID += 1;
+
+                    
 
                 }
             }
@@ -145,11 +152,27 @@ namespace Player
                 listOfPlayerControllers.Add(_playerControllerInstance);
                 enemyKillCountData.Add(_playerControllerInstance.GetID(), 0);
                 ScoreManager.Instance.AddPlayerUI(_playerControllerInstance);
+                SetupCameras(_playerControllerInstance,playerID);
             }
 
 
 
         }
+
+        private void SetupCameras(PlayerController _controller,int _id)
+        {           
+            GameObject miniMapInstance=GameObject.Instantiate(miniMapCameraPrefab.gameObject)as GameObject;
+
+            var mcam=miniMapInstance.GetComponent<MiniMapSetup>();
+            Transform t=_controller.GetFollowTarget();
+            mcam.SetupTarget(t);
+            miniMapInstance.GetComponent<MiniMapSetup>().SetRenderTexture(_id);
+            Camera _mainCamera= _controller.GetMainCamera();
+            playerMainCamera.Add(_mainCamera);
+
+            playerMainCamera[_id].rect= new Rect((1f/noOfPlayers)*_controller.GetID(),0,1f/noOfPlayers,1);
+        }
+
         private void SetGameJoined(int _id)
         {
             int currentGamesValue;
@@ -157,7 +180,7 @@ namespace Player
             Debug.Log("player" + _id.ToString() + " value " + currentGamesValue.ToString());
             PlayerSaveData.Instance.SetGamesPlayedData(_id, currentGamesValue + 1);
             playerGamesPlayedData[_id] = currentGamesValue + 1;
-            //            AchievementManager.Instance.InvokeGamesJoined(_id, currentGamesValue);
+          
         }
         public void DestroyPlayer(PlayerController _playerController)
         {
@@ -231,11 +254,6 @@ namespace Player
             //enemyKillCountData.Add(_playerID,currentKillCount++);
             enemyKillCountData[_playerID] = currentKillCount + 1;
 
-        }
-
-        public void InvokeStateUpdater()
-        {
-            StateUpdater.Invoke();
         }
         public int GetNoOfPlayers()
         {

@@ -12,37 +12,37 @@ namespace Enemy
     public struct EnemyData
     {
         public Vector3 spawnPosition;
-        public EnemyType currentType;
+        public int indexOfScriptableObj;
 
     }
     public class EnemyService : SingletonBase<EnemyService>
     {
         [SerializeField] private EnemyScriptableObjectList listOfEnemies;
+
+        public List<EnemyData> enemyDataList = new List<EnemyData>();
         private List<EnemyController> spawnedEnemies = new List<EnemyController>();
         public event Action<int, EnemyType, int> EnemyDeath;
         public event Action<Vector3> PlayerSpotted;
         int currentDamagingID;
         public void OnStart()
         {
-
             SpawnEnemyControllers();
             RegisterEvent();
         }
         public void OnUpdate()
         {
-            foreach (EnemyController item in spawnedEnemies)
-            {
-                if (item.currentState != null)
-                {
-                    item.currentState.OnStateUpdate();
-                }
-            }
+            // foreach (EnemyController item in spawnedEnemies)
+            // {
+            //     if (item.currentState != null)
+            //     {
+            //         item.currentState.OnStateUpdate();
+            //     }
+            // }
         }
 
         public void StopChasing()
         {
-            Debug.Log("stop chasing");
-            foreach(EnemyController item in spawnedEnemies)
+            foreach (EnemyController item in spawnedEnemies)
             {
                 item.BackToPatrolling();
             }
@@ -51,7 +51,7 @@ namespace Enemy
         private void RegisterEvent()
         {
             EnemyDeath += RemoveEnemyFromList;
-
+            StateMachineImplementation.StateMachineService.Instance.OnStartReplay += StartReplay;
         }
 
         private void SpawnEnemyControllers()
@@ -66,23 +66,38 @@ namespace Enemy
             }
             for (int i = 0; i < listOfEnemies.enemiesToSpawn; i++)
             {
-                EnemyScriptableObject _newEnemyObj = listOfEnemies.enemyList.ElementAt(UnityEngine.Random.Range(0, listOfEnemies.enemyList.Count));
-                CreateEnemyController(_newEnemyObj);
+                EnemyData newData = new EnemyData();
+                int index = UnityEngine.Random.Range(0, listOfEnemies.enemyList.Count);
+                newData.indexOfScriptableObj = index;
+                EnemyScriptableObject _newEnemyObj = listOfEnemies.enemyList.ElementAt(index);
+                newData.spawnPosition = CreateEnemyController(_newEnemyObj);
+
+                enemyDataList.Add(newData);
             }
 
         }
 
-        public void CreateEnemyController(EnemyScriptableObject _enemyScriptableObject)
+        public Vector3 CreateEnemyController(EnemyScriptableObject _enemyScriptableObject, Vector3? _spawnPos = null)
         {
-            var enemy = new EnemyController(_enemyScriptableObject);
-            var currentLocation= enemy.GetPosition();
+            var enemy = new EnemyController(_enemyScriptableObject, _spawnPos);
+            var currentLocation = enemy.GetPosition();
             spawnedEnemies.Add(enemy);
+            return currentLocation;
         }
 
         public void DestroyController(EnemyController _enemyController)
         {
-            spawnedEnemies.Remove(_enemyController);
-            _enemyController.StartDestroy();           
+        //    for(int i=0;i<spawnedEnemies.Count;i++)
+        //    {
+        //        if(spawnedEnemies[i]==_enemyController)
+        //        {
+        //            spawnedEnemies.RemoveAt(i);
+        //            break;
+        //        }
+        //    }
+
+
+            _enemyController.StartDestroy();
             _enemyController = null;
         }
 
@@ -121,7 +136,21 @@ namespace Enemy
         }
         public void AlertAllEnemies(Vector3 _lastKnownPlayerLocation)
         {
-            PlayerSpotted.Invoke(_lastKnownPlayerLocation);
+            PlayerSpotted?.Invoke(_lastKnownPlayerLocation);
+        }
+        public void StartReplay()
+        {
+            for (int i = 0; i < spawnedEnemies.Count; i++)
+            {
+                EnemyController item = spawnedEnemies.ElementAt(i);
+                DestroyController(item);
+            }
+            spawnedEnemies.Clear();
+            Debug.Log(enemyDataList.Count);
+            foreach (EnemyData _data in enemyDataList)
+            {
+                Vector3 temp = CreateEnemyController(listOfEnemies.enemyList.ElementAt(_data.indexOfScriptableObj), _data.spawnPosition);
+            }
         }
 
     }

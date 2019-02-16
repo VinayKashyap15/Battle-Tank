@@ -43,14 +43,14 @@ namespace StateMachineImplementation
         }
         private void InvokeResumeActions()
         {
-            OnResume.Invoke();
+            OnResume?.Invoke();
             SetCurrentStateMachineType(previousStateMachineType);
             
         }
 
         private void InvokePauseActions()
         {
-            OnPause.Invoke();
+            OnPause?.Invoke();
             SetPreviousStateMachineType(currentStateMachineType);
         }
 
@@ -74,7 +74,7 @@ namespace StateMachineImplementation
         public void SetCurrentStateMachineType(StateMachineEnumTypes _currentStateMachine)
         {
             currentStateMachineType = _currentStateMachine;
-            Debug.Log("Current State Machine : "+currentStateMachineType.ToString());
+           
             CreateStateMachine();
         }
         public void SetPreviousStateMachineType(StateMachineEnumTypes _currentStateMachine)

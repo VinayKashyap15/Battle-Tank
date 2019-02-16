@@ -32,11 +32,12 @@ namespace ReplaySystem
         {
             startReplay = true;
             Player.PlayerService.Instance.OnStart(sceneController);
+            StateMachineImplementation.StateMachineService.Instance.OnEnterGameOverScene+=ClearQueue;
         }
 
-        public void SetEnemyData()
+        public void ClearQueue()
         {
-            
+            savedQueueData.Clear();
         }
         public void SaveQueue(QueueData _dataToSave)
         {

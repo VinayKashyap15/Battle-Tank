@@ -15,8 +15,8 @@ namespace InputComponents
             fireKey=_customInputScheme.fireKey;
             moveForwardKey=_customInputScheme.moveForwardKey;
             moveBackwardKey= _customInputScheme.moveBackwardKey;
-            moveLeftKey = _customInputScheme.moveLeftKey;
-            moveRightKey = _customInputScheme.moveRightKey;
+            rotateLeftKey = _customInputScheme.moveLeftKey;
+            rotateRightKey = _customInputScheme.moveRightKey;
             pauseKey=_customInputScheme.pauseKey;
             currentCharacterController = _currentPlayerControllerInstance;
         }
@@ -36,14 +36,14 @@ namespace InputComponents
             return moveBackwardKey;
         }
 
-        public override KeyCode GetMoveLeftInput()
+        public override KeyCode GetRotateLeftInput()
         {
-            return moveLeftKey;
+            return rotateLeftKey;
         }
 
-        public override KeyCode GetMoveRightInput()
+        public override KeyCode GetRotateRightInput()
         {
-            return moveRightKey;
+            return rotateRightKey;
         }
         public  override KeyCode GetPauseKey()
         {

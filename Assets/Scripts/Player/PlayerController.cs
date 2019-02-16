@@ -64,7 +64,7 @@ namespace Player
                 if (isActive)
                 {
                     _state.OnStateUpdate();
-                    Debug.Log(" Active State :" + _state.ToString() + "for player " + GetID().ToString());
+                    
                 }
                 else
                 {
@@ -78,12 +78,7 @@ namespace Player
             return playerModel.GetDeaths();
         }
 
-        public void PauseGame()
-        {
-            currentInputComponent.isPaused = !currentInputComponent.isPaused;
-            Debug.Log("isPaused for player " + GetID().ToString() + " " + currentInputComponent.isPaused);
-        }
-
+       
         private void CreateNewPlayerState()
         {
             if (idleState != null)
@@ -166,7 +161,7 @@ namespace Player
             if (firingState != null)
                 SetActiveInDictionary(firingState, _isFiring);
         }
-        public void RotatePlayer(float pitch)
+        public void Rotate(float pitch)
         {
             playerView.RotatePlayer(pitch);
         }
@@ -199,6 +194,17 @@ namespace Player
             PlayerService.Instance.InvokeHighScoreAchievement(GetID(), highScore);
 
         }
+
+        public Camera GetMainCamera()
+        {
+            return playerView.GetCamera();
+        }
+
+        public Transform GetFollowTarget()
+        {
+            return playerView.transform;
+        }
+
         public int GetID()
         {
             return playerID;
@@ -234,7 +240,6 @@ namespace Player
         {
             playerView.SetMaterial(_mat);
         }
-
 
     }
 }

@@ -21,8 +21,8 @@ namespace InputComponents
             fireKey=KeyCode.Space;
             moveForwardKey = KeyCode.W;
             moveBackwardKey=KeyCode.S;
-            moveLeftKey = KeyCode.A;
-            moveRightKey= KeyCode.D;
+            rotateLeftKey = KeyCode.A;
+            rotateRightKey= KeyCode.D;
             pauseKey=KeyCode.Escape;
         }
 
@@ -41,14 +41,14 @@ namespace InputComponents
             return moveBackwardKey;
         }
 
-        public override KeyCode GetMoveLeftInput()
+        public override KeyCode GetRotateLeftInput()
         {
-            return moveLeftKey;
+            return rotateLeftKey;
         }
 
-        public override KeyCode GetMoveRightInput()
+        public override KeyCode GetRotateRightInput()
         {
-            return moveRightKey;
+            return rotateRightKey;
         }
         public  override KeyCode GetPauseKey()
         {

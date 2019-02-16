@@ -17,10 +17,12 @@ namespace Player
         private PlayerController currentPlayerController;
         private Rigidbody bulletRb;
         private Animator anim;
+        private Camera mainCam;
 
         private void Awake()
         {
             anim = gameObject.GetComponentInChildren<Animator>();
+            mainCam= gameObject.GetComponentInChildren<Camera>();
 
         }
         public void MovePlayer(float h, float v, float speed)
@@ -105,9 +107,13 @@ namespace Player
 
         public void DestroyView()
         {
-            Debug.Log("InDestroy");
+           
             Destroy(this.gameObject);
         }
 
+        public Camera GetCamera()
+        {
+            return mainCam; 
+        }
     }
 }

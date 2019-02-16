@@ -12,11 +12,11 @@ namespace InputComponents
         protected KeyCode fireKey;
         protected KeyCode moveForwardKey;
         protected KeyCode moveBackwardKey;
-        protected KeyCode moveLeftKey;
-        protected KeyCode moveRightKey;
+        protected KeyCode rotateLeftKey;
+        protected KeyCode rotateRightKey;
         
         
-                protected KeyCode pauseKey;
+         protected KeyCode pauseKey;
 
         private float verticalVal;
         private float horizontalVal;
@@ -37,14 +37,14 @@ namespace InputComponents
         {
            
             List<InputActions> actions=new List<InputActions>();
-            if (Input.GetKey(GetPauseKey()))
+            if (Input.GetKeyDown(GetPauseKey()))
             {
                 PauseGame();
             }
 
             if (!isPaused)
             {
-                if (Input.GetKey(GetFireInput()))
+                if (Input.GetKeyDown(GetFireInput()))
                 {
                     actions.Add(Fire());
                     SetFireState(true);                    
@@ -64,14 +64,14 @@ namespace InputComponents
                    actions.Add( MoveDown());
                     
                 }
-                if (Input.GetKey(GetMoveLeftInput()))
+                if (Input.GetKey(GetRotateLeftInput()))
                 {
-                   actions.Add( MoveLeft());
+                   actions.Add( RotateLeft());
                    
                 }
-                if (Input.GetKey(GetMoveRightInput()))
+                if (Input.GetKey(GetRotateRightInput()))
                 {
-                   actions.Add( MoveRight());
+                   actions.Add( RotateRight());
                     
                 }                                                      
                 
@@ -86,8 +86,8 @@ namespace InputComponents
         }
 
         private void PauseGame()
-        {
-            GetCharacterCoontroller().PauseGame();           
+        {    
+            StateMachineImplementation.StateMachineService.Instance.SetGamePause();
         }
         private void SetFireState(bool _isFiring)
         {
@@ -107,19 +107,15 @@ namespace InputComponents
           
             return new MoveAction(horizontalVal,verticalVal);
         }
-        private InputActions MoveLeft()
+        private InputActions RotateLeft()
         {
-            verticalVal = 0;
-            horizontalVal = -1;
-           
-            return new MoveAction(horizontalVal,verticalVal);
+            int pitch=-1;                       
+            return new RotateAction(pitch);
         }
-        private InputActions MoveRight()
+       private InputActions RotateRight()
         {
-            verticalVal = 0;
-            horizontalVal = 1;
-            return new MoveAction(horizontalVal,verticalVal);
-
+            int pitch=1;                       
+            return new RotateAction(pitch);
         }
 
         public virtual KeyCode GetFireInput()
@@ -134,13 +130,13 @@ namespace InputComponents
         {
             return moveBackwardKey;
         }
-        public virtual KeyCode GetMoveLeftInput()
+        public virtual KeyCode GetRotateLeftInput()
         {
-            return moveLeftKey;
+            return rotateLeftKey;
         }
-        public virtual KeyCode GetMoveRightInput()
+        public virtual KeyCode GetRotateRightInput()
         {
-            return moveRightKey;
+            return rotateRightKey;
         }
         public virtual KeyCode GetPauseKey()
         {

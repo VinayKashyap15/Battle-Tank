@@ -73,6 +73,7 @@ namespace InputComponents
             }
             if (_recievedQueue == null)
             {
+                SceneLoader.Instance.OnGameOver();
                 return;
             }
             foreach (var _currentPlayerController in PlayerService.Instance.listOfPlayerControllers)
@@ -84,8 +85,6 @@ namespace InputComponents
                 }
                 else
                 {
-
-
                     QueueData data = new QueueData();
                     if (_recievedQueue.Count == 0)
                     {
@@ -121,15 +120,9 @@ namespace InputComponents
             ReplayService.Instance.SaveQueue(newData);
         }
 
-        public void SetPauseGame()
-        {
-            StateMachineImplementation.StateMachineService.Instance.SetGamePause();
-            
-        }
         public void ReplayPaused()
         {
-            isReplayPaused=!isReplayPaused;
-            
+            isReplayPaused=!isReplayPaused;            
         }
 
     }

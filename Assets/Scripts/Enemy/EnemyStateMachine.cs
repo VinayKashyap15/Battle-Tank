@@ -17,9 +17,7 @@ namespace Enemy
         {
             if (currentEnemyController.previousState != null)
             { currentEnemyController.previousState.OnStateExit(); }
-            
-            currentEnemyController.previousState=currentEnemyController.currentState;
-            currentEnemyController.currentState = _newState;
+            currentEnemyController.currentState=_newState;            
             _newState.OnStateEnter();
         }
     }

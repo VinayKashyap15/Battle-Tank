@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Enemy
 {
-    public class EnemyController:ICharacterController
+    public class EnemyController : ICharacterController
     {
         private EnemyScriptableObject enemyScriptableObject;
         private EnemyModel currentEnemyModel;
@@ -13,56 +13,86 @@ namespace Enemy
         int enemyID;
         public IEnemyState currentState;
         private EnemyStateMachine currentStateMachine;
-        public  IEnemyState previousState;
+        public IEnemyState previousState;
 
-        public EnemyController(EnemyScriptableObject _enemyScriptableObject)
+        public EnemyController(EnemyScriptableObject _enemyScriptableObject, Vector3? _spawnPos = null)
         {
             enemyScriptableObject = _enemyScriptableObject;
-            CreateModel(_enemyScriptableObject);
-            currentStateMachine= new EnemyStateMachine(this);
-            currentState=currentEnemyView.gameObject.GetComponent<PatrollingState>();
-            currentStateMachine.ChangeCurrentState(currentEnemyView.gameObject.GetComponent<PatrollingState>());        
-            enemyID=currentEnemyModel.GetID();
-            EnemyService.Instance.PlayerSpotted+=StartChasing;
+            if (_spawnPos != null)
+            {
+                CreateModel(_enemyScriptableObject, _spawnPos);
+            }
+            else { CreateModel(_enemyScriptableObject); }
+            currentStateMachine = new EnemyStateMachine(this);
+            currentState = currentEnemyView.gameObject.GetComponent<PatrollingState>();
+            currentStateMachine.ChangeCurrentState(currentEnemyView.gameObject.GetComponent<PatrollingState>());
+            enemyID = currentEnemyModel.GetID();
+            EnemyService.Instance.PlayerSpotted += StartChasing;
+        }
+
+        public float GetEnemySpeed()
+        {
+            return currentEnemyModel.GetEnemySpeed();
         }
 
         private void StartChasing(Vector3 _position)
-        {          
-
-            currentEnemyView.gameObject.GetComponent<ChaseState>().lastSeenPosition=_position;
-           currentStateMachine.ChangeCurrentState(currentEnemyView.gameObject.GetComponent<ChaseState>());
+        {
             
+            previousState=currentState;
+
+            if (currentEnemyView == null)
+            {
+                return;
+            }
+            currentEnemyView.gameObject.GetComponent<ChaseState>().lastSeenPosition = _position;
+            currentStateMachine.ChangeCurrentState(currentEnemyView.gameObject.GetComponent<ChaseState>());
+
         }
 
         public void BackToPatrolling()
         {
-            Debug.Log("back to patrol");
-            currentStateMachine.ChangeCurrentState(currentEnemyView.gameObject.GetComponent<PatrollingState>());
             
-        }
+            previousState=currentState;
+            
+            currentStateMachine.ChangeCurrentState(currentEnemyView.gameObject.GetComponent<PatrollingState>());
 
-        private void SpawnEnemy(EnemyModel _enemyInstance,Vector3 _position)
-        {
-           GameObject currentEnemyInstance= GameObject.Instantiate(_enemyInstance.GetEnemyModel());
-            currentEnemyInstance.transform.position = new Vector3(UnityEngine.Random.Range(-20,40),0,UnityEngine.Random.Range(-20,40)); 
-            currentEnemyView = currentEnemyInstance.GetComponent<EnemyView>();
-            currentEnemyView.SetMaterial(_enemyInstance.GetEnemyMaterial());
-            currentEnemyView.SetController(this);   
         }
-
-        private void CreateModel(EnemyScriptableObject _enemyScriptableObject)
+        private void CreateModel(EnemyScriptableObject _enemyScriptableObject, Vector3? _spawnPos = null)
         {
             EnemyModel _enemyModel = new EnemyModel(_enemyScriptableObject);
             currentEnemyModel = _enemyModel;
-            SpawnEnemy(_enemyModel,_enemyScriptableObject.pos);
+            if (_spawnPos != null)
+            {
+                SpawnEnemy(_enemyModel, _spawnPos);
+            }
+            else
+            {
+                SpawnEnemy(_enemyModel);
+            }
         }
 
-        public  void StartDestroy()
+        private void SpawnEnemy(EnemyModel _enemyInstance, Vector3? _position = null)
         {
-            EnemyService.Instance.PlayerSpotted-=StartChasing;
+            GameObject currentEnemyInstance = GameObject.Instantiate(_enemyInstance.GetEnemyModel());
+            if (_position != null)
+            {
+                currentEnemyInstance.transform.position = (Vector3)_position;
+
+            }
+            else { currentEnemyInstance.transform.position = new Vector3(UnityEngine.Random.Range(-20, 40), 0, UnityEngine.Random.Range(-20, 40)); }
+            currentEnemyView = currentEnemyInstance.GetComponent<EnemyView>();
+            currentEnemyView.SetMaterial(_enemyInstance.GetEnemyMaterial());
+            currentEnemyView.SetController(this);
+        }
+
+
+        public void StartDestroy()
+        {
+            EnemyService.Instance.PlayerSpotted -= StartChasing;
             currentEnemyModel = null;
-            currentState=null;
+            currentState = null;
             currentEnemyView.DestroySelf();
+            currentEnemyView = null;
         }
 
         public Vector3 GetPosition()
@@ -73,11 +103,11 @@ namespace Enemy
         public void DamageEnemy(int _damage)
         {
             currentEnemyModel.SetEnemyHealth(currentEnemyModel.GetEnemyHealth() - _damage);
-            if(currentEnemyModel.GetEnemyHealth()<=0)
+            if (currentEnemyModel.GetEnemyHealth() <= 0)
             {
-                EnemyService.Instance.OnEnemyDeath(GetID(),currentEnemyModel.GetEnemyType(),EnemyService.Instance.GetDamagingPlayerID());
+                EnemyService.Instance.OnEnemyDeath(GetID(), currentEnemyModel.GetEnemyType(), EnemyService.Instance.GetDamagingPlayerID());
                 EnemyService.Instance.DestroyController(this);
-                
+
             }
         }
 
@@ -86,6 +116,10 @@ namespace Enemy
             return enemyID;
         }
 
+        public void Rotate(float _p)
+        {
+
+        }
         public void Fire()
         {
             //fire;
@@ -96,11 +130,7 @@ namespace Enemy
             //move enemy;
         }
 
-        public void PauseGame()
-        {
-            //throw new NotImplementedException();
-        }
-
+      
         public void SetFireState(bool isFiring)
         {
             //throw new NotImplementedException();
@@ -110,6 +140,6 @@ namespace Enemy
         {
             //throw new NotImplementedException();
         }
-      
+
     }
 }

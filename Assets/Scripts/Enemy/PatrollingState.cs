@@ -10,18 +10,23 @@ namespace EnemyStates
     public class PatrollingState : MonoBehaviour, IEnemyState
     {
         private Vector3 spawnPosition;
-
+        private bool isPaused=false;
         public List<Vector3> patrolPoints = new List<Vector3>();
         Vector3 nextPatrolPoint;
         Vector3 pointA,pointB;
 
-        private void Start() {
+        private void Start()
+        {
+            StateMachineImplementation.StateMachineService.Instance.OnPause+=OnPause;
             spawnPosition = this.gameObject.transform.transform.localPosition;
             
             pointA=spawnPosition+new Vector3(10,0,0);
             pointB = spawnPosition+ new Vector3(-10,0,0);
 
             nextPatrolPoint=pointA;
+        }
+        private void Update() {
+            OnStateUpdate();
         }
         public void OnStateEnter()
         {
@@ -50,6 +55,10 @@ namespace EnemyStates
             // {
             //     nextPatrolPoint = GetNewPoint();
             // }
+           if(isPaused)
+           {
+               return;
+           }
             if(Vector3.Distance(this.gameObject.transform.localPosition,nextPatrolPoint)<=0.5f)
             {
                nextPatrolPoint=GetNewPoint();
@@ -74,6 +83,11 @@ namespace EnemyStates
             }
 
             return newPoint;
+        }
+
+        public void OnPause()
+        {
+            isPaused=!isPaused;
         }
     }
 }
