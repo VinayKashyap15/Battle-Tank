@@ -192,6 +192,7 @@ namespace Player
 
             if (listOfPlayerControllers.Count == 0)
             {
+                playerMainCamera.Clear();
                 SceneLoader.Instance.OnReplay();
             }
         }
@@ -200,6 +201,7 @@ namespace Player
             if (listOfPlayerControllers.Contains(_playerController))
             {
                 listOfPlayerControllers.Remove(_playerController);
+                playerMainCamera.Remove(_playerController.GetMainCamera());
             }
             else
             {

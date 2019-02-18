@@ -211,6 +211,7 @@ namespace Player
         }
         public void DestroySelf()
         {
+    
             PlayerService.Instance.UpdatePlayer -= UpdateCurrentPlayer;
             playerModel = null;
             playerView.DestroyView();

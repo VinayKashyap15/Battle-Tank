@@ -107,7 +107,8 @@ namespace Player
 
         public void DestroyView()
         {
-           
+           mainCam.transform.parent=null;
+           Destroy(mainCam.gameObject);
             Destroy(this.gameObject);
         }
 
