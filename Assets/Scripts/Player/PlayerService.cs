@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using ServiceLocator;
 using InputComponents;
 using CameraManagement;
 using Common;
@@ -53,7 +54,7 @@ namespace Player
         public event Action<int, int> PlayerDeath;
         public event Action<int, int> HighScoreUpdate;
         public event Action<int, int> EnemyKill;
-        public event Action StateUpdater;
+
         public event Action UpdatePlayer;
         private int noOfPlayers;
         
@@ -198,7 +199,7 @@ namespace Player
             if (listOfPlayerControllers.Count == 0)
             {
                 playerMainCamera.Clear();
-                SceneLoader.Instance.OnReplay();
+               GameApplication.Instance.GetService<ISceneLoader>().OnReplay();
             }
         }
         public void RemoveFromList(PlayerController _playerController)

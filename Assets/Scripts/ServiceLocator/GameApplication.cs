@@ -12,15 +12,15 @@ namespace ServiceLocator
         protected override void OnInitialize()
         {
             base.OnInitialize();
-            Register<IPlayerService>(new PlayerService());
+            Register<ISceneLoader>(new SceneLoader());
         }
 
         public void Register<T>(T _service) where T : IService
         {
             listOfServices.Add(_service);
-            Debug.Log(" Register Service:"+ _service.ToString());
+            Debug.Log(" Register Service:" + _service.ToString());
         }
-        
+
         public void DeRegister<T>(T _service) where T : IService
         {
             listOfServices.Remove(_service);
@@ -28,17 +28,17 @@ namespace ServiceLocator
 
         public T GetService<T>() where T : IService
         {
-            T _serviceToReturn = default(T);
-            if (listOfServices.Contains(_serviceToReturn))
-            {
+          //  T _serviceToReturn = default(T);
+        
 
-                return _serviceToReturn;
-            }
-            else
+            foreach (IService item in listOfServices)
             {
-                Register<T>(_serviceToReturn);
-                return _serviceToReturn;
+                if (item is T)
+                {
+                    return (T)item;
+                }                
             }
+            return default(T);
         }
     }
 }

@@ -1,4 +1,6 @@
 using UnityEngine;
+using ServiceLocator;
+using GameplayInterfaces;
 using Common;
 using InputComponents;
 using System;
@@ -48,7 +50,7 @@ namespace ReplaySystem
         {
             if (savedQueueData.Count == 0)
             {
-                SceneLoader.Instance.OnGameOver();
+               GameApplication.Instance.GetService<ISceneLoader>().OnGameOver();
                 startReplay = false;
             }
             return savedQueueData;

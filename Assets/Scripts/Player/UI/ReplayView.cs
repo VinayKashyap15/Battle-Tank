@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
+using ServiceLocator;
+using GameplayInterfaces;
 using Common;
 using System;
 
@@ -32,7 +34,7 @@ namespace Player.UI
         public void OnExitClicked()
         {
             Time.timeScale=1f;
-            SceneLoader.Instance.OnGameOver();
+           GameApplication.Instance.GetService<ISceneLoader>().OnGameOver();
 
         }
 

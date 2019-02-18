@@ -1,4 +1,5 @@
 ﻿using Common;
+using ServiceLocator;
 using GameplayInterfaces;
 using System.Collections.Generic;
 using ReplaySystem;
@@ -73,14 +74,14 @@ namespace InputComponents
             }
             if (_recievedQueue == null)
             {
-                SceneLoader.Instance.OnGameOver();
+                GameApplication.Instance.GetService<ISceneLoader>().OnGameOver();
                 return;
             }
             foreach (var _currentPlayerController in PlayerService.Instance.listOfPlayerControllers)
             {
                 if (_recievedQueue == null)
                 {
-                    SceneLoader.Instance.OnGameOver();
+                    GameApplication.Instance.GetService<ISceneLoader>().OnGameOver();
                     return;
                 }
                 else
@@ -88,7 +89,7 @@ namespace InputComponents
                     QueueData data = new QueueData();
                     if (_recievedQueue.Count == 0)
                     {
-                        SceneLoader.Instance.OnGameOver();
+                        GameApplication.Instance.GetService<ISceneLoader>().OnGameOver();
                         return;
                     }
                     data = _recievedQueue.Peek();
