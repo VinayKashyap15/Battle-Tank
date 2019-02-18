@@ -1,5 +1,6 @@
 ﻿using GameplayInterfaces;
 using Player;
+using ServiceLocator;
 using Player.UI;
 using Enemy;
 using UnityEngine;
@@ -60,7 +61,7 @@ namespace SceneSpecific
                 Debug.Log("Parent not specified, using defaultParent");
                 parentLayoutGroup = GameObject.FindObjectOfType<LayoutGroup>();
             }
-            ReplaySystem.ReplayService.Instance.SetSceneController(this);
+           GameApplication.Instance.GetService<IReplayService>().SetSceneController(this);
             StartServices();
         }
         private void FixedUpdate()

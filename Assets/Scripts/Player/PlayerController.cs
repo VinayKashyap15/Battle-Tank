@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using Enemy;
+using ServiceLocator;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -227,7 +228,7 @@ namespace Player
                 if (PlayerService.Instance.listOfPlayerControllers.Count > 1)
                 {
                     Vector3 pos = PlayerService.Instance.GetRespawnSafePosition();
-                    ReplayService.Instance.SaveSpawnPointData(GetID(), InputManagerBase.Instance.startTime, new SpawnAction(pos));
+                    GameApplication.Instance.GetService<IReplayService>().SaveSpawnPointData(GetID(), InputManagerBase.Instance.startTime, new SpawnAction(pos));
                     playerView.gameObject.transform.position = pos;
                 }
             }

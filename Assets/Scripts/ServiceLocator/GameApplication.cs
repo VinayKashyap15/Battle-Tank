@@ -1,5 +1,7 @@
 using Common;
 using UnityEngine;
+using ReplaySystem;
+using Lobby;
 using Player;
 using Enemy;
 using System.Collections.Generic;
@@ -13,6 +15,9 @@ namespace ServiceLocator
         {
             base.OnInitialize();
             Register<ISceneLoader>(new SceneLoader());
+            Register<IReplayService>(new ReplayService());
+            Register<ILobbyService>(new LobbyService());
+
         }
 
         public void Register<T>(T _service) where T : IService
@@ -28,9 +33,6 @@ namespace ServiceLocator
 
         public T GetService<T>() where T : IService
         {
-          //  T _serviceToReturn = default(T);
-        
-
             foreach (IService item in listOfServices)
             {
                 if (item is T)

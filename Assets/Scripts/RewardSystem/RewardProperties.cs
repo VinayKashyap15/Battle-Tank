@@ -1,6 +1,8 @@
 using System;
 using Common;
 using UnityEngine;
+using ServiceLocator;
+using GameplayInterfaces;
 using Lobby;
 using UnityEngine.UI;
 
@@ -32,7 +34,7 @@ namespace RewardSystem
             }
 
             _button = gameObject.GetComponentInChildren<Button>();
-            _button.onClick.AddListener(() => LobbyService.Instance.OnButtonClicked(this));
+            _button.onClick.AddListener(() => GameApplication.Instance.GetService<ILobbyService>().OnButtonClicked(this));
         }
         private void SetConfigData()
         {

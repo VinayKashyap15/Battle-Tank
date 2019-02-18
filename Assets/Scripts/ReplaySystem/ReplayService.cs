@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace ReplaySystem
 {
-    public class ReplayService : SingletonBase<ReplayService>
+    public class ReplayService : IReplayService
     {
         public bool startReplay = false;
         Queue<QueueData> savedQueueData = new Queue<QueueData>();

@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Common;
 using UnityEngine;
 using GameplayInterfaces;
 using RewardSystem;
@@ -9,7 +8,7 @@ using System;
 
 namespace Lobby
 {
-    public class LobbyService :SingletonBase<LobbyService>
+    public class LobbyService :ILobbyService
     {
         int noOfPlayers;
         List<PlayerController> dummyControllerList= new List<PlayerController>();
@@ -19,7 +18,7 @@ namespace Lobby
         int id;
         GameObject prefab;
 
-            LobbySceneController sceneController;
+        LobbySceneController sceneController;
         public void OnStart()
         {
             noOfPlayers=PlayerService.Instance.GetNoOfPlayers();
@@ -31,21 +30,15 @@ namespace Lobby
             }
         }
 
-       
         public void SavePlayerConfig(RewardProperties _currentProperty)
         {
             dummyController.SetMaterial(_currentProperty.GetMaterialFromData());
             SaveMaterial(_currentProperty.GetMaterialFromData());
         }
 
-        public void SaveMaterial(Material _materialToSave)
+        private void SaveMaterial(Material _materialToSave)
         {
             PlayerService.Instance.SaveMaterialFromReward(_materialToSave);
-        }
-
-        public void OnButtonClicked(RewardProperties rewardProperties)
-        {
-            sceneController.OnClickReward(rewardProperties);
         }
 
         public void SetSceneController(LobbySceneController _controller)
@@ -61,6 +54,10 @@ namespace Lobby
             dummyController=new PlayerController(_dummyView,id);
             dummyControllerList.Add(dummyController);
 
+        }
+        public void OnButtonClicked(RewardProperties rewardProperties)
+        {
+            sceneController.OnClickReward(rewardProperties);
         }
 
         public void UnSubscribeDummyControllers()

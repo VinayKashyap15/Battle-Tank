@@ -34,9 +34,9 @@ namespace InputComponents
             {
                 startTime++;
             }
-                if (ReplayService.Instance.GetReplayValue())
+                if (GameApplication.Instance.GetService<IReplayService>().GetReplayValue())
                 {
-                    ReplayUpdate(ReplayService.Instance.GetSavedQueue());
+                    ReplayUpdate(GameApplication.Instance.GetService<IReplayService>().GetSavedQueue());
                 }
                 else
                 {
@@ -118,7 +118,7 @@ namespace InputComponents
             newData.frameNo = _frameNo;
 
             saveQueue.Enqueue(newData);
-            ReplayService.Instance.SaveQueue(newData);
+            GameApplication.Instance.GetService<IReplayService>().SaveQueue(newData);
         }
 
         public void ReplayPaused()

@@ -1,4 +1,5 @@
 ﻿using UnityEngine.SceneManagement;
+using ServiceLocator;
 using StateMachineImplementation;
 using StateMachine;
 using GameplayInterfaces;
@@ -26,7 +27,7 @@ namespace Common
 
         public void OnClickPlay(string _gameScene = null)
         {
-            LobbyService.Instance.UnSubscribeDummyControllers();
+            GameApplication.Instance.GetService<ILobbyService>().UnSubscribeDummyControllers();
             SceneManager.LoadScene(_gameScene == null ? "Game" : _gameScene);
             StateMachineService.Instance.SetCurrentStateMachineType(StateMachineEnumTypes.GAME);
             StateMachineService.Instance.InvokeOnEnterGameScene();

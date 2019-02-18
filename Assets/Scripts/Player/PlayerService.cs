@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using ServiceLocator;
+using ReplaySystem;
 using InputComponents;
 using CameraManagement;
 using Common;
@@ -133,7 +134,7 @@ namespace Player
 
                     _playerControllerInstance = new PlayerController(playerInstance.GetComponent<PlayerView>(), playerID, listOfPlayerInputComponents.playerList.ElementAt(i), _rewardedMat);
                     listOfPlayerControllers.Add(_playerControllerInstance);
-                    if (!ReplaySystem.ReplayService.Instance.startReplay)
+                    if (!GameApplication.Instance.GetService<IReplayService>().GetReplayValue())
                     {
                         enemyKillCountData.Add(_playerControllerInstance.GetID(), PlayerSaveData.Instance.GetEnemyKillData(_playerControllerInstance.GetID()));
                         playerGamesPlayedData.Add(_playerControllerInstance.GetID(), PlayerSaveData.Instance.GetGamesPlayedData(_playerControllerInstance.GetID()));
