@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using SceneSpecific;
 using RewardSystem;
+using GameplayInterfaces;
 using Player.UI;
 using SaveFile;
 using AchievementSystem;
@@ -13,7 +14,7 @@ using System;
 
 namespace Player
 {
-    public class PlayerService : SingletonBase<PlayerService>
+    public class PlayerService : SingletonBase<PlayerService>,IPlayerService
     {
         [SerializeField]
         private InputScriptableObjectList listOfPlayerInputComponents;
@@ -29,6 +30,10 @@ namespace Player
         private int playerID = 0;
         private int dieActionCalled = 0;
 
+        public PlayerService()
+        {
+
+        }
         public void SetConfig(RewardProperties _rewardProperty)
         {
 
