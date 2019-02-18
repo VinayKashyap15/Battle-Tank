@@ -26,7 +26,7 @@ namespace InputComponents
         private void Start()
         {
             startTime = 0;
-            StateMachineImplementation.StateMachineService.Instance.OnPause+=ReplayPaused;
+           GameApplication.Instance.GetService<IStateMachineService>().OnPause+=ReplayPaused;
         }
         private void Update()
         {

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Enemy;
+using ServiceLocator;
 using GameplayInterfaces;
 using Weapons.Bullet;
 using Weapons.Interfaces;
@@ -18,8 +19,8 @@ namespace Bullet.View
         private void Start()
         {
            
-            StateMachineImplementation.StateMachineService.Instance.OnPause += PauseBullet;
-            StateMachineImplementation.StateMachineService.Instance.OnResume += ResumeBullet;
+            GameApplication.Instance.GetService<IStateMachineService>().OnPause += PauseBullet;
+            GameApplication.Instance.GetService<IStateMachineService>().OnResume += ResumeBullet;
         }
     
         public void SetController(BulletController _bulletController)

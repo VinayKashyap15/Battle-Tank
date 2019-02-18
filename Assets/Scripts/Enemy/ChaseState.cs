@@ -1,4 +1,5 @@
 using UnityEngine;
+using ServiceLocator;
 using GameplayInterfaces;
 
 namespace EnemyStates
@@ -11,7 +12,7 @@ namespace EnemyStates
         private bool isPaused=false;
 
         private void Start() {
-            StateMachineImplementation.StateMachineService.Instance.OnPause+=OnPause;
+            GameApplication.Instance.GetService<IStateMachineService>().OnPause+=OnPause;
             currentView= GetComponent<Enemy.EnemyView>();
         }
         private void Update() {

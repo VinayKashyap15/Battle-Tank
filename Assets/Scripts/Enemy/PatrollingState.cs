@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using ServiceLocator;
 using GameplayInterfaces;
 using System;
 
@@ -17,7 +18,7 @@ namespace EnemyStates
 
         private void Start()
         {
-            StateMachineImplementation.StateMachineService.Instance.OnPause+=OnPause;
+           GameApplication.Instance.GetService<IStateMachineService>().OnPause+=OnPause;
             spawnPosition = this.gameObject.transform.transform.localPosition;
             
             pointA=spawnPosition+new Vector3(10,0,0);

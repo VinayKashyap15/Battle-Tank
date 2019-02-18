@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using Common;
+using ServiceLocator;
 using System.Collections.Generic;
 using GameplayInterfaces;
 using Player;
@@ -87,7 +87,7 @@ namespace InputComponents
 
         private void PauseGame()
         {    
-            StateMachineImplementation.StateMachineService.Instance.SetGamePause();
+           GameApplication.Instance.GetService<IStateMachineService>().SetGamePause();
         }
         private void SetFireState(bool _isFiring)
         {

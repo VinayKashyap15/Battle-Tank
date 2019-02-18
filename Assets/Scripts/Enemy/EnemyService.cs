@@ -1,5 +1,6 @@
 ﻿using Common;
 using AchievementSystem;
+using ServiceLocator;
 using System;
 using UnityEngine;
 using System.Collections.Generic;
@@ -51,7 +52,7 @@ namespace Enemy
         private void RegisterEvent()
         {
             EnemyDeath += RemoveEnemyFromList;
-            StateMachineImplementation.StateMachineService.Instance.OnStartReplay += StartReplay;
+           GameApplication.Instance.GetService<IStateMachineService>().OnStartReplay += StartReplay;
         }
 
         private void SpawnEnemyControllers()

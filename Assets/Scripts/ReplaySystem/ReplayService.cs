@@ -17,7 +17,7 @@ namespace ReplaySystem
         private void Start()
         {
             savedQueueData.Clear();
-            StateMachineImplementation.StateMachineService.Instance.OnStartReplay += StartReplay;
+            GameApplication.Instance.GetService<IStateMachineService>().OnStartReplay += StartReplay;
             
         }
 
@@ -34,7 +34,7 @@ namespace ReplaySystem
         {
             startReplay = true;
             Player.PlayerService.Instance.OnStart(sceneController);
-            StateMachineImplementation.StateMachineService.Instance.OnEnterGameOverScene+=ClearQueue;
+            GameApplication.Instance.GetService<IStateMachineService>().OnEnterGameOverScene+=ClearQueue;
         }
 
         public void ClearQueue()

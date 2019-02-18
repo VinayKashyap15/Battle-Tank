@@ -16,7 +16,7 @@ namespace Common
         }
         private void Start()
         {
-            StateMachineService.Instance.SetCurrentStateMachineType(StateMachineEnumTypes.LOADING);
+            GameApplication.Instance.GetService<IStateMachineService>().SetCurrentStateMachineType(StateMachineEnumTypes.LOADING);
             RegisterEvents();
         }
 
@@ -29,32 +29,32 @@ namespace Common
         {
             GameApplication.Instance.GetService<ILobbyService>().UnSubscribeDummyControllers();
             SceneManager.LoadScene(_gameScene == null ? "Game" : _gameScene);
-            StateMachineService.Instance.SetCurrentStateMachineType(StateMachineEnumTypes.GAME);
-            StateMachineService.Instance.InvokeOnEnterGameScene();
+            GameApplication.Instance.GetService<IStateMachineService>().SetCurrentStateMachineType(StateMachineEnumTypes.GAME);
+            GameApplication.Instance.GetService<IStateMachineService>().InvokeOnEnterGameScene();
 
         }
         public void OnClickStart(string _startScene = null)
         {
             SceneManager.LoadScene(_startScene == null ? "Start" : _startScene);
-            StateMachineService.Instance.SetCurrentStateMachineType(StateMachineEnumTypes.START);
-            StateMachineService.Instance.InvokeOnEnterStartScene();
+            GameApplication.Instance.GetService<IStateMachineService>().SetCurrentStateMachineType(StateMachineEnumTypes.START);
+            GameApplication.Instance.GetService<IStateMachineService>().InvokeOnEnterStartScene();
         }
         public void OnGameOver()
         {
             SceneManager.LoadScene("GameOver");
-            StateMachineService.Instance.SetCurrentStateMachineType(StateMachineEnumTypes.GAMEOVER);
-            StateMachineService.Instance.InvokeOnEnterGameOverScene();
+            GameApplication.Instance.GetService<IStateMachineService>().SetCurrentStateMachineType(StateMachineEnumTypes.GAMEOVER);
+            GameApplication.Instance.GetService<IStateMachineService>().InvokeOnEnterGameOverScene();
         }
         public void OnReturnHome()
         {
             SceneManager.LoadScene(0);
-            StateMachineService.Instance.SetCurrentStateMachineType(StateMachineEnumTypes.LOADING);
-            StateMachineService.Instance.InvokeOnLoadingScene();
+            GameApplication.Instance.GetService<IStateMachineService>().SetCurrentStateMachineType(StateMachineEnumTypes.LOADING);
+            GameApplication.Instance.GetService<IStateMachineService>().InvokeOnLoadingScene();
         }
         public void OnReplay()
         {
-            StateMachineService.Instance.SetCurrentStateMachineType(StateMachineEnumTypes.REPLAY);
-            StateMachineService.Instance.InvokeOnStartReplay();
+            GameApplication.Instance.GetService<IStateMachineService>().SetCurrentStateMachineType(StateMachineEnumTypes.REPLAY);
+            GameApplication.Instance.GetService<IStateMachineService>().InvokeOnStartReplay();
         }
 
 

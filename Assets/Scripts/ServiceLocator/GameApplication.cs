@@ -4,6 +4,7 @@ using ReplaySystem;
 using Lobby;
 using Player;
 using Enemy;
+using StateMachineImplementation;
 using System.Collections.Generic;
 using GameplayInterfaces;
 namespace ServiceLocator
@@ -17,6 +18,8 @@ namespace ServiceLocator
             Register<ISceneLoader>(new SceneLoader());
             Register<IReplayService>(new ReplayService());
             Register<ILobbyService>(new LobbyService());
+            Register<IStateMachineService>(new StateMachineService());
+            
 
         }
 

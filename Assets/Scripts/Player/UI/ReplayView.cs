@@ -44,7 +44,7 @@ namespace Player.UI
         }
         public void OnPauseClicked()
         {
-            StateMachineImplementation.StateMachineService.Instance.SetGamePause();
+           GameApplication.Instance.GetService<IStateMachineService>().SetGamePause();
         }
     }
 }
