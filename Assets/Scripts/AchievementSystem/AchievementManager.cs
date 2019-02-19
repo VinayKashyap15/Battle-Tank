@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using Common;
+using ServiceLocator;
+using GameplayInterfaces;
 using System.Collections.Generic;
 using Player;
 using Player.UI;
@@ -64,9 +66,9 @@ namespace AchievementSystem
         private void RegisterServices()
         {
             GamesJoined += GamePlayedAchievements;
-            PlayerService.Instance.EnemyKill += EnemyKillAchievements;
-            PlayerService.Instance.PlayerDeath += DieAchievements;
-            PlayerService.Instance.HighScoreUpdate += HighScoreAchievements;
+            GameApplication.Instance.GetService<IPlayerService>().EnemyKill += EnemyKillAchievements;
+            GameApplication.Instance.GetService<IPlayerService>().PlayerDeath += DieAchievements;
+            GameApplication.Instance.GetService<IPlayerService>().HighScoreUpdate += HighScoreAchievements;
 
         }
 

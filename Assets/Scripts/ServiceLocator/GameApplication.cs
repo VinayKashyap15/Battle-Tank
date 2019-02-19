@@ -2,6 +2,7 @@ using Common;
 using UnityEngine;
 using ReplaySystem;
 using Lobby;
+using InputComponents;
 using Player;
 using Enemy;
 using StateMachineImplementation;
@@ -11,6 +12,15 @@ namespace ServiceLocator
 {
     public class GameApplication : SingletonBase<GameApplication>
     {
+        [SerializeField]
+        private InputScriptableObjectList listOfPlayerInputComponents;
+
+        [SerializeField]
+        private PlayerPrefabScriptableObject newPlayerPrefabScriptableObj;
+
+        [SerializeField]
+        private Camera miniMapCameraPrefab;
+
         private List<IService> listOfServices = new List<IService>();
         protected override void OnInitialize()
         {
@@ -19,7 +29,9 @@ namespace ServiceLocator
             Register<IReplayService>(new ReplayService());
             Register<ILobbyService>(new LobbyService());
             Register<IStateMachineService>(new StateMachineService());
-            
+            Register<IPlayerService>(new PlayerService(listOfPlayerInputComponents,newPlayerPrefabScriptableObj,miniMapCameraPrefab));
+
+
 
         }
 
@@ -41,7 +53,7 @@ namespace ServiceLocator
                 if (item is T)
                 {
                     return (T)item;
-                }                
+                }
             }
             return default(T);
         }

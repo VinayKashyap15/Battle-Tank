@@ -122,7 +122,7 @@ namespace Enemy
 
         public void OnEnemyDeath(int _id, EnemyType _type, int _pid)
         {
-            Player.PlayerService.Instance.AddKillCount(_pid);
+            GameApplication.Instance.GetService<IPlayerService>().AddKillCount(_pid);
             EnemyDeath?.Invoke(_id, _type, _pid);
         }
 

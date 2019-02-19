@@ -1,5 +1,7 @@
 using UnityEngine;
 using Player;
+using ServiceLocator;
+
 using GameplayInterfaces;
 
 namespace InputComponents
@@ -13,7 +15,7 @@ namespace InputComponents
         }        
         public void Execute()
         {
-            PlayerService.Instance.SetSpawnPos(position);
+           GameApplication.Instance.GetService<IPlayerService>().SetSpawnPos(position);
         }
     }
 }

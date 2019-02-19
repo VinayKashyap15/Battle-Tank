@@ -1,5 +1,6 @@
 ﻿using Common;
 using Player;
+using ServiceLocator;
 using Bullet.Controller;
 using GameplayInterfaces;
 using Bullet.Model;
@@ -21,7 +22,7 @@ namespace Weapons.Bullet
         public BulletController SpawnBullet(PlayerController _currentPlayerControllerInstance)
         {
             playerControllerInstance=_currentPlayerControllerInstance;
-            PlayerService.Instance.SetCurrentInstance(playerControllerInstance);
+            GameApplication.Instance.GetService<IPlayerService>().SetCurrentInstance(playerControllerInstance);
             switch (typeOfBullet)
             {
                 case BULLET_TYPE.Default:

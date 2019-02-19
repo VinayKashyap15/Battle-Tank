@@ -33,7 +33,7 @@ namespace ReplaySystem
         private void StartReplay()
         {
             startReplay = true;
-            Player.PlayerService.Instance.OnStart(sceneController);
+            GameApplication.Instance.GetService<IPlayerService>().OnStart(sceneController);
             GameApplication.Instance.GetService<IStateMachineService>().OnEnterGameOverScene+=ClearQueue;
         }
 

@@ -16,25 +16,26 @@ using System;
 
 namespace Player
 {
-    public class PlayerService : SingletonBase<PlayerService>,IPlayerService
+    public class PlayerService : IPlayerService
     {
-        [SerializeField]
+
         private InputScriptableObjectList listOfPlayerInputComponents;
 
-        [SerializeField]
         private PlayerPrefabScriptableObject newPlayerPrefabScriptableObj;
-        [SerializeField]
+
         private Camera miniMapCameraPrefab;
-        
+
         private PlayerController playerControllerInstance;
         private GameObject playerPrefab;
         private GameObject playerInstance;
         private int playerID = 0;
         private int dieActionCalled = 0;
 
-        public PlayerService()
+        public PlayerService(InputScriptableObjectList _listOfPlayerInputComponents, PlayerPrefabScriptableObject _playerPrefab, Camera _minimapCam=null)
         {
-
+            listOfPlayerInputComponents=_listOfPlayerInputComponents;
+            newPlayerPrefabScriptableObj=_playerPrefab;
+            miniMapCameraPrefab=_minimapCam;
         }
         public void SetConfig(RewardProperties _rewardProperty)
         {
@@ -49,7 +50,7 @@ namespace Player
         //player id and games played
         private Dictionary<int, int> playerGamesPlayedData = new Dictionary<int, int>();
 
-        private List<Camera> playerMainCamera= new List<Camera>();
+        private List<Camera> playerMainCamera = new List<Camera>();
 
         public event Action RegenerateHealth;
         public event Action<int, int> PlayerDeath;
@@ -58,7 +59,7 @@ namespace Player
 
         public event Action UpdatePlayer;
         private int noOfPlayers;
-        
+
         private Material _rewardedMat;
 
 
@@ -84,7 +85,7 @@ namespace Player
             {
                 noOfPlayers = 1;
             }
-           // startFrameCount = Time.frameCount;
+            // startFrameCount = Time.frameCount;
 
         }
         public void OnStart(SceneController _currentSceneController)
@@ -118,7 +119,7 @@ namespace Player
         }
         public void SpawnPlayers()
         {
-            
+
             enemyKillCountData.Clear();
             playerGamesPlayedData.Clear();
             playerID = 0;
@@ -142,12 +143,12 @@ namespace Player
                     }
                     SetGameJoined(_playerControllerInstance.GetID());
 
-                    SetupCameras(_playerControllerInstance,playerID);
+                    SetupCameras(_playerControllerInstance, playerID);
 
                     pos += new Vector3(3, 0, 0);
                     playerID += 1;
 
-                    
+
 
                 }
             }
@@ -159,25 +160,25 @@ namespace Player
                 listOfPlayerControllers.Add(_playerControllerInstance);
                 enemyKillCountData.Add(_playerControllerInstance.GetID(), 0);
                 ScoreManager.Instance.AddPlayerUI(_playerControllerInstance);
-                SetupCameras(_playerControllerInstance,playerID);
+                SetupCameras(_playerControllerInstance, playerID);
             }
 
 
 
         }
 
-        private void SetupCameras(PlayerController _controller,int _id)
-        {           
-            GameObject miniMapInstance=GameObject.Instantiate(miniMapCameraPrefab.gameObject)as GameObject;
+        private void SetupCameras(PlayerController _controller, int _id)
+        {
+            GameObject miniMapInstance = GameObject.Instantiate(miniMapCameraPrefab.gameObject) as GameObject;
 
-            var mcam=miniMapInstance.GetComponent<MiniMapSetup>();
-            Transform t=_controller.GetFollowTarget();
+            var mcam = miniMapInstance.GetComponent<MiniMapSetup>();
+            Transform t = _controller.GetFollowTarget();
             mcam.SetupTarget(t);
             miniMapInstance.GetComponent<MiniMapSetup>().SetRenderTexture(_id);
-            Camera _mainCamera= _controller.GetMainCamera();
+            Camera _mainCamera = _controller.GetMainCamera();
             playerMainCamera.Add(_mainCamera);
 
-            playerMainCamera[_id].rect= new Rect((1f/noOfPlayers)*_controller.GetID(),0,1f/noOfPlayers,1);
+            playerMainCamera[_id].rect = new Rect((1f / noOfPlayers) * _controller.GetID(), 0, 1f / noOfPlayers, 1);
         }
 
         private void SetGameJoined(int _id)
@@ -187,7 +188,7 @@ namespace Player
             Debug.Log("player" + _id.ToString() + " value " + currentGamesValue.ToString());
             PlayerSaveData.Instance.SetGamesPlayedData(_id, currentGamesValue + 1);
             playerGamesPlayedData[_id] = currentGamesValue + 1;
-          
+
         }
         public void DestroyPlayer(PlayerController _playerController)
         {
@@ -200,10 +201,10 @@ namespace Player
             if (listOfPlayerControllers.Count == 0)
             {
                 playerMainCamera.Clear();
-               GameApplication.Instance.GetService<ISceneLoader>().OnReplay();
+                GameApplication.Instance.GetService<ISceneLoader>().OnReplay();
             }
         }
-        public void RemoveFromList(PlayerController _playerController)
+        private void RemoveFromList(PlayerController _playerController)
         {
             if (listOfPlayerControllers.Contains(_playerController))
             {
@@ -267,6 +268,11 @@ namespace Player
         public int GetNoOfPlayers()
         {
             return noOfPlayers;
+        }
+
+        public List<PlayerController> GetListOfPlayerControllers()
+        {
+            return listOfPlayerControllers;
         }
     }
 }

@@ -50,7 +50,7 @@ namespace InputComponents
         {
             int frameNo = startTime;
 
-            foreach (var _currentPlayerController in PlayerService.Instance.listOfPlayerControllers)
+            foreach (var _currentPlayerController in GameApplication.Instance.GetService<IPlayerService>().GetListOfPlayerControllers())
             {
                 List<InputActions> actionsToPerform = _currentPlayerController.GetInputComponent().OnUpdate();
 
@@ -77,7 +77,7 @@ namespace InputComponents
                 GameApplication.Instance.GetService<ISceneLoader>().OnGameOver();
                 return;
             }
-            foreach (var _currentPlayerController in PlayerService.Instance.listOfPlayerControllers)
+            foreach (var _currentPlayerController in GameApplication.Instance.GetService<IPlayerService>().GetListOfPlayerControllers())
             {
                 if (_recievedQueue == null)
                 {

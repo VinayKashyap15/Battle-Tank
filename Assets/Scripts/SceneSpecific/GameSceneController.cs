@@ -40,7 +40,7 @@ namespace SceneSpecific
 
         protected override void OnIntialize()
         {
-            Player.PlayerService.Instance.OnStart(this);
+           GameApplication.Instance.GetService<IPlayerService>().OnStart(this);
             Enemy.EnemyService.Instance.OnStart();
         }
         private void Start()
@@ -66,12 +66,12 @@ namespace SceneSpecific
         }
         private void FixedUpdate()
         {
-            Player.PlayerService.Instance.OnUpdate();
+           GameApplication.Instance.GetService<IPlayerService>().OnUpdate();
             Enemy.EnemyService.Instance.OnUpdate();
         }
         private void StartServices()
         {
-            Player.PlayerService.Instance.OnStart(this);
+           GameApplication.Instance.GetService<IPlayerService>().OnStart(this);
             Enemy.EnemyService.Instance.OnStart();
         }
         public override void SpawnPlayerUI(ICharacterController _currentPlayerControllerInstance)

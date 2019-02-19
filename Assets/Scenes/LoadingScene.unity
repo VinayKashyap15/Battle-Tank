@@ -121,7 +121,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 20259770}
-  - component: {fileID: 20259769}
   m_Layer: 0
   m_Name: PlayerService
   m_TagString: Untagged
@@ -129,23 +128,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &20259769
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 20259768}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0eadfd16eb3452c4cac5d7c5e1a9ed99, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  listOfPlayerInputComponents: {fileID: 11400000, guid: de11a72b312ae38409ca072a560d7607,
-    type: 2}
-  newPlayerPrefabScriptableObj: {fileID: 11400000, guid: 9ac1f2562df9b2344ab1c2c697e2388a,
-    type: 2}
-  miniMapCameraPrefab: {fileID: 20358655589910784, guid: aa7145ff8d3e5f746b35788084914abd,
-    type: 2}
 --- !u!4 &20259770
 Transform:
   m_ObjectHideFlags: 0
@@ -599,6 +581,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d444ee6cb127c8e48b395f974113e86b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  listOfPlayerInputComponents: {fileID: 11400000, guid: de11a72b312ae38409ca072a560d7607,
+    type: 2}
+  newPlayerPrefabScriptableObj: {fileID: 11400000, guid: 9ac1f2562df9b2344ab1c2c697e2388a,
+    type: 2}
+  miniMapCameraPrefab: {fileID: 20358655589910784, guid: aa7145ff8d3e5f746b35788084914abd,
+    type: 2}
 --- !u!1 &1294342981
 GameObject:
   m_ObjectHideFlags: 0
