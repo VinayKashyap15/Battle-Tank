@@ -3,6 +3,7 @@ using UnityEngine;
 using ReplaySystem;
 using Lobby;
 using InputComponents;
+using Weapons.Bullet;
 using Player;
 using Enemy;
 using StateMachineImplementation;
@@ -21,6 +22,8 @@ namespace ServiceLocator
         [SerializeField]
         private Camera miniMapCameraPrefab;
 
+        [SerializeField]
+        private BULLET_TYPE typeOfBullet;
         private List<IService> listOfServices = new List<IService>();
         protected override void OnInitialize()
         {
@@ -30,8 +33,7 @@ namespace ServiceLocator
             Register<ILobbyService>(new LobbyService());
             Register<IStateMachineService>(new StateMachineService());
             Register<IPlayerService>(new PlayerService(listOfPlayerInputComponents,newPlayerPrefabScriptableObj,miniMapCameraPrefab));
-
-
+            Register<IBulletService>(new BulletService(typeOfBullet));
 
         }
 

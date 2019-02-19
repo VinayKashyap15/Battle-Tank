@@ -149,7 +149,7 @@ namespace Player
                 AddToStateDictionary(firingState, true);
             }
 
-            var _bulletController = BulletService.Instance.SpawnBullet(this);
+            var _bulletController = GameApplication.Instance.GetService<IBulletService>().SpawnBullet(this);
 
             Vector3 firePos = playerView.GetMuzzlePosition();
             Quaternion fireRot = playerView.GetMuzzleRotation();
