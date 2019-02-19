@@ -36,6 +36,15 @@ namespace Player
             listOfPlayerInputComponents=_listOfPlayerInputComponents;
             newPlayerPrefabScriptableObj=_playerPrefab;
             miniMapCameraPrefab=_minimapCam;
+
+            if (listOfPlayerInputComponents)
+            {
+                noOfPlayers = listOfPlayerInputComponents.playerList.Count;
+            }
+            else
+            {
+                noOfPlayers = 1;
+            }
         }
         public void SetConfig(RewardProperties _rewardProperty)
         {
@@ -74,20 +83,7 @@ namespace Player
             _playerInstance.transform.position = _spawnPos;
             return _playerInstance;
         }
-
-        private void Start()
-        {
-            if (listOfPlayerInputComponents)
-            {
-                noOfPlayers = listOfPlayerInputComponents.playerList.Count;
-            }
-            else
-            {
-                noOfPlayers = 1;
-            }
-            // startFrameCount = Time.frameCount;
-
-        }
+       
         public void OnStart(SceneController _currentSceneController)
         {
             listOfPlayerControllers.Clear();
