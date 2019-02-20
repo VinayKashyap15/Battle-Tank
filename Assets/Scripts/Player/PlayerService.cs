@@ -134,8 +134,8 @@ namespace Player
                     listOfPlayerControllers.Add(_playerControllerInstance);
                     if (!GameApplication.Instance.GetService<IReplayService>().GetReplayValue())
                     {
-                        enemyKillCountData.Add(_playerControllerInstance.GetID(), PlayerSaveData.Instance.GetEnemyKillData(_playerControllerInstance.GetID()));
-                        playerGamesPlayedData.Add(_playerControllerInstance.GetID(), PlayerSaveData.Instance.GetGamesPlayedData(_playerControllerInstance.GetID()));
+                        enemyKillCountData.Add(_playerControllerInstance.GetID(), GameApplication.Instance.GetService<IPlayerSaveService>().GetEnemyKillData(_playerControllerInstance.GetID()));
+                        playerGamesPlayedData.Add(_playerControllerInstance.GetID(), GameApplication.Instance.GetService<IPlayerSaveService>().GetGamesPlayedData(_playerControllerInstance.GetID()));
                         GameApplication.Instance.GetService<IScoreManager>().AddPlayerUI(_playerControllerInstance);
                     }
                     SetGameJoined(_playerControllerInstance.GetID());
@@ -183,7 +183,7 @@ namespace Player
             int currentGamesValue;
             playerGamesPlayedData.TryGetValue(_id, out currentGamesValue);
             Debug.Log("player" + _id.ToString() + " value " + currentGamesValue.ToString());
-            PlayerSaveData.Instance.SetGamesPlayedData(_id, currentGamesValue + 1);
+            GameApplication.Instance.GetService<IPlayerSaveService>().SetGamesPlayedData(_id, currentGamesValue + 1);
             playerGamesPlayedData[_id] = currentGamesValue + 1;
 
         }

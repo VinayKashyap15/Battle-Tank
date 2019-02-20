@@ -187,10 +187,10 @@ namespace Player
             playerModel.SetCurrentScore(_newScore);
            GameApplication.Instance.GetService<IPlayerService>().UpdateScoreView(this, _newScore, playerModel.GetID());
 
-            int highScore = PlayerSaveData.Instance.GetHighScoreData(GetID());
+            int highScore = GameApplication.Instance.GetService<IPlayerSaveService>().GetHighScoreData(GetID());
             if (_newScore >= highScore)
             {
-                PlayerSaveData.Instance.SetHighScoreData(GetID(), _newScore);
+                GameApplication.Instance.GetService<IPlayerSaveService>().SetHighScoreData(GetID(), _newScore);
             }
            GameApplication.Instance.GetService<IPlayerService>().InvokeHighScoreAchievement(GetID(), highScore);
 

@@ -82,10 +82,10 @@ namespace AchievementSystem
 
             // if (_dieCalled >= dieMark)
             // {
-            //     PlayerSaveData.Instance.SetAchievementStatus(AchievementTypes.PLAYERDEATHS, _id, 1);
+            //     GameApplication.Instance.GetService<IPlayerSaveService>().SetAchievementStatus(AchievementTypes.PLAYERDEATHS, _id, 1);
             // }
 
-            // AchievementStatus currentStatus = PlayerSaveData.Instance.GetAchievementStatus(AchievementTypes.PLAYERDEATHS, _id);
+            // AchievementStatus currentStatus = GameApplication.Instance.GetService<IPlayerSaveService>().GetAchievementStatus(AchievementTypes.PLAYERDEATHS, _id);
             // if (currentStatus == AchievementStatus.FINISHED)
             // {
             //     OnAchievementCrossed.Invoke("Achievement Unlocked for player" + _id.ToString() + " Die " + dieMark.ToString() + " times");
@@ -101,9 +101,9 @@ namespace AchievementSystem
             idToUnlock = 2;
             // if (_enemyKilled >= enemyKillMark)
             // {
-            //     PlayerSaveData.Instance.SetAchievementStatus(AchievementTypes.ENEMYKILLS, _id, 1);
+            //     GameApplication.Instance.GetService<IPlayerSaveService>().SetAchievementStatus(AchievementTypes.ENEMYKILLS, _id, 1);
             // }
-            AchievementStatus currentStatus = PlayerSaveData.Instance.GetAchievementStatus(AchievementTypes.ENEMYKILLS, _id);
+            AchievementStatus currentStatus = GameApplication.Instance.GetService<IPlayerSaveService>().GetAchievementStatus(AchievementTypes.ENEMYKILLS, _id);
             if (currentStatus == AchievementStatus.FINISHED)
             {
                 OnAchievementCrossed.Invoke("Achievement Unlocked for player" + _id.ToString() + "Kill  " + enemyKillMark.ToString() + " Enemies!!");
@@ -116,9 +116,9 @@ namespace AchievementSystem
             idToUnlock = 3;
             // if (_highScore >= highScoreMark)
             // {
-            //     PlayerSaveData.Instance.SetAchievementStatus(AchievementTypes.HIGHSCORE, _id, 1);
+            //     GameApplication.Instance.GetService<IPlayerSaveService>().SetAchievementStatus(AchievementTypes.HIGHSCORE, _id, 1);
             // }
-            AchievementStatus currentStatus = PlayerSaveData.Instance.GetAchievementStatus(AchievementTypes.HIGHSCORE, _id);
+            AchievementStatus currentStatus = GameApplication.Instance.GetService<IPlayerSaveService>().GetAchievementStatus(AchievementTypes.HIGHSCORE, _id);
             if (currentStatus == AchievementStatus.FINISHED)
             {
                 OnAchievementCrossed.Invoke("Achievement Unlocked for player" + _id.ToString() + "Reach HighScore " + highScoreMark.ToString() + "!!");
@@ -131,9 +131,9 @@ namespace AchievementSystem
             idToUnlock = 4;
             // if (_gamesPlayed >= gamePlayedMark)
             // {
-            //     PlayerSaveData.Instance.SetAchievementStatus(AchievementTypes.GAMESJOINED, _id, 1);
+            //     GameApplication.Instance.GetService<IPlayerSaveService>().SetAchievementStatus(AchievementTypes.GAMESJOINED, _id, 1);
             // }
-            AchievementStatus currentStatus = PlayerSaveData.Instance.GetAchievementStatus(AchievementTypes.GAMESJOINED, _id);
+            AchievementStatus currentStatus = GameApplication.Instance.GetService<IPlayerSaveService>().GetAchievementStatus(AchievementTypes.GAMESJOINED, _id);
             if (currentStatus == AchievementStatus.FINISHED)
             {
                 OnAchievementCrossed.Invoke("Achievement Unlocked for player" + _id.ToString() + "Play  " + gamePlayedMark.ToString() + " Games!!");

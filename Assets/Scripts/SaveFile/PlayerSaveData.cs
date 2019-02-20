@@ -8,15 +8,11 @@ using AchievementSystem;
 
 namespace SaveFile
 {
-    public class PlayerSaveData : SingletonBase<PlayerSaveData>
+    public class PlayerSaveData : IPlayerSaveService
     {
         private DataSaveTypeEnum _currentSaveType;
-        private ISaveData _currentSaveMethod;
-        private void Start()
-        {
-           // _currentSaveMethod=new SaveInEncodedFile();
-           _currentSaveMethod= new SaveInPlayerPrefs();
-        }
+        private ISaveData _currentSaveMethod= new SaveInPlayerPrefs();
+        
 
         public void SetInt(string _dataToSave,int _id,int _value)
         {
