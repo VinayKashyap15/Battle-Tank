@@ -2,6 +2,8 @@ using UnityEngine;
 using GameplayInterfaces;
 using System.Collections.Generic;
 using System;
+using GameplayInterfaces;
+using ServiceLocator;
 
 
 namespace Sound
@@ -13,39 +15,89 @@ namespace Sound
         public AudioClip shootingSound;
         public AudioClip playerDeath;
         public AudioClip gameOver;
-        private AudioSource currentAudioSource;
+        private List<SoundController> currentAudioSources= new List<SoundController>();
+        
 
-        public SoundService(SoundScriptableObject _soundObject, AudioSource _audioSource)
+
+        public SoundService(SoundScriptableObject _soundObject, List<SoundController>  listOfAudioSources)
         {
+            currentAudioSources = listOfAudioSources;
             currentSoundObj=_soundObject;
-            currentAudioSource=_audioSource;
-
             backgroundMusic=currentSoundObj.backgroundMusic;
             shootingSound=currentSoundObj.shootingSound;
             playerDeath=currentSoundObj.playerDeathSound;
             gameOver=currentSoundObj.gameOverSound;
-        }
-        public void PlayBackgroundSound()
-        {
-            //throw new NotImplementedException();
             
+            RegisterFunctions();
+            PlayBackgroundSound();
+        }
 
+        private void RegisterFunctions()
+        {
+            GameApplication.Instance.GetService<IPlayerService>().PlayerDeath += PlayDeathSound;
+            GameApplication.Instance.GetService<IStateMachineService>().OnEnterGameOverScene += PlayGameOverSound;
+            GameApplication.Instance.GetService<IStateMachineService>().OnPause += OnPause;
+            GameApplication.Instance.GetService<IStateMachineService>().OnResume += OnResume;
+        }
+
+        private void PlayBackgroundSound()
+        {
+           
+            foreach(SoundController _controller in currentAudioSources)
+            {
+                if(_controller.GetSourceType()== SoundEnumType.BACKGROUND)
+                {
+                    _controller.GetAudioSource().clip = backgroundMusic;
+                    _controller.GetAudioSource().Play();
+                    return;
+                }
+            }
             
         }
 
-        public void PlayDeathSound()
+        private void PlayDeathSound(int x, int y)
         {
-            throw new NotImplementedException();
+            foreach (SoundController _controller in currentAudioSources)
+            {
+                if (_controller.GetSourceType() == SoundEnumType.SOUND_EFFECTS)
+                {                    
+                    _controller.GetAudioSource().PlayOneShot(playerDeath);
+                    return;
+                }
+            }
         }
 
-        public void PlayGameOverSound()
+        private void PlayGameOverSound()
         {
-            throw new NotImplementedException();
+            foreach (SoundController _controller in currentAudioSources)
+            {
+                if (_controller.GetSourceType() == SoundEnumType.SOUND_EFFECTS)
+                {                    
+                    _controller.GetAudioSource().PlayOneShot(gameOver);
+                    return;
+                }
+            }
+            
         }
 
-        public void PlayShootSound()
+        private void PlayShootSound()
         {
-            throw new NotImplementedException();
+            foreach (SoundController _controller in currentAudioSources)
+            {
+                if (_controller.GetSourceType() == SoundEnumType.SOUND_EFFECTS)
+                {                    
+                    _controller.GetAudioSource().PlayOneShot(shootingSound);
+                    return;
+                }
+            }            
+        }
+        private void OnPause()
+        {
+            AudioListener.volume = 0;
+        }
+        private void OnResume()
+        {
+            AudioListener.volume = 1;
         }
     }
 }

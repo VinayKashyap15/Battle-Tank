@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Sound
 {
-    [CreateAssetMenu(fileName = "SoundObject", menuName = "Custom/Sound/SoundScriptableObject", order = 0)]
+    [CreateAssetMenu(fileName = "SoundObject", menuName = "Custom Objects/Sound/SoundScriptableObject", order = 0)]
     public class SoundScriptableObject : ScriptableObject
     {
         public AudioClip backgroundMusic;
