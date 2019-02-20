@@ -53,7 +53,7 @@ namespace Player
             currentStateDictionary.Clear();
             CreateNewPlayerState();
 
-            PlayerService.Instance.UpdatePlayer += UpdateCurrentPlayer;
+           GameApplication.Instance.GetService<IPlayerService>().UpdatePlayer += UpdateCurrentPlayer;
         }
         private void UpdateCurrentPlayer()
         {
@@ -107,7 +107,7 @@ namespace Player
         {
             if (_currentView.GetName() == "EnemyView")
             {
-                EnemyService.Instance.SetDamagingPlayerID(GetID());
+                GameApplication.Instance.GetService<IEnemyService>().SetDamagingPlayerID(GetID());
                 _currentView.TakeDamage(damageValue);
             }
             else if (_currentView.GetName() == "PlayerView" && isFriendlyFire)
@@ -149,7 +149,7 @@ namespace Player
                 AddToStateDictionary(firingState, true);
             }
 
-            var _bulletController = BulletService.Instance.SpawnBullet(this);
+            var _bulletController = GameApplication.Instance.GetService<IBulletService>().SpawnBullet(this);
 
             Vector3 firePos = playerView.GetMuzzlePosition();
             Quaternion fireRot = playerView.GetMuzzleRotation();
@@ -185,14 +185,14 @@ namespace Player
             Debug.Log("Updated score for player :" + playerModel.GetID());
 
             playerModel.SetCurrentScore(_newScore);
-            PlayerService.Instance.UpdateScoreView(this, _newScore, playerModel.GetID());
+           GameApplication.Instance.GetService<IPlayerService>().UpdateScoreView(this, _newScore, playerModel.GetID());
 
             int highScore = PlayerSaveData.Instance.GetHighScoreData(GetID());
             if (_newScore >= highScore)
             {
                 PlayerSaveData.Instance.SetHighScoreData(GetID(), _newScore);
             }
-            PlayerService.Instance.InvokeHighScoreAchievement(GetID(), highScore);
+           GameApplication.Instance.GetService<IPlayerService>().InvokeHighScoreAchievement(GetID(), highScore);
 
         }
 
@@ -213,7 +213,7 @@ namespace Player
         public void DestroySelf()
         {
     
-            PlayerService.Instance.UpdatePlayer -= UpdateCurrentPlayer;
+           GameApplication.Instance.GetService<IPlayerService>().UpdatePlayer -= UpdateCurrentPlayer;
             playerModel = null;
             playerView.DestroyView();
         }
@@ -225,10 +225,10 @@ namespace Player
                 Debug.Log("player dead");
                 playerView.StartCoroutine(playerView.DestroySelf());
 
-                if (PlayerService.Instance.listOfPlayerControllers.Count > 1)
+                if (GameApplication.Instance.GetService<IPlayerService>().GetListOfPlayerControllers().Count > 1)
                 {
-                    Vector3 pos = PlayerService.Instance.GetRespawnSafePosition();
-                    GameApplication.Instance.GetService<IReplayService>().SaveSpawnPointData(GetID(), InputManagerBase.Instance.startTime, new SpawnAction(pos));
+                    Vector3 pos =GameApplication.Instance.GetService<IPlayerService>().GetRespawnSafePosition();
+                    GameApplication.Instance.GetService<IReplayService>().SaveSpawnPointData(GetID(), GameApplication.Instance.GetService<ISceneLoader>().GetStartFrameTime(), new SpawnAction(pos));
                     playerView.gameObject.transform.position = pos;
                 }
             }

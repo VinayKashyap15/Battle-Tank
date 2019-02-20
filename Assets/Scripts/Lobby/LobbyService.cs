@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using ServiceLocator;
 using GameplayInterfaces;
 using RewardSystem;
 using SceneSpecific;
@@ -21,7 +22,7 @@ namespace Lobby
         LobbySceneController sceneController;
         public void OnStart()
         {
-            noOfPlayers=PlayerService.Instance.GetNoOfPlayers();
+            noOfPlayers=GameApplication.Instance.GetService<IPlayerService>().GetNoOfPlayers();
            prefab=Resources.Load("Player") as GameObject;
             
             for(int i=0;i<noOfPlayers;i++)
@@ -38,7 +39,7 @@ namespace Lobby
 
         private void SaveMaterial(Material _materialToSave)
         {
-            PlayerService.Instance.SaveMaterialFromReward(_materialToSave);
+           GameApplication.Instance.GetService<IPlayerService>().SaveMaterialFromReward(_materialToSave);
         }
 
         public void SetSceneController(LobbySceneController _controller)

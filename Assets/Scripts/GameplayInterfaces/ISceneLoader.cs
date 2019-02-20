@@ -7,6 +7,10 @@ namespace GameplayInterfaces
         void OnGameOver();
         void OnReplay();
         void OnReturnHome();
+        int GetStartFrameTime();
+
+        void OnStart();
+        void OnUpdate();
         
     }
 }

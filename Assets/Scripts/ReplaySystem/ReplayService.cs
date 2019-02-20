@@ -14,7 +14,7 @@ namespace ReplaySystem
         Queue<QueueData> savedQueueData = new Queue<QueueData>();
         SceneSpecific.SceneController sceneController;
 
-        private void Start()
+        public ReplayService()
         {
             savedQueueData.Clear();
             GameApplication.Instance.GetService<IStateMachineService>().OnStartReplay += StartReplay;
@@ -33,7 +33,7 @@ namespace ReplaySystem
         private void StartReplay()
         {
             startReplay = true;
-            Player.PlayerService.Instance.OnStart(sceneController);
+            GameApplication.Instance.GetService<IPlayerService>().OnStart(sceneController);
             GameApplication.Instance.GetService<IStateMachineService>().OnEnterGameOverScene+=ClearQueue;
         }
 

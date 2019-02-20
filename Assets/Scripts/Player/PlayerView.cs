@@ -1,5 +1,6 @@
 using UnityEngine;
 using GameplayInterfaces;
+using ServiceLocator;
 using System.Collections.Generic;
 using System.Collections;
 using Common;
@@ -80,8 +81,8 @@ namespace Player
 
         public IEnumerator DestroySelf()
         {
-            PlayerService.Instance.InvokePlayerDeath(currentPlayerController.GetID(), currentPlayerController.GetNoOfDeaths());
-            PlayerService.Instance.DestroyPlayer(currentPlayerController);
+           GameApplication.Instance.GetService<IPlayerService>().InvokePlayerDeath(currentPlayerController.GetID(), currentPlayerController.GetNoOfDeaths());
+           GameApplication.Instance.GetService<IPlayerService>().DestroyPlayer(currentPlayerController);
             yield return new WaitForSeconds(5f);
 
         }
