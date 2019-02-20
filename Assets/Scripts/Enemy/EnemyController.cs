@@ -1,5 +1,6 @@
 ﻿using System;
 using GameplayInterfaces;
+using ServiceLocator;
 using EnemyStates;
 using UnityEngine;
 
@@ -27,7 +28,7 @@ namespace Enemy
             currentState = currentEnemyView.gameObject.GetComponent<PatrollingState>();
             currentStateMachine.ChangeCurrentState(currentEnemyView.gameObject.GetComponent<PatrollingState>());
             enemyID = currentEnemyModel.GetID();
-            EnemyService.Instance.PlayerSpotted += StartChasing;
+            GameApplication.Instance.GetService<IEnemyService>().PlayerSpotted += StartChasing;
         }
 
         public float GetEnemySpeed()
@@ -88,7 +89,7 @@ namespace Enemy
 
         public void StartDestroy()
         {
-            EnemyService.Instance.PlayerSpotted -= StartChasing;
+            GameApplication.Instance.GetService<IEnemyService>().PlayerSpotted -= StartChasing;
             currentEnemyModel = null;
             currentState = null;
             currentEnemyView.DestroySelf();
@@ -105,8 +106,8 @@ namespace Enemy
             currentEnemyModel.SetEnemyHealth(currentEnemyModel.GetEnemyHealth() - _damage);
             if (currentEnemyModel.GetEnemyHealth() <= 0)
             {
-                EnemyService.Instance.OnEnemyDeath(GetID(), currentEnemyModel.GetEnemyType(), EnemyService.Instance.GetDamagingPlayerID());
-                EnemyService.Instance.DestroyController(this);
+                GameApplication.Instance.GetService<IEnemyService>().OnEnemyDeath(GetID(), currentEnemyModel.GetEnemyType(), GameApplication.Instance.GetService<IEnemyService>().GetDamagingPlayerID());
+                GameApplication.Instance.GetService<IEnemyService>().DestroyController(this);
 
             }
         }

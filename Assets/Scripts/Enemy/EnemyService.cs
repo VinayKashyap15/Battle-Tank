@@ -16,15 +16,20 @@ namespace Enemy
         public int indexOfScriptableObj;
 
     }
-    public class EnemyService : SingletonBase<EnemyService>
+    public class EnemyService : IEnemyService
     {
-        [SerializeField] private EnemyScriptableObjectList listOfEnemies;
+        private EnemyScriptableObjectList listOfEnemies;
 
         public List<EnemyData> enemyDataList = new List<EnemyData>();
         private List<EnemyController> spawnedEnemies = new List<EnemyController>();
         public event Action<int, EnemyType, int> EnemyDeath;
         public event Action<Vector3> PlayerSpotted;
         int currentDamagingID;
+
+        public EnemyService(EnemyScriptableObjectList _list)
+        {
+            listOfEnemies=_list;
+        }
         public void OnStart()
         {
             SpawnEnemyControllers();
@@ -139,6 +144,7 @@ namespace Enemy
         {
             PlayerSpotted?.Invoke(_lastKnownPlayerLocation);
         }
+
         public void StartReplay()
         {
             for (int i = 0; i < spawnedEnemies.Count; i++)

@@ -97,7 +97,7 @@ namespace Player
             }
             ScoreManager.Instance.SetSceneController(currentSceneController);
             SpawnPlayers();
-            Enemy.EnemyService.Instance.EnemyDeath += InvokePlayerScore;
+            GameApplication.Instance.GetService<IEnemyService>().EnemyDeath += InvokePlayerScore;
         }
         public void SetSpawnPos(Vector3 position)
         {

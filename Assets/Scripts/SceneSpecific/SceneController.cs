@@ -15,8 +15,12 @@ namespace SceneSpecific
         private  void Start()
         {
             OnIntialize();
+            GameApplication.Instance.GetService<ISceneLoader>().OnStart();
         }
-
+        private void Update() {
+            GameApplication.Instance.GetService<ISceneLoader>().OnUpdate();
+            
+        }
         protected virtual void OnIntialize()
         {
             ScoreManager.Instance.SetSceneController(this);

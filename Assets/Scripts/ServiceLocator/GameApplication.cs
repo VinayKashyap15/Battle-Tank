@@ -8,6 +8,7 @@ using Player;
 using Enemy;
 using StateMachineImplementation;
 using System.Collections.Generic;
+using System.Linq;
 using GameplayInterfaces;
 namespace ServiceLocator
 {
@@ -15,6 +16,8 @@ namespace ServiceLocator
     {
         [SerializeField]
         private InputScriptableObjectList listOfPlayerInputComponents;
+        [SerializeField]
+        private EnemyScriptableObjectList listOfEnemies;
 
         [SerializeField]
         private PlayerPrefabScriptableObject newPlayerPrefabScriptableObj;
@@ -25,14 +28,18 @@ namespace ServiceLocator
         [SerializeField]
         private BULLET_TYPE typeOfBullet;
         private List<IService> listOfServices = new List<IService>();
+       
+       private int startTime;
         protected override void OnInitialize()
         {
             base.OnInitialize();
             Register<ISceneLoader>(new SceneLoader());
+            Register<IStateMachineService>(new StateMachineService());
             Register<IReplayService>(new ReplayService());
             Register<ILobbyService>(new LobbyService());
-            Register<IStateMachineService>(new StateMachineService());
+            Register<IInputManagerService>(new InputManagerBase());
             Register<IPlayerService>(new PlayerService(listOfPlayerInputComponents,newPlayerPrefabScriptableObj,miniMapCameraPrefab));
+            Register<IEnemyService>(new EnemyService(listOfEnemies));
             Register<IBulletService>(new BulletService(typeOfBullet));
 
         }
@@ -59,5 +66,7 @@ namespace ServiceLocator
             }
             return default(T);
         }
+       
+       
     }
 }

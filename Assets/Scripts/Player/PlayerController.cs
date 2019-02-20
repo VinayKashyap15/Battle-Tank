@@ -107,7 +107,7 @@ namespace Player
         {
             if (_currentView.GetName() == "EnemyView")
             {
-                EnemyService.Instance.SetDamagingPlayerID(GetID());
+                GameApplication.Instance.GetService<IEnemyService>().SetDamagingPlayerID(GetID());
                 _currentView.TakeDamage(damageValue);
             }
             else if (_currentView.GetName() == "PlayerView" && isFriendlyFire)
@@ -228,7 +228,7 @@ namespace Player
                 if (GameApplication.Instance.GetService<IPlayerService>().GetListOfPlayerControllers().Count > 1)
                 {
                     Vector3 pos =GameApplication.Instance.GetService<IPlayerService>().GetRespawnSafePosition();
-                    GameApplication.Instance.GetService<IReplayService>().SaveSpawnPointData(GetID(), InputManagerBase.Instance.startTime, new SpawnAction(pos));
+                    GameApplication.Instance.GetService<IReplayService>().SaveSpawnPointData(GetID(), GameApplication.Instance.GetService<ISceneLoader>().GetStartFrameTime(), new SpawnAction(pos));
                     playerView.gameObject.transform.position = pos;
                 }
             }

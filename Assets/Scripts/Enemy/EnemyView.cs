@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.AI;
+using ServiceLocator;
 using GameplayInterfaces;
 
 namespace Enemy
@@ -61,7 +62,7 @@ namespace Enemy
             
             if(other.gameObject.GetComponent<Player.PlayerView>())
             {
-                EnemyService.Instance.AlertAllEnemies(other.transform.localPosition);
+                //GameApplication.Instance.GetService<IEnemyService>().AlertAllEnemies(other.transform.localPosition);
             }
         }
         public void StopChasing()

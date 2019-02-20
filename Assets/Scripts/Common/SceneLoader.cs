@@ -10,19 +10,22 @@ namespace Common
 {
     public class SceneLoader : ISceneLoader
     {
+        private int startTime;
+        private bool isPaused = false;
         public SceneLoader()
         {
-
+            startTime = 0;
         }
-        private void Start()
+        public void OnStart()
         {
             GameApplication.Instance.GetService<IStateMachineService>().SetCurrentStateMachineType(StateMachineEnumTypes.LOADING);
-            RegisterEvents();
+            GameApplication.Instance.GetService<IStateMachineService>().OnPause += PauseCounting;
         }
 
-        private void RegisterEvents()
+        public void OnUpdate()
         {
-
+            if (!isPaused)
+                startTime++;
         }
 
         public void OnClickPlay(string _gameScene = null)
@@ -57,6 +60,13 @@ namespace Common
             GameApplication.Instance.GetService<IStateMachineService>().InvokeOnStartReplay();
         }
 
-
+        public int GetStartFrameTime()
+        {
+            return startTime;
+        }
+        private void PauseCounting()
+        {
+            isPaused = !isPaused;
+        }
     }
 }
