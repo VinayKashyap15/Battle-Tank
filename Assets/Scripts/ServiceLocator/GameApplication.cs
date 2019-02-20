@@ -3,6 +3,7 @@ using Enemy;
 using GameplayInterfaces;
 using InputComponents;
 using Lobby;
+using SaveFile;
 using Player;
 using Player.UI;
 using ReplaySystem;
@@ -57,6 +58,8 @@ namespace ServiceLocator
             Register<IEnemyService>(new EnemyService(listOfEnemies));
             Register<IRewardService>(new RewardService(rewardObjList));
             Register<IScoreManager>(new ScoreManager());
+            Register<IPlayerSaveService>(new PlayerSaveData());
+
             Register<IBulletService>(new BulletService(typeOfBullet));
 
         }
@@ -69,9 +72,6 @@ namespace ServiceLocator
             }
 
             Register<ISoundService>(new SoundService(soundScriptableObject, listOfAudioSources));
-
-
-
         }
 
 
