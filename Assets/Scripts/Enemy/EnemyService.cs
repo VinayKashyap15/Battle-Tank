@@ -1,4 +1,5 @@
 ﻿using Common;
+using ObjectPooling;
 using AchievementSystem;
 using ServiceLocator;
 using System;
@@ -25,6 +26,9 @@ namespace Enemy
         public event Action<int, EnemyType, int> EnemyDeath;
         public event Action<Vector3> PlayerSpotted;
         int currentDamagingID;
+        private ObjectPool<EnemyController> objectPool;
+        private GameObject enemyHolder;
+        
 
         public EnemyService(EnemyScriptableObjectList _list)
         {
@@ -32,18 +36,21 @@ namespace Enemy
         }
         public void OnStart()
         {
+            if(!enemyHolder)
+            {
+                enemyHolder= new GameObject();
+                enemyHolder.name= "Enemy Holder";
+            }
+            GameObject.DontDestroyOnLoad(enemyHolder);
+            objectPool= new ObjectPool<EnemyController>();
             SpawnEnemyControllers();
             RegisterEvent();
+
+
         }
         public void OnUpdate()
         {
-            // foreach (EnemyController item in spawnedEnemies)
-            // {
-            //     if (item.currentState != null)
-            //     {
-            //         item.currentState.OnStateUpdate();
-            //     }
-            // }
+            
         }
 
         public void StopChasing()
@@ -85,7 +92,24 @@ namespace Enemy
 
         public Vector3 CreateEnemyController(EnemyScriptableObject _enemyScriptableObject, Vector3? _spawnPos = null)
         {
-            var enemy = new EnemyController(_enemyScriptableObject, _spawnPos);
+            EnemyController enemy = objectPool.Get<EnemyController>(); 
+            enemy.SetConstructorArguments( _enemyScriptableObject, _spawnPos = null);
+           
+            var view=enemy.GetView();       
+            if(view==null)
+            {
+                Debug.Log("view null hai");
+            }   
+            var t=view.gameObject.transform;
+            if(t==null)
+            {
+                Debug.Log("view null hai");
+            }
+            if(enemyHolder==null)
+            {
+                Debug.Log("holder null hai");
+            }
+            t.SetParent(enemyHolder.transform);
             var currentLocation = enemy.GetPosition();
             spawnedEnemies.Add(enemy);
             return currentLocation;
@@ -103,8 +127,8 @@ namespace Enemy
         //    }
 
 
-            _enemyController.StartDestroy();
-            _enemyController = null;
+            _enemyController.Reset();
+            //_enemyController = null;
         }
 
         public List<EnemyController> GetEnemyList()
@@ -118,6 +142,7 @@ namespace Enemy
             {
                 if (_enemy.GetID() == _id)
                 {
+                    ReturnToPool(_enemy);
                     spawnedEnemies.Remove(_enemy);
                     return;
                 }
@@ -147,18 +172,22 @@ namespace Enemy
 
         public void StartReplay()
         {
-            for (int i = 0; i < spawnedEnemies.Count; i++)
-            {
-                EnemyController item = spawnedEnemies.ElementAt(i);
-                DestroyController(item);
-            }
-            spawnedEnemies.Clear();
-            Debug.Log(enemyDataList.Count);
+            // for (int i = 0; i < spawnedEnemies.Count; i++)
+            // {
+            //     EnemyController item = spawnedEnemies.ElementAt(i);
+            //     DestroyController(item);
+            // }
+            // spawnedEnemies.Clear();
+            // Debug.Log(enemyDataList.Count);
             foreach (EnemyData _data in enemyDataList)
             {
                 Vector3 temp = CreateEnemyController(listOfEnemies.enemyList.ElementAt(_data.indexOfScriptableObj), _data.spawnPosition);
             }
         }
 
+        void ReturnToPool(EnemyController _enemyController)
+        {
+            objectPool.ReturnToPool(_enemyController);
+        }
     }
 }

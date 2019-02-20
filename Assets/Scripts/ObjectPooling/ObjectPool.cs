@@ -25,6 +25,7 @@ namespace ObjectPooling
             {
                 Debug.Log("Object not found in list"+objectPool.Count);
                 _itemToReturn = new T();
+                
                 objectPool.Add(_itemToReturn);
             }
 

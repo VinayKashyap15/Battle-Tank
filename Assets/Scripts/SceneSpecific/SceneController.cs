@@ -23,7 +23,7 @@ namespace SceneSpecific
         }
         protected virtual void OnIntialize()
         {
-            ScoreManager.Instance.SetSceneController(this);
+            GameApplication.Instance.GetService<IScoreManager>().SetSceneController(this);
         }
         public virtual void OnClickStart()
         {

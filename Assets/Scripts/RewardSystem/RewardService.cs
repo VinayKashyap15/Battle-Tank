@@ -3,13 +3,15 @@ using UnityEngine;
 using RewardSystem;
 using System.Collections.Generic;
 using Common;
+using ServiceLocator;
+using GameplayInterfaces;
 using System;
 using System.Linq;
 
 namespace RewardSystem
 {
 
-    public class RewardService : SingletonBase<RewardService>
+    public class RewardService : IRewardService
     {
         public struct CurrentRewardData
         {
@@ -18,12 +20,14 @@ namespace RewardSystem
             public RewardProperties _currentRewardPrefab;
             public RewardStatusEnum _currentRewardStatus;
         }
-        [SerializeField]
-        private RewardScriptableObject _rewardScriptableObjList;
+        
+        private RewardScriptableObject rewardScriptableObjList;
         private List<CurrentRewardData> rewardDataList = new List<CurrentRewardData>();
-        private void Start()
+       
+        public RewardService(RewardScriptableObject _rewardScriptableObjList)
         {
-            foreach (RewardData _obj in _rewardScriptableObjList.rewardList)
+            rewardScriptableObjList=_rewardScriptableObjList;
+            foreach (RewardData _obj in rewardScriptableObjList.rewardList)
             {
                 PopulateRewardDataList(_obj);
             }
@@ -65,7 +69,7 @@ namespace RewardSystem
 
         public RewardScriptableObject GetListOfRewards()
         {
-            return _rewardScriptableObjList;
+            return rewardScriptableObjList;
         }
     }
 }

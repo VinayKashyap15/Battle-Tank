@@ -37,6 +37,10 @@ namespace Enemy
         {
             Destroy(this.gameObject);
         }
+        public void DisableSelf()
+        {
+           this.gameObject.SetActive(false);
+        }
 
         public void SetMaterial(Material _newMat)
         {
@@ -62,7 +66,7 @@ namespace Enemy
             
             if(other.gameObject.GetComponent<Player.PlayerView>())
             {
-                //GameApplication.Instance.GetService<IEnemyService>().AlertAllEnemies(other.transform.localPosition);
+                GameApplication.Instance.GetService<IEnemyService>().AlertAllEnemies(other.transform.localPosition);
             }
         }
         public void StopChasing()

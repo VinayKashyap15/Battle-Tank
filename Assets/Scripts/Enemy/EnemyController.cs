@@ -1,12 +1,13 @@
 ﻿using System;
 using GameplayInterfaces;
+using ObjectPooling;
 using ServiceLocator;
 using EnemyStates;
 using UnityEngine;
 
 namespace Enemy
 {
-    public class EnemyController : ICharacterController
+    public class EnemyController : ICharacterController, IPoolable
     {
         private EnemyScriptableObject enemyScriptableObject;
         private EnemyModel currentEnemyModel;
@@ -16,19 +17,40 @@ namespace Enemy
         private EnemyStateMachine currentStateMachine;
         public IEnemyState previousState;
 
-        public EnemyController(EnemyScriptableObject _enemyScriptableObject, Vector3? _spawnPos = null)
+        public EnemyController()
         {
+            this.currentStateMachine = new EnemyStateMachine(this);
+            GameApplication.Instance.GetService<IEnemyService>().PlayerSpotted += this.StartChasing;
+        }
+
+        public void SetConstructorArguments(EnemyScriptableObject _enemyScriptableObject, Vector3? _spawnPos = null)
+        {
+            // if(this.enemyScriptableObject!=null)
+            // {
+            //     return;
+            // }
+
+            // if(this.currentEnemyView!=null)
+            // {
+            //     this.currentEnemyView.gameObject.transform.position= new Vector3(UnityEngine.Random.Range(-30,30),0,UnityEngine.Random.Range(-30,30));
+            //     return;
+            // }
+            if (currentEnemyView != null)
+            { 
+                SetViewActive();
+                return;
+            }
             enemyScriptableObject = _enemyScriptableObject;
+
             if (_spawnPos != null)
             {
                 CreateModel(_enemyScriptableObject, _spawnPos);
             }
             else { CreateModel(_enemyScriptableObject); }
-            currentStateMachine = new EnemyStateMachine(this);
+
             currentState = currentEnemyView.gameObject.GetComponent<PatrollingState>();
             currentStateMachine.ChangeCurrentState(currentEnemyView.gameObject.GetComponent<PatrollingState>());
             enemyID = currentEnemyModel.GetID();
-            GameApplication.Instance.GetService<IEnemyService>().PlayerSpotted += StartChasing;
         }
 
         public float GetEnemySpeed()
@@ -38,8 +60,8 @@ namespace Enemy
 
         private void StartChasing(Vector3 _position)
         {
-            
-            previousState=currentState;
+
+            previousState = currentState;
 
             if (currentEnemyView == null)
             {
@@ -52,9 +74,9 @@ namespace Enemy
 
         public void BackToPatrolling()
         {
-            
-            previousState=currentState;
-            
+
+            previousState = currentState;
+
             currentStateMachine.ChangeCurrentState(currentEnemyView.gameObject.GetComponent<PatrollingState>());
 
         }
@@ -131,7 +153,7 @@ namespace Enemy
             //move enemy;
         }
 
-      
+
         public void SetFireState(bool isFiring)
         {
             //throw new NotImplementedException();
@@ -141,6 +163,21 @@ namespace Enemy
         {
             //throw new NotImplementedException();
         }
+        public void Reset()
+        {
+            //GameApplication.Instance.GetService<IEnemyService>().PlayerSpotted -= StartChasing;
+            currentEnemyView.DisableSelf();
+            currentState = currentEnemyView.gameObject.GetComponent<PatrollingState>();
+            currentEnemyView.gameObject.SetActive(false);
+        }
+        public void SetViewActive()
+        {
+            currentEnemyView.gameObject.SetActive(true);
+        }
 
+        public EnemyView GetView()
+        {
+            return currentEnemyView;
+        }
     }
 }

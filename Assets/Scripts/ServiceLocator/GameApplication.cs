@@ -5,11 +5,14 @@ using Lobby;
 using InputComponents;
 using Weapons.Bullet;
 using Player;
+using RewardSystem;
+using Player.UI;
 using Enemy;
 using StateMachineImplementation;
 using System.Collections.Generic;
 using System.Linq;
 using GameplayInterfaces;
+
 namespace ServiceLocator
 {
     public class GameApplication : SingletonBase<GameApplication>
@@ -27,6 +30,8 @@ namespace ServiceLocator
 
         [SerializeField]
         private BULLET_TYPE typeOfBullet;
+        [SerializeField]
+        private RewardScriptableObject rewardObjList;
         private List<IService> listOfServices = new List<IService>();
        
        private int startTime;
@@ -40,14 +45,16 @@ namespace ServiceLocator
             Register<IInputManagerService>(new InputManagerBase());
             Register<IPlayerService>(new PlayerService(listOfPlayerInputComponents,newPlayerPrefabScriptableObj,miniMapCameraPrefab));
             Register<IEnemyService>(new EnemyService(listOfEnemies));
+            
+            Register<IRewardService>(new RewardService(rewardObjList));            
+            Register<IScoreManager>(new ScoreManager());
             Register<IBulletService>(new BulletService(typeOfBullet));
 
         }
 
         public void Register<T>(T _service) where T : IService
         {
-            listOfServices.Add(_service);
-            Debug.Log(" Register Service:" + _service.ToString());
+            listOfServices.Add(_service);           
         }
 
         public void DeRegister<T>(T _service) where T : IService

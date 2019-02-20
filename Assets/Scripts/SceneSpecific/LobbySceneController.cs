@@ -16,7 +16,7 @@ namespace SceneSpecific
         {
             GameApplication.Instance.GetService<ILobbyService>().OnStart();
             GameApplication.Instance.GetService<ILobbyService>().SetSceneController(this);
-            _currentObj=RewardService.Instance.GetListOfRewards();
+            _currentObj=GameApplication.Instance.GetService<IRewardService>().GetListOfRewards();
            foreach(RewardData item in _currentObj.rewardList)
            {
                SpawnRewardPrefab(item.newReward);

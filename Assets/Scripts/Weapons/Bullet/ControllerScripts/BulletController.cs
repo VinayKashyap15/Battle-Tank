@@ -55,6 +55,10 @@ namespace Bullet.Controller
         {
             return new BulletModel();
         }
+        public virtual BulletView GetBulletView()
+        {
+            return currentBulletView;
+        }
 
         public GameObject GetBullet()
         {

@@ -31,26 +31,15 @@ namespace Player
         private int playerID = 0;
         private int dieActionCalled = 0;
 
-        public PlayerService(InputScriptableObjectList _listOfPlayerInputComponents, PlayerPrefabScriptableObject _playerPrefab, Camera _minimapCam=null)
-        {
-            listOfPlayerInputComponents=_listOfPlayerInputComponents;
-            newPlayerPrefabScriptableObj=_playerPrefab;
-            miniMapCameraPrefab=_minimapCam;
-
-            if (listOfPlayerInputComponents)
-            {
-                noOfPlayers = listOfPlayerInputComponents.playerList.Count;
-            }
-            else
-            {
-                noOfPlayers = 1;
-            }
-        }
         public void SetConfig(RewardProperties _rewardProperty)
         {
 
         }
 
+      public void SetSpawnPos(Vector3 position)
+      {
+
+      }
         private SceneController currentSceneController;
 
         public List<PlayerController> listOfPlayerControllers = new List<PlayerController>();
@@ -68,6 +57,23 @@ namespace Player
 
         public event Action UpdatePlayer;
         private int noOfPlayers;
+
+        public PlayerService(InputScriptableObjectList _listOfPlayerInputComponents, PlayerPrefabScriptableObject _playerPrefab, Camera _minimapCam=null)
+        {
+            
+            listOfPlayerInputComponents=_listOfPlayerInputComponents;
+            newPlayerPrefabScriptableObj=_playerPrefab;
+            miniMapCameraPrefab=_minimapCam;
+
+            if (listOfPlayerInputComponents)
+            {
+                noOfPlayers = listOfPlayerInputComponents.playerList.Count;
+            }
+            else
+            {
+                noOfPlayers = 1;
+            }
+        }
 
         private Material _rewardedMat;
 
@@ -95,13 +101,9 @@ namespace Player
             {
                 currentSceneController = _currentSceneController;
             }
-            ScoreManager.Instance.SetSceneController(currentSceneController);
+            GameApplication.Instance.GetService<IScoreManager>().SetSceneController(currentSceneController);
             SpawnPlayers();
             GameApplication.Instance.GetService<IEnemyService>().EnemyDeath += InvokePlayerScore;
-        }
-        public void SetSpawnPos(Vector3 position)
-        {
-            SpawnPlayers();
         }
 
         public void SaveMaterialFromReward(Material materialToSave)
@@ -115,7 +117,6 @@ namespace Player
         }
         public void SpawnPlayers()
         {
-
             enemyKillCountData.Clear();
             playerGamesPlayedData.Clear();
             playerID = 0;
@@ -135,7 +136,7 @@ namespace Player
                     {
                         enemyKillCountData.Add(_playerControllerInstance.GetID(), PlayerSaveData.Instance.GetEnemyKillData(_playerControllerInstance.GetID()));
                         playerGamesPlayedData.Add(_playerControllerInstance.GetID(), PlayerSaveData.Instance.GetGamesPlayedData(_playerControllerInstance.GetID()));
-                        ScoreManager.Instance.AddPlayerUI(_playerControllerInstance);
+                        GameApplication.Instance.GetService<IScoreManager>().AddPlayerUI(_playerControllerInstance);
                     }
                     SetGameJoined(_playerControllerInstance.GetID());
 
@@ -155,7 +156,7 @@ namespace Player
                 _playerControllerInstance = new PlayerController(playerInstance.GetComponent<PlayerView>(), playerID, null, _rewardedMat);
                 listOfPlayerControllers.Add(_playerControllerInstance);
                 enemyKillCountData.Add(_playerControllerInstance.GetID(), 0);
-                ScoreManager.Instance.AddPlayerUI(_playerControllerInstance);
+                GameApplication.Instance.GetService<IScoreManager>().AddPlayerUI(_playerControllerInstance);
                 SetupCameras(_playerControllerInstance, playerID);
             }
 
@@ -221,7 +222,7 @@ namespace Player
         }
         public void UpdateScoreView(PlayerController _p, int _score, int _playerID)
         {
-            ScoreManager.Instance.UpdateScoreView(_p, _score, _playerID);
+            GameApplication.Instance.GetService<IScoreManager>().UpdateScoreView(_p, _score, _playerID);
         }
         public Vector3 GetRespawnSafePosition()
         {

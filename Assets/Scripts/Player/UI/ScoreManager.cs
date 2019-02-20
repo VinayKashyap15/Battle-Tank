@@ -9,14 +9,16 @@ using System;
 
 namespace Player.UI
 {
-    public class ScoreManager : SingletonBase<ScoreManager>
+    public class ScoreManager : IScoreManager
     {
-        private void Start()
+        private SceneController sceneController;
+        private List<string> highScoreTexts = new List<string>();
+        public void OnStart()
         {
             AchievementSystem.AchievementManager.Instance.OnAchievementCrossed += OnAchievementUnlocked;
-           GameApplication.Instance.GetService<IStateMachineService>().OnPause += OnPauseScreen;
-           GameApplication.Instance.GetService<IStateMachineService>().OnResume += OnResumeScreen;
-           GameApplication.Instance.GetService<IStateMachineService>().OnStartReplay+=OnStartReplayUI;
+            GameApplication.Instance.GetService<IStateMachineService>().OnPause += OnPauseScreen;
+            GameApplication.Instance.GetService<IStateMachineService>().OnResume += OnResumeScreen;
+            GameApplication.Instance.GetService<IStateMachineService>().OnStartReplay += OnStartReplayUI;
         }
 
         private void OnStartReplayUI()
@@ -33,8 +35,6 @@ namespace Player.UI
         {
             Debug.Log("Score manager resume debug");
         }
-        private SceneController sceneController;
-        private List<string> highScoreTexts = new List<string>();
 
         public void SetSceneController(SceneController _sceneController)
         {

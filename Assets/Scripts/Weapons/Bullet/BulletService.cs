@@ -1,4 +1,5 @@
 ﻿using Common;
+using UnityEngine;
 using Player;
 using ServiceLocator;
 using ObjectPooling;
@@ -15,11 +16,18 @@ namespace Weapons.Bullet
         private PlayerController playerControllerInstance;
 
         private ObjectPool<BulletController> objectPool;
+        private GameObject bulletHolder;
 
         public BulletService(BULLET_TYPE _typeOfBullet)
         {
             typeOfBullet = _typeOfBullet;
-            objectPool=new ObjectPool<BulletController>();
+            objectPool = new ObjectPool<BulletController>();
+            if (!bulletHolder)
+            {
+                bulletHolder = new GameObject();
+                bulletHolder.name= "Bullet Holder";
+            }
+            GameObject.DontDestroyOnLoad(bulletHolder);
         }
 
 
@@ -32,26 +40,27 @@ namespace Weapons.Bullet
             {
                 case BULLET_TYPE.Default:
                     {
-                        BulletController _newbullet= objectPool.Get<BulletController>();
+                        BulletController _newbullet = objectPool.Get<BulletController>();
                         _newbullet.SetViewActive();
+                        _newbullet.GetBulletView().gameObject.transform.SetParent(bulletHolder.transform);
                         return _newbullet;
                         break;
                     }
                 case BULLET_TYPE.Fast:
                     {
-                        BulletController _newbullet= objectPool.Get<FastBulletController>();                                            
+                        BulletController _newbullet = objectPool.Get<FastBulletController>();
                         return _newbullet;
                         break;
                     }
                 case BULLET_TYPE.Slow:
                     {
-                        BulletController _newbullet= objectPool.Get<SlowBulletController>();                                                                    
+                        BulletController _newbullet = objectPool.Get<SlowBulletController>();
                         return _newbullet;
                         break;
                     }
                 default:
                     {
-                        BulletController _newbullet= objectPool.Get<BulletController>();                        
+                        BulletController _newbullet = objectPool.Get<BulletController>();
                         return _newbullet;
                         break;
                     }
