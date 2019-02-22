@@ -30,10 +30,8 @@ namespace Player
         {
             transform.Translate(new Vector3(h * speed * Time.deltaTime, 0, v * speed * Time.deltaTime));
         }
-        public void RotatePlayer(float pitch)
-        {
-            transform.Rotate(new Vector3(0, pitch, 0));
-        }
+        
+        
         public void OnFirePressed()
         {
             Debug.Log("Fire Button Pressed");

@@ -535,7 +535,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 489af7994ea300e46989419b8c1a9eb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  achievementScriptableObj: {fileID: 0}
+  achievementScriptableObj: {fileID: 11400000, guid: 44323a008d698fd4eaaa69ceabff41a5,
+    type: 2}
 --- !u!4 &1194478221
 Transform:
   m_ObjectHideFlags: 0
