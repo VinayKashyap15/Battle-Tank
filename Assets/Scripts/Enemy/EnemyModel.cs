@@ -49,7 +49,7 @@ namespace Enemy
         }
         public void SetEnemyHealth(int _newHealth)
         {
-            health=_newHealth;
+             health=_newHealth;
         }
     }
 }

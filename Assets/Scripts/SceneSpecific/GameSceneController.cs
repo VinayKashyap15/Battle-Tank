@@ -1,6 +1,4 @@
 ﻿using GameplayInterfaces;
-using Player;
-using ServiceLocator;
 using Player.UI;
 using Enemy;
 using UnityEngine;
@@ -14,9 +12,6 @@ namespace SceneSpecific
     {
         [SerializeField]
         private ScoreView scoreViewPrefab;
-
-        [SerializeField]
-        private ReplayView replayUIPrefab;
         [SerializeField]
         private int maxThreatLevel;
         [SerializeField]
@@ -29,7 +24,6 @@ namespace SceneSpecific
         private int maxIterationLimit;
 
         private ScoreView scoreViewInstance;
-        private ReplayView replayViewInstance;
 
         private List<EnemyController> enemyList = new List<EnemyController>();
         private List<ScoreView> listOfScoreView = new List<ScoreView>();
@@ -39,21 +33,15 @@ namespace SceneSpecific
         private Vector3 spawnPos = Vector3.zero;
 
         protected override void OnIntialize()
-        {
-           GameApplication.Instance.GetService<IPlayerService>().OnStart(this); 
-           GameApplication.Instance.GetService<IInputManagerService>().OnStart(); 
-            GameApplication.Instance.GetService<IEnemyService>().OnStart();
+        {           
+            Player.PlayerService.Instance.OnStart(this);
+            Enemy.EnemyService.Instance.OnStart();
         }
         private void Start()
         {
             if (!scoreViewPrefab)
             {
                 scoreViewPrefab = Resources.Load("PlayerText") as ScoreView;
-
-            }
-            else if (!replayUIPrefab)
-            {
-                replayUIPrefab = Resources.Load("ReplayUI") as ReplayView;
             }
             currentViewPos = scoreViewPrefab.gameObject.transform.position;
 
@@ -62,25 +50,10 @@ namespace SceneSpecific
                 Debug.Log("Parent not specified, using defaultParent");
                 parentLayoutGroup = GameObject.FindObjectOfType<LayoutGroup>();
             }
-           GameApplication.Instance.GetService<IReplayService>().SetSceneController(this);
-            StartServices();
-        }
-        private void FixedUpdate()
-        {
-           GameApplication.Instance.GetService<IPlayerService>().OnUpdate();
-           GameApplication.Instance.GetService<IInputManagerService>().OnUpdate();
-            GameApplication.Instance.GetService<IEnemyService>().OnUpdate();
-        }
-        private void StartServices()
-        {
-           GameApplication.Instance.GetService<IPlayerService>().OnStart(this);
-            GameApplication.Instance.GetService<IEnemyService>().OnStart();
         }
         public override void SpawnPlayerUI(ICharacterController _currentPlayerControllerInstance)
         {
-         
-
-            scoreViewInstance = GameObject.Instantiate(scoreViewPrefab, currentViewPos, Quaternion.identity);
+            scoreViewInstance = Instantiate(scoreViewPrefab, currentViewPos, Quaternion.identity);
             scoreViewInstance.gameObject.transform.SetParent(parentLayoutGroup.transform);
             currentViewPos += new Vector3(0, -5f, 0);
 
@@ -105,15 +78,9 @@ namespace SceneSpecific
                 }
             }
         }
-
-        public override void SpawnReplayUI()
-        {
-            replayViewInstance = GameObject.Instantiate(replayUIPrefab, currentViewPos, Quaternion.identity);
-            replayViewInstance.gameObject.transform.SetParent(parentLayoutGroup.transform);
-        }
         public override Vector3 FindSafePosition()
         {
-            enemyList = GameApplication.Instance.GetService<IEnemyService>().GetEnemyList();
+            enemyList = EnemyService.Instance.GetEnemyList();
             List<Vector3> enemyPositions = new List<Vector3>();
             foreach (EnemyController i in enemyList)
             {
@@ -181,5 +148,7 @@ namespace SceneSpecific
                 _newPos = GetRandomSpawnPos();
             return _newPos;
         }
+
+      
     }
 }

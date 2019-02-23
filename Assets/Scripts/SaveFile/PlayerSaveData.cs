@@ -1,39 +1,26 @@
 ﻿using UnityEngine;
 using Common;
-using ServiceLocator;
-using GameplayInterfaces;
 using Player.UI;
 using System;
 using AchievementSystem;
 
 namespace SaveFile
 {
-    public class PlayerSaveData : IPlayerSaveService
+    public class PlayerSaveData : SingletonBase<PlayerSaveData>
     {
-        private DataSaveTypeEnum _currentSaveType;
-        private ISaveData _currentSaveMethod= new SaveInPlayerPrefs();
-        
-
-        public void SetInt(string _dataToSave,int _id,int _value)
-        {
-            _currentSaveMethod.SaveInt(_dataToSave,_id,_value);
+        private void Start() {
+           Player.PlayerService.Instance.PlayerDeath += SetDieMark;    
         }
-        public int GetInt(string _dataToSave,int _id)
+        public void SetHighScoreData(int _playerID,int _highScore)
         {
-            return _currentSaveMethod.GetInt(_dataToSave,_id);
-        }
-
-        #region  OldCodeStuff
-        public void SetHighScoreData(int _playerID, int _highScore)
-        {
-            PlayerPrefs.SetInt("HighScore for Player" + _playerID.ToString(), _highScore);
-            GameApplication.Instance.GetService<IScoreManager>().PopulateHighScoreTexts("HighScore for Player" + _playerID.ToString() + " : " + _highScore.ToString());
-
+          PlayerPrefs.SetInt("HighScore for Player"+_playerID.ToString(),_highScore);
+          ScoreManager.Instance.PopulateHighScoreTexts("HighScore for Player" + _playerID.ToString()+ " : "+_highScore.ToString());
+            
         }
         public int GetHighScoreData(int _playerID)
         {
-            int _currenthighScore = PlayerPrefs.GetInt("HighScore for Player" + _playerID.ToString());
-
+            int _currenthighScore=PlayerPrefs.GetInt("HighScore for Player" + _playerID.ToString());
+         
             return _currenthighScore;
         }
         public void SetDieMark(int _id, int _numberOfTimesFunctionCalled)
@@ -49,13 +36,13 @@ namespace SaveFile
                 PlayerPrefs.SetInt("Player " + _id.ToString() + " Deaths", _currentDeaths);
             }
         }
-        public void SetEnemyKillData(int _id, int _enemyKill)
+        public void SetEnemyKillData(int _id,int _enemyKill)
         {
             PlayerPrefs.SetInt("EnemyKills for Player" + _id.ToString(), _enemyKill);
-
+            
         }
         public int GetEnemyKillData(int _id)
-        {
+        {            
             return PlayerPrefs.GetInt("EnemyKills for Player" + _id.ToString());
         }
 
@@ -72,7 +59,7 @@ namespace SaveFile
         public AchievementStatus GetAchievementStatus(AchievementTypes _type, int _id)
         {
             int _statusInt = PlayerPrefs.GetInt("Player" + _id.ToString() + _type.ToString());
-            if (_statusInt == 1)
+            if(_statusInt==1)
             {
                 return AchievementStatus.FINISHED;
             }
@@ -80,12 +67,12 @@ namespace SaveFile
             {
                 return AchievementStatus.UNFINISHED;
             }
-
+          
         }
-        public void SetAchievementStatus(AchievementTypes _type, int _id, int _status)
+        public void SetAchievementStatus(AchievementTypes _type,int _id, int _status)
         {
             PlayerPrefs.SetInt("Player" + _id.ToString() + _type.ToString(), _status);
-        }
-        #endregion
+        }      
+
     }
 }

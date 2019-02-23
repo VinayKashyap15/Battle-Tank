@@ -1,6 +1,4 @@
 ﻿using UnityEngine.UI;
-using ServiceLocator;
-using GameplayInterfaces;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,7 +29,7 @@ namespace SceneSpecific
 
         private void PopulateVerticalGroup()
         {
-            List<string> textList=GameApplication.Instance.GetService<IScoreManager>().GetHighScoreTextList();
+            List<string> textList=ScoreManager.Instance.GetHighScoreTextList();
             for (int i = 0; i < textList.Count; i++)
             {
                 SpawnText(textList.ElementAt(i));

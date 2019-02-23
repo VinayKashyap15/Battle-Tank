@@ -1,6 +1,5 @@
 ﻿using System;
 using Common;
-using ServiceLocator;
 using GameplayInterfaces;
 using Player.UI;
 using UnityEngine;
@@ -11,38 +10,27 @@ namespace SceneSpecific
     public class SceneController : MonoBehaviour
     {
         [SerializeField]
-        protected SceneScriptableObject _sceneScriptableObj;        
-        private  void Start()
+        protected SceneScriptableObject _sceneScriptableObj;
+        
+
+        private  void Awake()
         {
             OnIntialize();
-            GameApplication.Instance.GetService<ISceneLoader>().OnStart();
         }
-        private void Update() {
-            GameApplication.Instance.GetService<ISceneLoader>().OnUpdate();
-            
-        }
+
         protected virtual void OnIntialize()
         {
-            GameApplication.Instance.GetService<IScoreManager>().SetSceneController(this);
-        }
-        public virtual void OnClickStart()
-        {
-           GameApplication.Instance.GetService<ISceneLoader>().OnClickStart(_sceneScriptableObj == null ? "Start": _sceneScriptableObj.gameScene.name);
+            ScoreManager.Instance.SetSceneController(this);
         }
 
-        public virtual void OnClickPlay()
+        protected virtual void OnClickPlay()
         {
-           GameApplication.Instance.GetService<ISceneLoader>().OnClickPlay(_sceneScriptableObj == null ? "Game": _sceneScriptableObj.startScene.name);
-        }
-
-        public virtual void SpawnReplayUI()
-        {
-            
+            SceneLoader.Instance.OnClickPlay(_sceneScriptableObj == null ? null: _sceneScriptableObj.gameScene.name);
         }
 
         protected virtual void OnReturnHome()
         {
-           GameApplication.Instance.GetService<ISceneLoader>().OnReturnHome();
+            SceneLoader.Instance.OnReturnHome();
         }
 
         public virtual void SpawnPlayerUI(ICharacterController _playerController)

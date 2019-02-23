@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using Player;
-using GameplayInterfaces;
 using System;
 
 namespace InputComponents
@@ -10,10 +9,10 @@ namespace InputComponents
     /// </summary>
     public class KeyboardComponent : InputComponent
     {        
-        public KeyboardComponent(ICharacterController _playerControllerInstance)
+        public KeyboardComponent(PlayerController _playerControllerInstance)
         {           
             SetDefaultInputScheme();
-            currentCharacterController = _playerControllerInstance;
+            currentPlayerController = _playerControllerInstance;
         }
 
         private void SetDefaultInputScheme()
@@ -21,9 +20,8 @@ namespace InputComponents
             fireKey=KeyCode.Space;
             moveForwardKey = KeyCode.W;
             moveBackwardKey=KeyCode.S;
-            rotateLeftKey = KeyCode.A;
-            rotateRightKey= KeyCode.D;
-            pauseKey=KeyCode.Escape;
+            moveLeftKey = KeyCode.A;
+            moveRightKey= KeyCode.D;
         }
 
         public override KeyCode GetFireInput()
@@ -41,18 +39,14 @@ namespace InputComponents
             return moveBackwardKey;
         }
 
-        public override KeyCode GetRotateLeftInput()
+        public override KeyCode GetMoveLeftInput()
         {
-            return rotateLeftKey;
+            return moveLeftKey;
         }
 
-        public override KeyCode GetRotateRightInput()
+        public override KeyCode GetMoveRightInput()
         {
-            return rotateRightKey;
-        }
-        public  override KeyCode GetPauseKey()
-        {
-                return pauseKey;
+            return moveRightKey;
         }
 
     }

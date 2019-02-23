@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using Player;
-using GameplayInterfaces;
 
 namespace InputComponents
 {
@@ -10,15 +9,15 @@ namespace InputComponents
     class CustomInputComponent : InputComponent
     {       
 
-        public CustomInputComponent(InputScriptableObject _customInputScheme,ICharacterController _currentPlayerControllerInstance)
+        public CustomInputComponent(InputScriptableObject _customInputScheme,PlayerController _currentPlayerControllerInstance)
         {
             fireKey=_customInputScheme.fireKey;
             moveForwardKey=_customInputScheme.moveForwardKey;
             moveBackwardKey= _customInputScheme.moveBackwardKey;
-            rotateLeftKey = _customInputScheme.moveLeftKey;
-            rotateRightKey = _customInputScheme.moveRightKey;
-            pauseKey=_customInputScheme.pauseKey;
-            currentCharacterController = _currentPlayerControllerInstance;
+            moveLeftKey = _customInputScheme.moveLeftKey;
+            moveRightKey = _customInputScheme.moveRightKey;
+
+            currentPlayerController = _currentPlayerControllerInstance;
         }
 
         public override KeyCode GetFireInput()
@@ -36,18 +35,14 @@ namespace InputComponents
             return moveBackwardKey;
         }
 
-        public override KeyCode GetRotateLeftInput()
+        public override KeyCode GetMoveLeftInput()
         {
-            return rotateLeftKey;
+            return moveLeftKey;
         }
 
-        public override KeyCode GetRotateRightInput()
+        public override KeyCode GetMoveRightInput()
         {
-            return rotateRightKey;
-        }
-        public  override KeyCode GetPauseKey()
-        {
-                return pauseKey;
+            return moveRightKey;
         }
     }
 }

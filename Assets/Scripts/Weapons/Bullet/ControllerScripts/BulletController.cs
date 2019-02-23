@@ -1,16 +1,14 @@
 using UnityEngine;
-using ServiceLocator;
 using GameplayInterfaces;
 using Player;
 using Bullet.Model;
 using Bullet.View;
 using Weapons.Bullet;
-using ObjectPooling;
 using System;
 
 namespace Bullet.Controller
 {
-    public class BulletController:IPoolable
+    public class BulletController
     {
 
         private GameObject bulletInstance;
@@ -19,7 +17,7 @@ namespace Bullet.Controller
         private BulletView currentBulletView;
 
 
-        protected Player.PlayerController currentPlayerController;
+        protected PlayerController currentPlayerController;
 
         public event Action<ITakeDamage,int> HasCollided;
 
@@ -44,20 +42,9 @@ namespace Bullet.Controller
             HasCollided+= currentPlayerController.CheckCollision;
 
         }
-
-        public void SetViewActive()
-        {
-           currentBulletView.gameObject.SetActive(true);
-           currentBulletView.SetOriginalVelocity();
-        }
-
         protected virtual BulletModel CreateModel()
         {
             return new BulletModel();
-        }
-        public virtual BulletView GetBulletView()
-        {
-            return currentBulletView;
         }
 
         public GameObject GetBullet()
@@ -83,23 +70,17 @@ namespace Bullet.Controller
 
         public void FireBullet(Vector3 _firePosition, Quaternion _fireRotation, Vector3 _fireDirection)
         {            
-           currentBulletView.FireBullet(bulletInstance, _firePosition, _fireRotation, _fireDirection, GetBulletSpeed());
+                currentBulletView.FireBullet(bulletInstance, _firePosition, _fireRotation, _fireDirection, GetBulletSpeed());
         }
 
         public virtual void SetPlayerControllerInstance()
         {
-            currentPlayerController = GameApplication.Instance.GetService<IBulletService>().GetPlayerControllerInstance();
+            currentPlayerController = BulletService.Instance.GetPlayerControllerInstance();
         }
 
         public void InvokeAction(ITakeDamage _currentView)
         {
-            HasCollided?.Invoke(_currentView,currentBulletModel.GetPointDamage());
+            HasCollided.Invoke(_currentView,currentBulletModel.GetPointDamage());
         }
-
-        public void Reset()
-        {
-            currentBulletView.Reset();
-        }
-
     }
 }
