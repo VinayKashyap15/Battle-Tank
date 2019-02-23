@@ -37,9 +37,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4036388127033802}
   - component: {fileID: 20159165194021062}
-  - component: {fileID: 92043367593943062}
   - component: {fileID: 124985853026839226}
-  - component: {fileID: 81272473884773134}
   - component: {fileID: 114451786063633440}
   m_Layer: 0
   m_Name: Main Camera
@@ -326,8 +324,8 @@ Camera:
   m_GameObject: {fileID: 1224124376797344}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.41960788, g: 0.29411766, b: 0.12941177, a: 0.019607844}
+  m_ClearFlags: 1
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0.019607844}
   m_projectionMatrixMode: 1
   m_SensorSize: {x: 36, y: 24}
   m_LensShift: {x: 0, y: 0}
@@ -558,20 +556,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2, y: 2, z: 2}
   m_Center: {x: 0, y: 1, z: 0}
---- !u!81 &81272473884773134
-AudioListener:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1224124376797344}
-  m_Enabled: 1
---- !u!92 &92043367593943062
-Behaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1224124376797344}
-  m_Enabled: 1
 --- !u!95 &95261061954663730
 Animator:
   serializedVersion: 3

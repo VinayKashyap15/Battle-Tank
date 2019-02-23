@@ -1,4 +1,6 @@
 using UnityEngine;
+using ServiceLocator;
+using GameplayInterfaces;
 using Common;
 using InputComponents;
 using System;
@@ -6,16 +8,16 @@ using System.Collections.Generic;
 
 namespace ReplaySystem
 {
-    public class ReplayService : SingletonBase<ReplayService>
+    public class ReplayService : IReplayService
     {
         public bool startReplay = false;
         Queue<QueueData> savedQueueData = new Queue<QueueData>();
         SceneSpecific.SceneController sceneController;
 
-        private void Start()
+        public ReplayService()
         {
             savedQueueData.Clear();
-            StateMachineImplementation.StateMachineService.Instance.OnStartReplay += StartReplay;
+            GameApplication.Instance.GetService<IStateMachineService>().OnStartReplay += StartReplay;
             
         }
 
@@ -31,8 +33,8 @@ namespace ReplaySystem
         private void StartReplay()
         {
             startReplay = true;
-            Player.PlayerService.Instance.OnStart(sceneController);
-            StateMachineImplementation.StateMachineService.Instance.OnEnterGameOverScene+=ClearQueue;
+            GameApplication.Instance.GetService<IPlayerService>().OnStart(sceneController);
+            GameApplication.Instance.GetService<IStateMachineService>().OnEnterGameOverScene+=ClearQueue;
         }
 
         public void ClearQueue()
@@ -48,7 +50,7 @@ namespace ReplaySystem
         {
             if (savedQueueData.Count == 0)
             {
-                SceneLoader.Instance.OnGameOver();
+               GameApplication.Instance.GetService<ISceneLoader>().OnGameOver();
                 startReplay = false;
             }
             return savedQueueData;

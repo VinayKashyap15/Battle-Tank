@@ -1,5 +1,6 @@
 ﻿using System;
 using Common;
+using ServiceLocator;
 using GameplayInterfaces;
 using Player.UI;
 using UnityEngine;
@@ -14,20 +15,24 @@ namespace SceneSpecific
         private  void Start()
         {
             OnIntialize();
+            GameApplication.Instance.GetService<ISceneLoader>().OnStart();
         }
-
+        private void Update() {
+            GameApplication.Instance.GetService<ISceneLoader>().OnUpdate();
+            
+        }
         protected virtual void OnIntialize()
         {
-            ScoreManager.Instance.SetSceneController(this);
+            GameApplication.Instance.GetService<IScoreManager>().SetSceneController(this);
         }
         public virtual void OnClickStart()
         {
-            SceneLoader.Instance.OnClickStart(_sceneScriptableObj == null ? "Start": _sceneScriptableObj.gameScene.name);
+           GameApplication.Instance.GetService<ISceneLoader>().OnClickStart(_sceneScriptableObj == null ? "Start": _sceneScriptableObj.gameScene.name);
         }
 
         public virtual void OnClickPlay()
         {
-            SceneLoader.Instance.OnClickPlay(_sceneScriptableObj == null ? "Game": _sceneScriptableObj.startScene.name);
+           GameApplication.Instance.GetService<ISceneLoader>().OnClickPlay(_sceneScriptableObj == null ? "Game": _sceneScriptableObj.startScene.name);
         }
 
         public virtual void SpawnReplayUI()
@@ -37,7 +42,7 @@ namespace SceneSpecific
 
         protected virtual void OnReturnHome()
         {
-            SceneLoader.Instance.OnReturnHome();
+           GameApplication.Instance.GetService<ISceneLoader>().OnReturnHome();
         }
 
         public virtual void SpawnPlayerUI(ICharacterController _playerController)

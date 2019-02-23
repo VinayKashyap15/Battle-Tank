@@ -1,20 +1,18 @@
 ﻿using UnityEngine;
 using Common;
+using ServiceLocator;
+using GameplayInterfaces;
 using Player.UI;
 using System;
 using AchievementSystem;
 
 namespace SaveFile
 {
-    public class PlayerSaveData : SingletonBase<PlayerSaveData>
+    public class PlayerSaveData : IPlayerSaveService
     {
         private DataSaveTypeEnum _currentSaveType;
-        private ISaveData _currentSaveMethod;
-        private void Start()
-        {
-           // _currentSaveMethod=new SaveInEncodedFile();
-           _currentSaveMethod= new SaveInPlayerPrefs();
-        }
+        private ISaveData _currentSaveMethod= new SaveInPlayerPrefs();
+        
 
         public void SetInt(string _dataToSave,int _id,int _value)
         {
@@ -29,7 +27,7 @@ namespace SaveFile
         public void SetHighScoreData(int _playerID, int _highScore)
         {
             PlayerPrefs.SetInt("HighScore for Player" + _playerID.ToString(), _highScore);
-            ScoreManager.Instance.PopulateHighScoreTexts("HighScore for Player" + _playerID.ToString() + " : " + _highScore.ToString());
+            GameApplication.Instance.GetService<IScoreManager>().PopulateHighScoreTexts("HighScore for Player" + _playerID.ToString() + " : " + _highScore.ToString());
 
         }
         public int GetHighScoreData(int _playerID)

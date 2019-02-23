@@ -1,14 +1,16 @@
 using UnityEngine;
+using ServiceLocator;
 using GameplayInterfaces;
 using Player;
 using Bullet.Model;
 using Bullet.View;
 using Weapons.Bullet;
+using ObjectPooling;
 using System;
 
 namespace Bullet.Controller
 {
-    public class BulletController
+    public class BulletController:IPoolable
     {
 
         private GameObject bulletInstance;
@@ -42,9 +44,20 @@ namespace Bullet.Controller
             HasCollided+= currentPlayerController.CheckCollision;
 
         }
+
+        public void SetViewActive()
+        {
+           currentBulletView.gameObject.SetActive(true);
+           currentBulletView.SetOriginalVelocity();
+        }
+
         protected virtual BulletModel CreateModel()
         {
             return new BulletModel();
+        }
+        public virtual BulletView GetBulletView()
+        {
+            return currentBulletView;
         }
 
         public GameObject GetBullet()
@@ -70,17 +83,23 @@ namespace Bullet.Controller
 
         public void FireBullet(Vector3 _firePosition, Quaternion _fireRotation, Vector3 _fireDirection)
         {            
-                currentBulletView.FireBullet(bulletInstance, _firePosition, _fireRotation, _fireDirection, GetBulletSpeed());
+           currentBulletView.FireBullet(bulletInstance, _firePosition, _fireRotation, _fireDirection, GetBulletSpeed());
         }
 
         public virtual void SetPlayerControllerInstance()
         {
-            currentPlayerController = BulletService.Instance.GetPlayerControllerInstance();
+            currentPlayerController = GameApplication.Instance.GetService<IBulletService>().GetPlayerControllerInstance();
         }
 
         public void InvokeAction(ITakeDamage _currentView)
         {
             HasCollided?.Invoke(_currentView,currentBulletModel.GetPointDamage());
         }
+
+        public void Reset()
+        {
+            currentBulletView.Reset();
+        }
+
     }
 }

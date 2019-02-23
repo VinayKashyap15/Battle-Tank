@@ -1,4 +1,5 @@
 ﻿using Common;
+using ServiceLocator;
 using GameplayInterfaces;
 using System.Collections.Generic;
 using ReplaySystem;
@@ -16,26 +17,22 @@ namespace InputComponents
         public int controllerID;
         public int frameNo;
     }
-    public class InputManagerBase : SingletonBase<InputManagerBase>
+    public class InputManagerBase : IInputManagerService
     {
 
         private Queue<QueueData> saveQueue = new Queue<QueueData>();
-        public int startTime;
+        
         bool isReplayPaused = false;
-        private void Start()
+        public void OnStart()
         {
-            startTime = 0;
-            StateMachineImplementation.StateMachineService.Instance.OnPause+=ReplayPaused;
+           GameApplication.Instance.GetService<IStateMachineService>().OnPause+=ReplayPaused;
         }
-        private void Update()
+        public void OnUpdate()
         {
-            if(!isReplayPaused)
-            {
-                startTime++;
-            }
-                if (ReplayService.Instance.GetReplayValue())
+            
+                if (GameApplication.Instance.GetService<IReplayService>().GetReplayValue())
                 {
-                    ReplayUpdate(ReplayService.Instance.GetSavedQueue());
+                    ReplayUpdate(GameApplication.Instance.GetService<IReplayService>().GetSavedQueue());
                 }
                 else
                 {
@@ -45,11 +42,11 @@ namespace InputComponents
             
         }
 
-        public void InputUpdate()
+        private void InputUpdate()
         {
-            int frameNo = startTime;
+            int frameNo = GameApplication.Instance.GetService<ISceneLoader>().GetStartFrameTime();
 
-            foreach (var _currentPlayerController in PlayerService.Instance.listOfPlayerControllers)
+            foreach (var _currentPlayerController in GameApplication.Instance.GetService<IPlayerService>().GetListOfPlayerControllers())
             {
                 List<InputActions> actionsToPerform = _currentPlayerController.GetInputComponent().OnUpdate();
 
@@ -65,7 +62,7 @@ namespace InputComponents
                 }
             }
         }
-        public void ReplayUpdate(Queue<QueueData> _recievedQueue)
+        private void ReplayUpdate(Queue<QueueData> _recievedQueue)
         {
             if(isReplayPaused)
             {
@@ -73,14 +70,14 @@ namespace InputComponents
             }
             if (_recievedQueue == null)
             {
-                SceneLoader.Instance.OnGameOver();
+                GameApplication.Instance.GetService<ISceneLoader>().OnGameOver();
                 return;
             }
-            foreach (var _currentPlayerController in PlayerService.Instance.listOfPlayerControllers)
+            foreach (var _currentPlayerController in GameApplication.Instance.GetService<IPlayerService>().GetListOfPlayerControllers())
             {
                 if (_recievedQueue == null)
                 {
-                    SceneLoader.Instance.OnGameOver();
+                    GameApplication.Instance.GetService<ISceneLoader>().OnGameOver();
                     return;
                 }
                 else
@@ -88,7 +85,7 @@ namespace InputComponents
                     QueueData data = new QueueData();
                     if (_recievedQueue.Count == 0)
                     {
-                        SceneLoader.Instance.OnGameOver();
+                        GameApplication.Instance.GetService<ISceneLoader>().OnGameOver();
                         return;
                     }
                     data = _recievedQueue.Peek();
@@ -109,7 +106,7 @@ namespace InputComponents
             }
         }
 
-        public void SaveInQueue(int _controllerID, int _frameNo, List<InputActions> _currentActionList)
+        private void SaveInQueue(int _controllerID, int _frameNo, List<InputActions> _currentActionList)
         {
             QueueData newData = new QueueData();
             newData.actions = _currentActionList;
@@ -117,13 +114,13 @@ namespace InputComponents
             newData.frameNo = _frameNo;
 
             saveQueue.Enqueue(newData);
-            ReplayService.Instance.SaveQueue(newData);
+            GameApplication.Instance.GetService<IReplayService>().SaveQueue(newData);
         }
-
-        public void ReplayPaused()
+        private void ReplayPaused()
         {
             isReplayPaused=!isReplayPaused;            
         }
 
+       
     }
 }

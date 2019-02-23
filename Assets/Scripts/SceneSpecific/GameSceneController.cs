@@ -1,5 +1,6 @@
 ﻿using GameplayInterfaces;
 using Player;
+using ServiceLocator;
 using Player.UI;
 using Enemy;
 using UnityEngine;
@@ -39,8 +40,9 @@ namespace SceneSpecific
 
         protected override void OnIntialize()
         {
-            Player.PlayerService.Instance.OnStart(this);
-            Enemy.EnemyService.Instance.OnStart();
+           GameApplication.Instance.GetService<IPlayerService>().OnStart(this); 
+           GameApplication.Instance.GetService<IInputManagerService>().OnStart(); 
+            GameApplication.Instance.GetService<IEnemyService>().OnStart();
         }
         private void Start()
         {
@@ -60,18 +62,19 @@ namespace SceneSpecific
                 Debug.Log("Parent not specified, using defaultParent");
                 parentLayoutGroup = GameObject.FindObjectOfType<LayoutGroup>();
             }
-            ReplaySystem.ReplayService.Instance.SetSceneController(this);
+           GameApplication.Instance.GetService<IReplayService>().SetSceneController(this);
             StartServices();
         }
         private void FixedUpdate()
         {
-            Player.PlayerService.Instance.OnUpdate();
-            Enemy.EnemyService.Instance.OnUpdate();
+           GameApplication.Instance.GetService<IPlayerService>().OnUpdate();
+           GameApplication.Instance.GetService<IInputManagerService>().OnUpdate();
+            GameApplication.Instance.GetService<IEnemyService>().OnUpdate();
         }
         private void StartServices()
         {
-            Player.PlayerService.Instance.OnStart(this);
-            Enemy.EnemyService.Instance.OnStart();
+           GameApplication.Instance.GetService<IPlayerService>().OnStart(this);
+            GameApplication.Instance.GetService<IEnemyService>().OnStart();
         }
         public override void SpawnPlayerUI(ICharacterController _currentPlayerControllerInstance)
         {
@@ -110,7 +113,7 @@ namespace SceneSpecific
         }
         public override Vector3 FindSafePosition()
         {
-            enemyList = EnemyService.Instance.GetEnemyList();
+            enemyList = GameApplication.Instance.GetService<IEnemyService>().GetEnemyList();
             List<Vector3> enemyPositions = new List<Vector3>();
             foreach (EnemyController i in enemyList)
             {

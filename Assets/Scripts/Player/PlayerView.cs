@@ -1,5 +1,6 @@
 using UnityEngine;
 using GameplayInterfaces;
+using ServiceLocator;
 using System.Collections.Generic;
 using System.Collections;
 using Common;
@@ -29,10 +30,8 @@ namespace Player
         {
             transform.Translate(new Vector3(h * speed * Time.deltaTime, 0, v * speed * Time.deltaTime));
         }
-        public void RotatePlayer(float pitch)
-        {
-            transform.Rotate(new Vector3(0, pitch, 0));
-        }
+        
+        
         public void OnFirePressed()
         {
             Debug.Log("Fire Button Pressed");
@@ -80,8 +79,8 @@ namespace Player
 
         public IEnumerator DestroySelf()
         {
-            PlayerService.Instance.InvokePlayerDeath(currentPlayerController.GetID(), currentPlayerController.GetNoOfDeaths());
-            PlayerService.Instance.DestroyPlayer(currentPlayerController);
+           GameApplication.Instance.GetService<IPlayerService>().InvokePlayerDeath(currentPlayerController.GetID(), currentPlayerController.GetNoOfDeaths());
+           GameApplication.Instance.GetService<IPlayerService>().DestroyPlayer(currentPlayerController);
             yield return new WaitForSeconds(5f);
 
         }
