@@ -11,5 +11,7 @@ namespace InputComponents
         public KeyCode moveBackwardKey;
         public KeyCode moveLeftKey;
         public KeyCode moveRightKey;
+
+        public KeyCode pauseKey;
     }
 }

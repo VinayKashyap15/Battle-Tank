@@ -1,5 +1,7 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.AI;
+using ServiceLocator;
 using GameplayInterfaces;
 
 namespace Enemy
@@ -11,10 +13,12 @@ namespace Enemy
         private EnemyController currentEnemyController;
         private Material _mat;
 
-
+        NavMeshAgent agent;
         private void Start()
         {
             _mat = this.GetComponentInChildren<Renderer>().sharedMaterial;
+            agent=GetComponent<NavMeshAgent>();
+            agent.speed=GetSpeed();
         }
         public void SetController(EnemyController _enemyController)
         {
@@ -25,14 +29,22 @@ namespace Enemy
             return currentEnemyController;
         }
 
+        public float GetSpeed()
+        {
+            return currentEnemyController.GetEnemySpeed();
+        }
         public void DestroySelf()
         {
             Destroy(this.gameObject);
         }
+        public void DisableSelf()
+        {
+           this.gameObject.SetActive(false);
+        }
 
         public void SetMaterial(Material _newMat)
         {
-            _mat = _newMat;
+           GetComponentInChildren<Renderer>().sharedMaterial = _newMat;
         }
 
         public Vector3 GetPosition()
@@ -48,6 +60,18 @@ namespace Enemy
         public string GetName()
         {
             return "EnemyView";
+        }
+
+        private void OnTriggerEnter(Collider other) {
+            
+            if(other.gameObject.GetComponent<Player.PlayerView>())
+            {
+                GameApplication.Instance.GetService<IEnemyService>().AlertAllEnemies(other.transform.localPosition);
+            }
+        }
+        public void StopChasing()
+        {
+            currentEnemyController.BackToPatrolling();
         }
     }
 }

@@ -1,47 +1,93 @@
 ﻿using Common;
+using UnityEngine;
 using Player;
+using ServiceLocator;
+using ObjectPooling;
 using Bullet.Controller;
+using GameplayInterfaces;
 using Bullet.Model;
 
 
 namespace Weapons.Bullet
 {
-    public class BulletService : SingletonBase<BulletService>
+    public class BulletService : IBulletService
     {
-        public BULLET_TYPE typeOfBullet;
+        private BULLET_TYPE typeOfBullet;
         private PlayerController playerControllerInstance;
-        public float GetBulletSpeed(BulletModel _model)
+
+        private ObjectPool<BulletController> objectPool;
+        private GameObject bulletHolder;
+
+        public BulletService(BULLET_TYPE _typeOfBullet)
         {
-            return _model.GetBulletSpeed();
+            typeOfBullet = _typeOfBullet;
+            objectPool = new ObjectPool<BulletController>();
+            if (!bulletHolder)
+            {
+                bulletHolder = new GameObject();
+                bulletHolder.name= "Bullet Holder";
+            }
+            GameObject.DontDestroyOnLoad(bulletHolder);
         }
 
-       
 
         public BulletController SpawnBullet(PlayerController _currentPlayerControllerInstance)
         {
-            playerControllerInstance=_currentPlayerControllerInstance;
-            PlayerService.Instance.SetCurrentInstance(playerControllerInstance);
+            playerControllerInstance = _currentPlayerControllerInstance;
+            GameApplication.Instance.GetService<IPlayerService>().SetCurrentInstance(playerControllerInstance);
+
             switch (typeOfBullet)
             {
                 case BULLET_TYPE.Default:
-                    return new BulletController();
+                    {
+                        BulletController _newbullet = objectPool.Get<BulletController>();
+                        _newbullet.SetViewActive();
+                        _newbullet.GetBulletView().gameObject.transform.SetParent(bulletHolder.transform);
+                        return _newbullet;
+                        break;
+                    }
                 case BULLET_TYPE.Fast:
-                    return new FastBulletController();
+                    {
+                        BulletController _newbullet = objectPool.Get<FastBulletController>();
+                        return _newbullet;
+                        break;
+                    }
                 case BULLET_TYPE.Slow:
-                    return new SlowBulletController();
+                    {
+                        BulletController _newbullet = objectPool.Get<SlowBulletController>();
+                        return _newbullet;
+                        break;
+                    }
                 default:
-                    return new BulletController();
+                    {
+                        BulletController _newbullet = objectPool.Get<BulletController>();
+                        return _newbullet;
+                        break;
+                    }
             }
         }
 
         public void DestroyController(BulletController _bulletController)
         {
+            //_bulletController.Reset();
+            //objectPool.ReturnToPool(_bulletController);
             _bulletController.StartDestroy();
-            _bulletController = null;
+            //_bulletController = null;
+        }
+        public void DisableController(BulletController _bulletController)
+        {
+            _bulletController.Reset();
+            objectPool.ReturnToPool(_bulletController);
+            //_bulletController.StartDestroy();
+            //_bulletController = null;
         }
         public PlayerController GetPlayerControllerInstance()
         {
             return playerControllerInstance;
+        }
+        public float GetBulletSpeed(BulletModel _model)
+        {
+            return _model.GetBulletSpeed();
         }
 
     }
