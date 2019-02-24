@@ -7,7 +7,7 @@ namespace Enemy
 
         private EnemyType enemyType;
         private float enemySpeed;
-        private int enemyID;
+        private static int enemyID=0;
         
         private Material enemyMaterial;
         private GameObject enemyModel;
@@ -20,6 +20,7 @@ namespace Enemy
             enemyModel = _enemyScriptableObject.enemyPrefab;
             health = _enemyScriptableObject.enemyHealth;
             enemyType = _enemyScriptableObject.type;
+            enemyID += 1;
         }
 
         public int GetID()

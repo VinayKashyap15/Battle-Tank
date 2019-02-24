@@ -214,11 +214,12 @@ namespace Player
         {
     
            GameApplication.Instance.GetService<IPlayerService>().UpdatePlayer -= UpdateCurrentPlayer;
-            playerModel = null;
+           // playerModel = null;
             playerView.DestroyView();
         }
         public void TakeDamage(int _damage)
         {          
+
             playerModel.SetHealth(playerModel.GetHealth() - _damage);
             if (playerModel.GetHealth() <= 0)
             {

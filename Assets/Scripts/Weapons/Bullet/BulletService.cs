@@ -44,25 +44,25 @@ namespace Weapons.Bullet
                         _newbullet.SetViewActive();
                         _newbullet.GetBulletView().gameObject.transform.SetParent(bulletHolder.transform);
                         return _newbullet;
-                        break;
+                        
                     }
                 case BULLET_TYPE.Fast:
                     {
                         BulletController _newbullet = objectPool.Get<FastBulletController>();
                         return _newbullet;
-                        break;
+                        
                     }
                 case BULLET_TYPE.Slow:
                     {
                         BulletController _newbullet = objectPool.Get<SlowBulletController>();
                         return _newbullet;
-                        break;
+                        
                     }
                 default:
                     {
                         BulletController _newbullet = objectPool.Get<BulletController>();
                         return _newbullet;
-                        break;
+                        
                     }
             }
         }

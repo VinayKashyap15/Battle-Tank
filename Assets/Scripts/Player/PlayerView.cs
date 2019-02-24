@@ -115,5 +115,9 @@ namespace Player
         {
             return mainCam; 
         }
+        public void RotatePlayer(float pitch)
+        {
+            transform.Rotate(new Vector3(0, pitch, 0));
+        }
     }
 }

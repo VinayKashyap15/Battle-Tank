@@ -182,6 +182,7 @@ namespace Enemy
             foreach (EnemyData _data in enemyDataList)
             {
                 Vector3 temp = CreateEnemyController(listOfEnemies.enemyList.ElementAt(_data.indexOfScriptableObj), _data.spawnPosition);
+                Debug.Log("temp value" + temp);
             }
         }
 
