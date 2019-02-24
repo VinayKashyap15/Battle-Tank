@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Enemy;
+using ServiceLocator;
 using GameplayInterfaces;
 using Weapons.Bullet;
 using Weapons.Interfaces;
@@ -18,8 +19,9 @@ namespace Bullet.View
         private void Start()
         {
            
-            StateMachineImplementation.StateMachineService.Instance.OnPause += PauseBullet;
-            StateMachineImplementation.StateMachineService.Instance.OnResume += ResumeBullet;
+            GameApplication.Instance.GetService<IStateMachineService>().OnPause += PauseBullet;
+            GameApplication.Instance.GetService<IStateMachineService>().OnResume += ResumeBullet;
+            
         }
     
         public void SetController(BulletController _bulletController)
@@ -29,7 +31,7 @@ namespace Bullet.View
 
         protected virtual void DestroyBulletView()
         {
-            BulletService.Instance.DestroyController(currentBulletController);
+            GameApplication.Instance.GetService<IBulletService>().DestroyController(currentBulletController);
 
             Destroy(this.gameObject);
         }
@@ -39,18 +41,31 @@ namespace Bullet.View
             {
                 currentBulletController.InvokeAction(collision.collider.gameObject.GetComponent<ITakeDamage>());
             }
-            DestroyBulletView();
+           // DestroyBulletView();
+            DisableBulletView();
 
+        }
+
+        public void SetOriginalVelocity()
+        {
+           // this.rb.velocity=velocity;
+        }
+
+        protected virtual void DisableBulletView()
+        {
+            GameApplication.Instance.GetService<IBulletService>().DisableController(currentBulletController);
+            
         }
 
         public void FireBullet(GameObject bulletInstance, Vector3 _firePosition, Quaternion _fireRotation, Vector3 _fireDirection, float _bulletSpeed)
         {
-
+            
             bulletInstance.transform.position = _firePosition;
-            bulletInstance.transform.rotation = _fireRotation;
-            rb=bulletInstance.GetComponent<Rigidbody>();
-            bulletInstance.GetComponent<Rigidbody>().velocity = _fireDirection * _bulletSpeed;
-            velocity=bulletInstance.GetComponent<Rigidbody>().velocity;
+            bulletInstance.transform.rotation = _fireRotation;      
+            rb=bulletInstance.GetComponent<Rigidbody>();     
+            rb.angularVelocity= Vector3.zero;
+            rb.velocity = _fireDirection * _bulletSpeed;
+            velocity=rb.velocity;
         }
 
         public void PauseBullet()
@@ -68,6 +83,12 @@ namespace Bullet.View
                 rb.isKinematic = false;
                 rb.velocity=velocity;
             }
+        }
+
+        public void Reset()
+        {
+            this.rb.velocity=Vector3.zero;
+            this.gameObject.SetActive(false);
         }
     }
 }

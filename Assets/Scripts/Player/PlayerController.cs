@@ -1,9 +1,12 @@
 using UnityEngine;
 using UnityEngine.UI;
 using Enemy;
+using ServiceLocator;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using ReplaySystem;
 using PlayerStates;
 using Weapons.Bullet;
 using InputComponents;
@@ -20,6 +23,7 @@ namespace Player
         private PlayerModel playerModel;
         private InputComponent currentInputComponent;
         private PlayerState currentState;
+        private int playerID;
         private IdleState idleState;
         private MovingState movingState;
         private FiringState firingState;
@@ -27,16 +31,18 @@ namespace Player
         private bool isActive = false;
 
         private Dictionary<PlayerState, bool> currentStateDictionary = new Dictionary<PlayerState, bool>();
-       
+
         public PlayerController(PlayerView playerViewInstance, int _playerID, InputScriptableObject _customInputScheme = null, Material _rewardedMat = null)
         {
-          
+
             playerModel = new PlayerModel();
             playerModel.SetID(_playerID);
+            playerID = playerModel.GetID();
+
             playerView = playerViewInstance;
-           
-           if(_rewardedMat!=null) 
-           {SetMaterial(_rewardedMat);}
+
+            if (_rewardedMat != null)
+            { SetMaterial(_rewardedMat); }
             if (_customInputScheme)
             { currentInputComponent = new CustomInputComponent(_customInputScheme, this); }
             else
@@ -47,11 +53,11 @@ namespace Player
             currentStateDictionary.Clear();
             CreateNewPlayerState();
 
-            PlayerService.Instance.UpdatePlayer += UpdateCurrentPlayer;
+           GameApplication.Instance.GetService<IPlayerService>().UpdatePlayer += UpdateCurrentPlayer;
         }
         private void UpdateCurrentPlayer()
         {
-            
+
             foreach (PlayerState _state in currentStateDictionary.Keys)
             {
 
@@ -59,7 +65,7 @@ namespace Player
                 if (isActive)
                 {
                     _state.OnStateUpdate();
-                    Debug.Log(" Active State :" + _state.ToString() + "for player " + GetID().ToString());
+                    
                 }
                 else
                 {
@@ -68,12 +74,12 @@ namespace Player
             }
         }
 
-        public void PauseGame()
+        public int GetNoOfDeaths()
         {
-            currentInputComponent.isPaused = !currentInputComponent.isPaused;
-            Debug.Log("isPaused for player " + GetID().ToString() + " " + currentInputComponent.isPaused);
+            return playerModel.GetDeaths();
         }
 
+       
         private void CreateNewPlayerState()
         {
             if (idleState != null)
@@ -101,10 +107,8 @@ namespace Player
         {
             if (_currentView.GetName() == "EnemyView")
             {
-                EnemyService.Instance.SetDamagingPlayerID(GetID());
+                GameApplication.Instance.GetService<IEnemyService>().SetDamagingPlayerID(GetID());
                 _currentView.TakeDamage(damageValue);
-
-
             }
             else if (_currentView.GetName() == "PlayerView" && isFriendlyFire)
             {
@@ -144,8 +148,8 @@ namespace Player
                 firingState = new FiringState(playerView);
                 AddToStateDictionary(firingState, true);
             }
-            
-            var _bulletController = BulletService.Instance.SpawnBullet(this);
+
+            var _bulletController = GameApplication.Instance.GetService<IBulletService>().SpawnBullet(this);
 
             Vector3 firePos = playerView.GetMuzzlePosition();
             Quaternion fireRot = playerView.GetMuzzleRotation();
@@ -158,7 +162,7 @@ namespace Player
             if (firingState != null)
                 SetActiveInDictionary(firingState, _isFiring);
         }
-        public void RotatePlayer(float pitch)
+        public void Rotate(float pitch)
         {
             playerView.RotatePlayer(pitch);
         }
@@ -181,32 +185,52 @@ namespace Player
             Debug.Log("Updated score for player :" + playerModel.GetID());
 
             playerModel.SetCurrentScore(_newScore);
-            PlayerService.Instance.UpdateScoreView(this, _newScore, playerModel.GetID());
+           GameApplication.Instance.GetService<IPlayerService>().UpdateScoreView(this, _newScore, playerModel.GetID());
 
-            int highScore = PlayerSaveData.Instance.GetHighScoreData(GetID());
+            int highScore = GameApplication.Instance.GetService<IPlayerSaveService>().GetHighScoreData(GetID());
             if (_newScore >= highScore)
             {
-                PlayerSaveData.Instance.SetHighScoreData(GetID(), _newScore);
+                GameApplication.Instance.GetService<IPlayerSaveService>().SetHighScoreData(GetID(), _newScore);
             }
-            PlayerService.Instance.InvokeHighScoreAchievement(GetID(), highScore);
+           GameApplication.Instance.GetService<IPlayerService>().InvokeHighScoreAchievement(GetID(), highScore);
 
         }
+
+        public Camera GetMainCamera()
+        {
+            return playerView.GetCamera();
+        }
+
+        public Transform GetFollowTarget()
+        {
+            return playerView.transform;
+        }
+
         public int GetID()
         {
-            return playerModel.GetID();
+            return playerID;
         }
         public void DestroySelf()
         {
-            PlayerService.Instance.UpdatePlayer-=UpdateCurrentPlayer;
+    
+           GameApplication.Instance.GetService<IPlayerService>().UpdatePlayer -= UpdateCurrentPlayer;
             playerModel = null;
+            playerView.DestroyView();
         }
         public void TakeDamage(int _damage)
-        {
+        {          
             playerModel.SetHealth(playerModel.GetHealth() - _damage);
             if (playerModel.GetHealth() <= 0)
             {
                 Debug.Log("player dead");
-                playerView.DestoySelf();
+                playerView.StartCoroutine(playerView.DestroySelf());
+
+                if (GameApplication.Instance.GetService<IPlayerService>().GetListOfPlayerControllers().Count > 1)
+                {
+                    Vector3 pos =GameApplication.Instance.GetService<IPlayerService>().GetRespawnSafePosition();
+                    GameApplication.Instance.GetService<IReplayService>().SaveSpawnPointData(GetID(), GameApplication.Instance.GetService<ISceneLoader>().GetStartFrameTime(), new SpawnAction(pos));
+                    playerView.gameObject.transform.position = pos;
+                }
             }
         }
         public void RegenerateHealth()
@@ -218,5 +242,6 @@ namespace Player
         {
             playerView.SetMaterial(_mat);
         }
+
     }
 }

@@ -15,7 +15,7 @@ namespace PlayerStates
         }
         public override void OnStateExit()
         {
-            Debug.Log("Exitting moving state of player");
+           
             //disable moving animation
         }
         public override void OnStateUpdate()

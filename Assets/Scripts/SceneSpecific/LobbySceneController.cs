@@ -1,4 +1,5 @@
-using Lobby;
+using ServiceLocator;
+using GameplayInterfaces;
 using RewardSystem;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,9 +14,9 @@ namespace SceneSpecific
         RewardScriptableObject _currentObj;
         private void Start() 
         {
-            LobbyService.Instance.OnStart();
-            LobbyService.Instance.SetSceneController(this);
-            _currentObj=RewardService.Instance.GetListOfRewards();
+            GameApplication.Instance.GetService<ILobbyService>().OnStart();
+            GameApplication.Instance.GetService<ILobbyService>().SetSceneController(this);
+            _currentObj=GameApplication.Instance.GetService<IRewardService>().GetListOfRewards();
            foreach(RewardData item in _currentObj.rewardList)
            {
                SpawnRewardPrefab(item.newReward);
@@ -25,7 +26,7 @@ namespace SceneSpecific
         {
             if(_currentProperty.GetStatus()==RewardStatusEnum.UNLOCKED)
             {
-                LobbyService.Instance.SavePlayerConfig(_currentProperty);
+                GameApplication.Instance.GetService<ILobbyService>().SavePlayerConfig(_currentProperty);
                 
             }
         }

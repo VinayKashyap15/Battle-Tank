@@ -19,15 +19,17 @@ namespace PlayerStates
         }
         public override void OnStateEnter()
         {
-           _currentPlayerAnimator = _playerViewInstance.GetAnimator();
+           _currentPlayerAnimator = _playerViewInstance.GetAnimator();      
         }
         public override void OnStateExit()
         {        
+            if(_currentPlayerAnimator!=null)
             _currentPlayerAnimator.SetBool("isIdle",false);
 
         }
         public override void OnStateUpdate()
         {            
+            if(_currentPlayerAnimator!=null)
             _currentPlayerAnimator.SetBool("isIdle",true);
         }
     }
