@@ -211,7 +211,7 @@ namespace Player
             }
             else
             {
-                Debug.Log("player doesn't exist in list");
+               // Debug.Log("player doesn't exist in list");
                 return;
             }
 

@@ -17,7 +17,8 @@ namespace Player.UI
         private Button _halfxBtn;
         [SerializeField]
         private Button _pauseBtn;
-        private void Start() 
+
+        private void Awake() 
         {            
             exitBtn.onClick.AddListener(()=>OnExitClicked());
             _2xBtn.onClick.AddListener(()=>On2xClicked());

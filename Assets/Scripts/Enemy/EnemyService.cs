@@ -98,23 +98,12 @@ namespace Enemy
             EnemyController enemy = objectPool.Get<EnemyController>(); 
             enemy.SetConstructorArguments( _enemyScriptableObject, _spawnPos = null);
            
-            var view=enemy.GetView();       
-            if(view==null)
-            {
-                Debug.Log("view null hai");
-            }   
-            var t=view.gameObject.transform;
-            if(t==null)
-            {
-                Debug.Log("view null hai");
-            }
-            if(enemyHolder==null)
-            {
-                Debug.Log("holder null hai");
-            }
+            var view=enemy.GetView();                    
+            var t=view.gameObject.transform;                      
             t.SetParent(enemyHolder.transform);
             var currentLocation = enemy.GetPosition();
-            spawnedEnemies.Add(enemy);
+            //spawnedEnemies.Add(enemy);
+
             return currentLocation;
         }
 

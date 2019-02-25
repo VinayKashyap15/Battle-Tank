@@ -42,7 +42,7 @@ namespace ObjectPooling
         }
         public void ReturnToPool(T obj)
         {
-            Debug.Log("Object returning in list :" + objectPool.Count);
+           // Debug.Log("Object returning in list :" + objectPool.Count);
             if (objectPool.Count >= upperLimit)
             {
                 return;

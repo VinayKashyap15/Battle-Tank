@@ -13,6 +13,10 @@ namespace Player.UI
     {
         private SceneController sceneController;
         private List<string> highScoreTexts = new List<string>();
+        public ScoreManager()
+        {
+            OnStart();
+        }
         public void OnStart()
         {
             AchievementSystem.AchievementManager.Instance.OnAchievementCrossed += OnAchievementUnlocked;
@@ -28,12 +32,12 @@ namespace Player.UI
 
         private void OnPauseScreen()
         {
-            Debug.Log("Score manager pause debug");
+            
         }
 
         private void OnResumeScreen()
         {
-            Debug.Log("Score manager resume debug");
+            
         }
 
         public void SetSceneController(SceneController _sceneController)

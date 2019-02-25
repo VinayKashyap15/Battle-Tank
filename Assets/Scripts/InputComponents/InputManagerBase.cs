@@ -23,6 +23,10 @@ namespace InputComponents
         private Queue<QueueData> saveQueue = new Queue<QueueData>();
         
         bool isReplayPaused = false;
+        public InputManagerBase()
+        {
+            OnStart();
+        }
         public void OnStart()
         {
            GameApplication.Instance.GetService<IStateMachineService>().OnPause+=ReplayPaused;
