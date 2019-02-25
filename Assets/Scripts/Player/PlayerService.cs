@@ -1,18 +1,18 @@
-﻿using UnityEngine;
-using ServiceLocator;
-using ReplaySystem;
-using InputComponents;
+﻿using AchievementSystem;
 using CameraManagement;
 using Common;
+using GameplayInterfaces;
+using InputComponents;
+using Player.UI;
+using ReplaySystem;
+using RewardSystem;
+using SaveFile;
+using SceneSpecific;
+using ServiceLocator;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using SceneSpecific;
-using RewardSystem;
-using GameplayInterfaces;
-using Player.UI;
-using SaveFile;
-using AchievementSystem;
-using System;
+using UnityEngine;
 
 namespace Player
 {
@@ -36,10 +36,10 @@ namespace Player
 
         }
 
-      public void SetSpawnPos(Vector3 position)
-      {
+        public void SetSpawnPos(Vector3 position)
+        {
 
-      }
+        }
         private SceneController currentSceneController;
 
         public List<PlayerController> listOfPlayerControllers = new List<PlayerController>();
@@ -58,12 +58,12 @@ namespace Player
         public event Action UpdatePlayer;
         private int noOfPlayers;
 
-        public PlayerService(InputScriptableObjectList _listOfPlayerInputComponents, PlayerPrefabScriptableObject _playerPrefab, Camera _minimapCam=null)
+        public PlayerService(InputScriptableObjectList _listOfPlayerInputComponents, PlayerPrefabScriptableObject _playerPrefab, Camera _minimapCam = null)
         {
-            
-            listOfPlayerInputComponents=_listOfPlayerInputComponents;
-            newPlayerPrefabScriptableObj=_playerPrefab;
-            miniMapCameraPrefab=_minimapCam;
+
+            listOfPlayerInputComponents = _listOfPlayerInputComponents;
+            newPlayerPrefabScriptableObj = _playerPrefab;
+            miniMapCameraPrefab = _minimapCam;
 
             if (listOfPlayerInputComponents)
             {
@@ -89,7 +89,7 @@ namespace Player
             _playerInstance.transform.position = _spawnPos;
             return _playerInstance;
         }
-       
+
         public void OnStart(SceneController _currentSceneController)
         {
             listOfPlayerControllers.Clear();
@@ -174,15 +174,15 @@ namespace Player
             miniMapInstance.GetComponent<MiniMapSetup>().SetRenderTexture(_id);
             Camera _mainCamera = _controller.GetMainCamera();
             playerMainCamera.Add(_mainCamera);
-
-            playerMainCamera[_id].rect = new Rect((1f / noOfPlayers) * _controller.GetID(), 0, 1f / noOfPlayers, 1);
+            if (playerMainCamera[_id] != null)
+                playerMainCamera[_id].rect = new Rect((1f / noOfPlayers) * _controller.GetID(), 0, 1f / noOfPlayers, 1);
         }
 
         private void SetGameJoined(int _id)
         {
             int currentGamesValue;
             playerGamesPlayedData.TryGetValue(_id, out currentGamesValue);
-            Debug.Log("player" + _id.ToString() + " value " + currentGamesValue.ToString());
+           
             GameApplication.Instance.GetService<IPlayerSaveService>().SetGamesPlayedData(_id, currentGamesValue + 1);
             playerGamesPlayedData[_id] = currentGamesValue + 1;
 
@@ -191,6 +191,7 @@ namespace Player
         {
 
             RemoveFromList(_playerController);
+            playerMainCamera.Remove(_playerController.GetMainCamera());
             _playerController.DestroySelf();
 
             _playerController = null;

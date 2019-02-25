@@ -7,7 +7,7 @@ namespace GameplayInterfaces
     public interface ISoundService:IService
     {
         //void PlayBackgroundSound();
-        //void PlayShootSound();
+        void PlayShootSound();
         //void PlayDeathSound();
         //void PlayGameOverSound();
     }

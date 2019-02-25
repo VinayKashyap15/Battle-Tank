@@ -78,8 +78,7 @@ namespace Player
         {
             return playerModel.GetDeaths();
         }
-
-       
+  
         private void CreateNewPlayerState()
         {
             if (idleState != null)
@@ -146,6 +145,7 @@ namespace Player
             if (firingState == null)
             {
                 firingState = new FiringState(playerView);
+                GameApplication.Instance.GetService<ISoundService>().PlayShootSound();
                 AddToStateDictionary(firingState, true);
             }
 
@@ -223,7 +223,7 @@ namespace Player
             playerModel.SetHealth(playerModel.GetHealth() - _damage);
             if (playerModel.GetHealth() <= 0)
             {
-                Debug.Log("player dead");
+               
                 playerView.StartCoroutine(playerView.DestroySelf());
 
                 if (GameApplication.Instance.GetService<IPlayerService>().GetListOfPlayerControllers().Count > 1)
@@ -243,6 +243,8 @@ namespace Player
         {
             playerView.SetMaterial(_mat);
         }
+
+        
 
     }
 }

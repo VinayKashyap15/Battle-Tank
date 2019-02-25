@@ -13,4 +13,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerList:
   - {fileID: 11400000, guid: 8e155f681a02996438d0fda60c57a847, type: 2}
-  - {fileID: 11400000, guid: da9cf2abeab07e64786bcae5ad9b3635, type: 2}

@@ -52,6 +52,7 @@ namespace Lobby
              
             GameObject inst=GameObject.Instantiate(prefab,Vector3.zero,Quaternion.identity);
              _dummyView=inst.GetComponent<PlayerView>();
+            _dummyView.GetCamera().clearFlags = CameraClearFlags.SolidColor;
             dummyController=new PlayerController(_dummyView,id);
             dummyControllerList.Add(dummyController);
 

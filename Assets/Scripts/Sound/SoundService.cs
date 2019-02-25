@@ -80,7 +80,7 @@ namespace Sound
             
         }
 
-        private void PlayShootSound()
+        public void PlayShootSound()
         {
             foreach (SoundController _controller in currentAudioSources)
             {

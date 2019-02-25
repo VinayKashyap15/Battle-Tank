@@ -21,6 +21,7 @@ namespace Enemy
         {
             this.currentStateMachine = new EnemyStateMachine(this);
             GameApplication.Instance.GetService<IEnemyService>().PlayerSpotted += this.StartChasing;
+            GameApplication.Instance.GetService<IStateMachineService>().OnEnterGameOverScene += OnGameOver;
         }
 
         public void SetConstructorArguments(EnemyScriptableObject _enemyScriptableObject, Vector3? _spawnPos = null)
@@ -168,7 +169,7 @@ namespace Enemy
             //GameApplication.Instance.GetService<IEnemyService>().PlayerSpotted -= StartChasing;
             currentEnemyView.DisableSelf();
             currentState = currentEnemyView.gameObject.GetComponent<PatrollingState>();
-            currentEnemyView.gameObject.SetActive(false);
+           
         }
         public void SetViewActive()
         {
@@ -178,6 +179,10 @@ namespace Enemy
         public EnemyView GetView()
         {
             return currentEnemyView;
+        }
+        private void OnGameOver()
+        {
+            Reset();
         }
     }
 }

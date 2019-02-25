@@ -107,13 +107,13 @@ namespace Player
         public void DestroyView()
         {
            mainCam.transform.parent=null;
-           Destroy(mainCam.gameObject);
+           //Destroy(mainCam.gameObject);
             Destroy(this.gameObject);
         }
 
         public Camera GetCamera()
         {
-            return mainCam; 
+            return mainCam;
         }
         public void RotatePlayer(float pitch)
         {

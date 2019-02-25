@@ -33,6 +33,7 @@ namespace Enemy
         public EnemyService(EnemyScriptableObjectList _list)
         {
             listOfEnemies=_list;
+            
         }
         public void OnStart()
         {
@@ -65,6 +66,8 @@ namespace Enemy
         {
             EnemyDeath += RemoveEnemyFromList;
            GameApplication.Instance.GetService<IStateMachineService>().OnStartReplay += StartReplay;
+           
+
         }
 
         private void SpawnEnemyControllers()
@@ -179,10 +182,11 @@ namespace Enemy
             // }
             // spawnedEnemies.Clear();
             // Debug.Log(enemyDataList.Count);
+            spawnedEnemies.Clear();
             foreach (EnemyData _data in enemyDataList)
             {
                 Vector3 temp = CreateEnemyController(listOfEnemies.enemyList.ElementAt(_data.indexOfScriptableObj), _data.spawnPosition);
-                Debug.Log("temp value" + temp);
+               
             }
         }
 
@@ -190,5 +194,6 @@ namespace Enemy
         {
             objectPool.ReturnToPool(_enemyController);
         }
+        
     }
 }
