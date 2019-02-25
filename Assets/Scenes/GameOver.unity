@@ -324,6 +324,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _sceneScriptableObj: {fileID: 0}
+  _currentCanvasParent: {fileID: 446174723}
   highScoreTextPrefab: {fileID: 114332484283942286, guid: 2ddf8fbc6cb48ad4a8acdea798512855,
     type: 2}
   layoutGroup: {fileID: 446174723}

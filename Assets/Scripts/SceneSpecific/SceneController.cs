@@ -11,7 +11,9 @@ namespace SceneSpecific
     public class SceneController : MonoBehaviour
     {
         [SerializeField]
-        protected SceneScriptableObject _sceneScriptableObj;        
+        protected SceneScriptableObject _sceneScriptableObj;
+        [SerializeField]
+        private LayoutGroup _currentCanvasParent;
         private  void Start()
         {
             OnIntialize();
@@ -35,6 +37,11 @@ namespace SceneSpecific
            GameApplication.Instance.GetService<ISceneLoader>().OnClickPlay(_sceneScriptableObj == null ? "Game": _sceneScriptableObj.startScene.name);
         }
 
+        public virtual Transform GetCanvasParent()
+        {
+            return _currentCanvasParent.transform;
+        }
+
         public virtual void SpawnReplayUI()
         {
             
@@ -52,7 +59,7 @@ namespace SceneSpecific
 
         public virtual void UpdateScoreView(ICharacterController _currentPlayerController, int _score, int _playerID)
         {
-       
+            
         }
 
         public virtual Vector3 FindSafePosition()

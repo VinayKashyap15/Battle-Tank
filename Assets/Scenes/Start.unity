@@ -325,7 +325,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _sceneScriptableObj: {fileID: 0}
+  _currentCanvasParent: {fileID: 464321406}
   parentLayout: {fileID: 285289098}
+  _currentCanvasParent: {fileID: 464321406}
 --- !u!4 &843341034
 Transform:
   m_ObjectHideFlags: 0

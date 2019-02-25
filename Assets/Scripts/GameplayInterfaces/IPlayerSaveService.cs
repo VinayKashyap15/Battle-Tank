@@ -9,6 +9,7 @@ namespace GameplayInterfaces
         void SetInt(string _dataToSave, int _id, int _value);
         int GetInt(string _dataToSave, int _id);
         AchievementStatus GetAchievementStatus(AchievementTypes _type, int id);
+        void SetAchievementStatus(AchievementTypes _type, int id, int statusInt);
         void SetHighScoreData(int v, int newScore);
         int GetHighScoreData(int v);
         int GetEnemyKillData(int v);

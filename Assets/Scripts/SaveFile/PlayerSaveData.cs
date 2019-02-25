@@ -86,6 +86,8 @@ namespace SaveFile
         {
             PlayerPrefs.SetInt("Player" + _id.ToString() + _type.ToString(), _status);
         }
+
+      
         #endregion
     }
 }

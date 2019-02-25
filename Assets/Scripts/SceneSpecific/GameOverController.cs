@@ -44,5 +44,10 @@ namespace SceneSpecific
             highScoreTextInstance.text = _text;
             highScoreTextInstance.transform.SetParent(layoutGroup.transform);
         }
+
+        public override Transform GetCanvasParent()
+        {
+            return layoutGroup.transform;
+        }
     }
 }

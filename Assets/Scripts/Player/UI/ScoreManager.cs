@@ -6,6 +6,7 @@ using GameplayInterfaces;
 using System.Collections.Generic;
 using SceneSpecific;
 using System;
+using System.Collections;
 
 namespace Player.UI
 {
@@ -13,6 +14,7 @@ namespace Player.UI
     {
         private SceneController sceneController;
         private List<string> highScoreTexts = new List<string>();
+        GameObject achievementInstance;
         public ScoreManager()
         {
             OnStart();
@@ -23,6 +25,10 @@ namespace Player.UI
             GameApplication.Instance.GetService<IStateMachineService>().OnPause += OnPauseScreen;
             GameApplication.Instance.GetService<IStateMachineService>().OnResume += OnResumeScreen;
             GameApplication.Instance.GetService<IStateMachineService>().OnStartReplay += OnStartReplayUI;
+            GameObject achivementUI = Resources.Load("AchievementUI") as GameObject;
+            achievementInstance = GameObject.Instantiate(achivementUI);
+            achivementUI.transform.SetParent(sceneController.GetCanvasParent());
+            achivementUI.SetActive(false);
         }
 
         private void OnStartReplayUI()
@@ -67,6 +73,22 @@ namespace Player.UI
         public void OnAchievementUnlocked(string _achievementText)
         {
             Debug.Log(_achievementText);
+            //spawn achievment UI;
+
+        }
+
+        IEnumerator AchievementCoRou(string _achievementText)
+        {
+            
+            Text text=achievementInstance.GetComponent<Text>();
+            text.text = _achievementText;
+            achievementInstance.gameObject.SetActive(false);
+
+            yield return new WaitForSeconds(2);
+            achievementInstance.gameObject.SetActive(false);
+
+            yield return null;
+
         }
 
     }

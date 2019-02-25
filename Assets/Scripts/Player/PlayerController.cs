@@ -43,12 +43,13 @@ namespace Player
 
             if (_rewardedMat != null)
             { SetMaterial(_rewardedMat); }
+
             if (_customInputScheme)
             { currentInputComponent = new CustomInputComponent(_customInputScheme, this); }
             else
             {
                 currentInputComponent = new KeyboardComponent(this);
-            }
+            } 
             playerView.SetPlayerController(this);
             currentStateDictionary.Clear();
             CreateNewPlayerState();

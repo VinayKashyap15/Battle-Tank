@@ -181,5 +181,10 @@ namespace SceneSpecific
                 _newPos = GetRandomSpawnPos();
             return _newPos;
         }
+
+        public override Transform GetCanvasParent()
+        {
+            return parentLayoutGroup.transform;
+        }
     }
 }

@@ -11,6 +11,9 @@ namespace SceneSpecific
        
         [SerializeField]
         private LayoutGroup parentLayout;
+
+        [SerializeField]
+        private LayoutGroup _currentCanvasParent;
         RewardScriptableObject _currentObj;
         private void Start() 
         {
@@ -36,6 +39,11 @@ namespace SceneSpecific
             GameObject _currInstance=GameObject.Instantiate(_currProperty.gameObject) as GameObject;
             _currInstance.transform.SetParent(parentLayout.transform);
         }
-       
+
+        public override Transform GetCanvasParent()
+        {
+            return _currentCanvasParent.transform;
+        }
+
     }
 }

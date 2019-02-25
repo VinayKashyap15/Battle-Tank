@@ -15,6 +15,7 @@ namespace Common
         public SceneLoader()
         {
             startTime = 0;
+            OnStart();
         }
         public void OnStart()
         {
